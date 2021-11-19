@@ -2,7 +2,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        additionalData: `@import '@/assets/styles/styles.scss';`,
+        prependData: `@import '@/assets/styles/index.scss';`,
       }
     }
   },
@@ -15,7 +15,7 @@ module.exports = {
       enableLegacy: false,
       runtimeOnly: false,
       compositionOnly: false,
-      fullInstall: true
+      fullInstall: true,
     }
   }
 };

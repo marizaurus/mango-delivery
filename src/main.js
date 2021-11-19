@@ -1,7 +1,13 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import { store } from './vuex/store';
+import App from './App.vue';
 
-import 'bootstrap/dist/css/bootstrap.css'
-import i18n from './i18n'
+import i18n from "@/i18n";
+import '@/assets/styles/index.scss';
 
-createApp(App).use(i18n).mount('#app')
+const app = createApp(App);
+
+app.use(i18n);
+app.use(store);
+
+app.mount('#app');
