@@ -1,7 +1,8 @@
 import { execa } from "execa";
-const fs = import("fs");
+import * as fs from 'fs';
 
 (async () => {
+  let exitCode = 0;
   try {
     await execa("git", ["checkout", "--orphan", "gh-pages"]);
     console.log("Building...");
@@ -12,11 +13,13 @@ const fs = import("fs");
     console.log("Pushing to gh-pages...");
     await execa("git", ["push", "origin", "HEAD:gh-pages", "--force"]);
     await execa("rm", ["-r", folderName]);
-    await execa("git", ["checkout", "-f", "master"]);
-    await execa("git", ["branch", "-D", "gh-pages"]);
     console.log("Successfully deployed");
   } catch (e) {
     console.log(e.message);
-    process.exit(1);
+    exitCode = 1;
+  } finally {
+    await execa("git", ["checkout", "-f", "master"]);
+    await execa("git", ["branch", "-D", "gh-pages"]);
   }
+  process.exit(exitCode);
 })();
