@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: '/mango-delivery/',
   css: {
     loaderOptions: {
       sass: {
