@@ -1,0 +1,34 @@
+<template>
+  <div
+      class="v-tag"
+      :class="[ ('bg-' + tagData.color) ]"
+  >{{ tagData.name }}</div>
+</template>
+
+<script>
+  export default {
+    name: "v-tag",
+    props: {
+      tagData: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
+    }
+  }
+</script>
+
+<style lang="scss">
+  .v-tag {
+    border-radius: 2px;
+    color: $white;
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding: .2rem .6rem;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+</style>
