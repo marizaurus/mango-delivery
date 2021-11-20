@@ -12,7 +12,7 @@ import * as fs from 'fs';
     await execa("git", ["--work-tree", folderName, "commit", "-m", "gh-pages"]);
     console.log("Pushing to gh-pages...");
     await execa("git", ["push", "origin", "HEAD:gh-pages", "--force"]);
-    await execa("rm", ["-r", folderName]);
+    await execa("rmdir", ["/s", "/q", folderName]);
     console.log("Successfully deployed");
   } catch (e) {
     console.log(e.message);
