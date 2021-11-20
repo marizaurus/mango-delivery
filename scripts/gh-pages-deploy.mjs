@@ -1,5 +1,9 @@
 import { execa } from "execa";
 import * as fs from 'fs';
+import * as rimraf from 'rimraf';
+import * as promisify from 'promisify';
+
+const rmrf = promisify(rimraf);
 
 (async () => {
   let exitCode = 0;
@@ -12,7 +16,7 @@ import * as fs from 'fs';
     await execa("git", ["--work-tree", folderName, "commit", "-m", "gh-pages"]);
     console.log("Pushing to gh-pages...");
     await execa("git", ["push", "origin", "HEAD:gh-pages", "--force"]);
-    await execa("rmdir", ["/s", "/q", folderName]);
+    await rmrf(folderName, { glob: false })
     console.log("Successfully deployed");
   } catch (e) {
     console.log(e.message);
