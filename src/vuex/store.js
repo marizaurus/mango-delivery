@@ -20,7 +20,7 @@ export const store = createStore({
   // actions commit mutations, and you commit suicide ._.
   actions: { // asynchronous
     GET_CATEGORIES_API({ commit }) { // ({ commit, state }, payload)
-      return axios('http://localhost:3000/categories', {
+      return axios(process.env.VUE_APP_API_BASE + 'categories', {
         method: 'GET',
       }).then((categories) => {
         commit('SET_CATEGORIES', categories.data);
@@ -31,7 +31,7 @@ export const store = createStore({
       });
     },
     GET_PROMO_COLLECTIONS_API({ commit }) {
-      return axios('http://localhost:3000/promo-collections', {
+      return axios(process.env.VUE_APP_API_BASE + 'promo-collections', {
         method: 'GET',
       }).then((promoCollections) => {
         commit('SET_PROMO_COLLECTIONS', promoCollections.data);
