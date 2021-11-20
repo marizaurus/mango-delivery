@@ -1,8 +1,6 @@
 <template>
   <div class="category-card"
-     :style="{ backgroundImage: `url(${ require(`@/assets/images/${ categoryData.image }`) })` }"
-     @click="sendCategoryInfo"
-  >
+     :style="{ backgroundImage: `url(${ categoryData.image })` }">
     <div class="category-card__title">{{ categoryData.name }}</div>
     <div class="category-card__description">{{ categoryData.description }}</div>
   </div>
@@ -19,11 +17,7 @@ export default {
       }
     }
   },
-  methods: {
-    sendCategoryInfo() {
-      this.$emit('getCategory', this.categoryData.id);
-    }
-  }
+  methods: {}
 }
 </script>
 

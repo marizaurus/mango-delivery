@@ -1,6 +1,6 @@
 <template>
   <div class="v-product-card">
-    <img class="v-product-card__image" :src="require(`@/assets/images/${ cardData.image }`)">
+    <img class="v-product-card__image" :src="cardData.image">
     <div class="v-product-card__info">
       <div class="v-product-card__info-row row">
         <h3 class="v-product-card__info-name">{{ cardData.name }}</h3>

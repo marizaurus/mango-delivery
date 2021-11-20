@@ -6,7 +6,6 @@
         v-for="category in this.CATEGORIES"
         :key="category.id"
         :category-data="category"
-        @getCategory="displayCategory"
       />
     </div>
   </div>
@@ -21,8 +20,6 @@
     components: {
       'v-category-card': vCategoryCard,
     },
-    data() {
-    },
     computed: {
       ...mapGetters([
           'CATEGORIES',
@@ -32,9 +29,6 @@
       ...mapActions([
          'GET_CATEGORIES_API',
       ]),
-      displayCategory(data) {
-        console.log(data);
-      }
     },
     mounted() {
       this.GET_CATEGORIES_API();
