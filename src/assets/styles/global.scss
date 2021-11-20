@@ -1,3 +1,5 @@
+@import 'variables';
+
 html {
   font-size: 62.5%;
   line-height: 1.2;
@@ -5,13 +7,96 @@ html {
 
 body {
   color: $grey;
-  font-family: "Montserrat", Arial, sans-serif;
+  font-family: $montserrat;
   font-size: 1.6rem;
   margin: 0;
   overflow-x: hidden;
   padding: 0;
+  background-color: $beige-light;
+  min-height: 100vh;
+}
+
+.neat-block {
+  :first-child {
+    margin-top: 0;
+  }
+
+  :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.container {
+  max-width: 1440px;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+
+  &-base {
+    align-items: baseline;
+  }
 }
 
 .m-resp {
   margin: 6rem 0;
 }
+
+.btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  margin: 1.5rem 0;
+  font-family: $montserrat;
+  font-weight: 500;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  color: $white;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  transition: .2s linear;
+
+  &-primary {
+    svg {
+      margin-left: 5px;
+    }
+  }
+
+  &-icon {
+    padding: .5rem 1rem;
+    border-radius: 2px;
+  }
+
+  &-green-light {
+    background-color: $green-light;
+
+    &:hover {
+      background-color: $green;
+    }
+  }
+
+  &-orange-light {
+    background-color: $orange-light;
+
+    &:hover {
+      background-color: $orange;
+    }
+  }
+}
+
+// dung
+//@each $btn-color, $color-list in $button-colors {
+//  .btn-#{"" + $btn-color} {
+//    background-color: $color-list;
+//
+//    &:hover {
+//      background-color: $color-list;
+//    }
+//  }
+//}

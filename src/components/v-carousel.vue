@@ -1,7 +1,7 @@
 <template>
   <div class="v-carousel m-resp">
     <h2 class="v-carousel__header">{{ $t('blocks.popularCategories') }}</h2>
-    <div class="v-carousel__row">
+    <div class="row">
       <v-category-card
         v-for="category in this.CATEGORIES"
         :key="category.id"
@@ -43,10 +43,4 @@
 </script>
 
 <style lang="scss">
-  .v-carousel {
-    &__row {
-      display: flex;
-      flex-flow: row;
-    }
-  }
 </style>

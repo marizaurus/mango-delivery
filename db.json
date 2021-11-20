@@ -25,8 +25,107 @@
       "image": "fish.webp"
     }
   ],
-  "comments": [
-    { "id": 1, "body": "some comment", "postId": 1 }
-  ],
-  "profile": { "name": "typicode" }
+  "promo-collections": [
+    {
+      "id": 1,
+      "name": "Кухня недели",
+      "info-alignment": "left",
+      "tag-type": "cuisine",
+      "tags": [
+        "Итальянская"
+      ],
+      "description": "Особенность итальянской кухни - использование свежих продуктов, местных овощей, вина и сыра. В ней одинаково почитаются мясо и рыба. Мало какие блюда обходятся без оливкового масла.",
+      "cards": [
+        {
+          "id": 1,
+          "name": "Маргарита",
+          "rating": 4.5,
+          "image": "margarita.webp",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 660
+        },
+        {
+          "id": 2,
+          "name": "Пепперони",
+          "rating": 4.9,
+          "image": "pepperoni.jpg",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        },
+        {
+          "id": 3,
+          "name": "Грибная",
+          "rating": 4.8,
+          "image": "mushrooms.jpeg",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 800
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Легкий завтрак",
+      "info-alignment": "right",
+      "tag-type": "tags",
+      "tags": [
+        {
+          "id": 1,
+          "name": "Осторожно, горячо!",
+          "color": "red"
+        },
+        {
+          "id": 2,
+          "name": "Быстрая доставка",
+          "color": "yellow"
+        }
+      ],
+      "description": "Нужно перекусить перед важной утренней встречей или захотелось побаловать необычным завтраком тех, кому повезло поваляться подольше? Наши курьеры доставят завтрак горячим и как можно быстрее!",
+      "cards": [
+        {
+          "id": 1,
+          "name": "Маргарита",
+          "rating": 4.5,
+          "image": "margarita.webp",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 660
+        },
+        {
+          "id": 2,
+          "name": "Пепперони",
+          "rating": 4.9,
+          "image": "pepperoni.jpg",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        },
+        {
+          "id": 3,
+          "name": "Грибная",
+          "rating": 4.8,
+          "image": "mushrooms.jpeg",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 800
+        }
+      ]
+    }
+  ]
 }

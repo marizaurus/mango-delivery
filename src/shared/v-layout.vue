@@ -23,15 +23,5 @@ export default {
 
 <style lang="scss">
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap');
-
-  #layout {
-    background-color: $beige-light;
-    min-height: 100vh;
-
-    .container {
-      max-width: 1200px;
-      width: 95%;
-      margin: 0 auto;
-    }
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Comforter+Brush&display=swap');
 </style>

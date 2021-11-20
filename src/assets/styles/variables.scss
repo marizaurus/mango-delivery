@@ -3,6 +3,7 @@
 // https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
 // https://coolors.co/ffc93c-ff9a3c-ff6f3c-155263
 
+$white: #FFFFFF;
 $beige-light: #FFF9EB;
 $beige-medium: #F7EED5;
 $beige: #EFE2BE;
@@ -15,3 +16,33 @@ $green: #2A9D8F;
 $blue: #3F72AF;
 $grey-light: #4F4F4F;
 $grey: #363636;
+
+$project-colors: (
+  white: $white,
+  beige-light: $beige-light,
+  beige-medium: $beige-medium,
+  beige: $beige,
+  yellow: $yellow,
+  orange-light: $orange-light,
+  orange: $orange,
+  red: $red,
+  green-light: $green-light,
+  green: $green,
+  blue: $blue,
+  grey-light: $grey-light,
+  grey: $grey,
+);
+
+//$button-colors: (
+//  green: $green-light $green,
+//  orange: $orange-light $orange,
+//);
+
+@each $bg-color, $color in $project-colors {
+  .bg-#{"" + $bg-color} {
+    background-color: $color;
+  }
+}
+
+$montserrat: "Montserrat", Arial, sans-serif;
+$comforter: "Comforter Brush", Arial, sans-serif;

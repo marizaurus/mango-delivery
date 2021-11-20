@@ -48,14 +48,14 @@ export default {
       border-radius: 5px;
       opacity: 0;
       transition: .2s linear;
-      background-color: rgba(white, 0.9);
+      background-color: rgba($white, 0.9);
     }
 
     &__title {
       font-size: 3.6rem;
       font-weight: 800;
       text-transform: uppercase;
-      color: rgba(white, 0.9);
+      color: rgba($white, 0.9);
       opacity: 1;
       transition: .2s linear;
     }
