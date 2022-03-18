@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: '/',
+  publicPath: process.env.VUE_APP_PATH,
   css: {
     loaderOptions: {
       sass: {
