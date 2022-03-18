@@ -42,14 +42,14 @@ export default {
       border-radius: 5px;
       opacity: 0;
       transition: .2s linear;
-      background-color: rgba($white, 0.9);
+      background-color: $white;
     }
 
     &__title {
       font-size: 3.6rem;
       font-weight: 800;
       text-transform: uppercase;
-      color: rgba($white, 0.9);
+      color: $white;
       opacity: 1;
       transition: .2s linear;
     }
@@ -58,7 +58,7 @@ export default {
       width: 100%;
       padding: 0 14px;
       box-sizing: border-box;
-      color: $grey;
+      color: $grey-dark;
       opacity: 0;
       transition: .2s linear;
       z-index: 1;

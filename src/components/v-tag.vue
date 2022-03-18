@@ -21,6 +21,8 @@
 
 <style lang="scss">
   .v-tag {
+    user-select: none;
+    white-space: nowrap;
     border-radius: 2px;
     color: $white;
     font-size: 1.2rem;

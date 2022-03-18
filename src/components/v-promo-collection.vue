@@ -2,7 +2,7 @@
   <div class="v-promo-collection m-resp">
     <div class="row">
       <div
-          class="v-promo-collection__info neat-block"
+          class="v-promo-collection__info block-neat"
           :class="[ ('align-' + promoCollectionData['info-alignment']) ]"
       >
         <h2 class="v-promo-collection__info-title">{{ promoCollectionData.name }}</h2>
@@ -82,6 +82,8 @@
 
     &__cards {
       flex-basis: 66%;
+      justify-content: center;
+      align-items: flex-start !important;
     }
   }
 </style>

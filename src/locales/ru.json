@@ -3,6 +3,16 @@
     "popularCategories": "Популярные категории"
   },
   "buttons": {
-    "browseAll": "Посмотреть все"
+    "browseAll": "Посмотреть все",
+    "order": "Заказать",
+    "remove": "Убрать",
+    "favorite": "В любимое"
+  },
+  "cart": {
+    "title": "Корзина",
+    "tab-title": "Чек заказа",
+    "total": "Итого:",
+    "items": "Товаров:",
+    "code": "Есть промокод?"
   }
 }

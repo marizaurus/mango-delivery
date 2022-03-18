@@ -1,3 +1,27 @@
 @function to-rem($size) {
   @return $size / 16px * 1rem;
 }
+
+@mixin shadow-angle($color) {
+  position: relative;
+  transition: .1s linear;
+  top: 0;
+  left: 0;
+
+  &:hover {
+    top: -5px;
+    left: -5px;
+    box-shadow: 5px 5px 0 $color;
+  }
+}
+
+@mixin shadow-bottom($color) {
+  position: relative;
+  transition: .1s linear;
+  top: 0;
+
+  &:hover {
+    top: -5px;
+    box-shadow: 0 5px 0 $color;
+  }
+}

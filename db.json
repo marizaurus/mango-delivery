@@ -4,25 +4,25 @@
       "id": 1,
       "name": "Макароны",
       "description": "Капеллини, равиоли и спагетти, тортеллини, фузилли и фетучине - найдется блюдо для самых изысканных.",
-      "image": "https://picsum.photos/200/400?random=1"
+      "image": "https://picsum.photos/400/200?random=1"
     },
     {
       "id": 2,
       "name": "Пицца",
       "description": "На пышном или тонком тесте, мясная или... ананасовая? Доставим ароматной и горячей!",
-      "image": "https://picsum.photos/200/400?random=2"
+      "image": "https://picsum.photos/400/200?random=2"
     },
     {
       "id": 3,
       "name": "Стейки",
       "description": "Мясные и рыбные, разной степени маринованности и прожарки. Для настоящих ценителей хорошего ужина.",
-      "image": "https://picsum.photos/200/400?random=3"
+      "image": "https://picsum.photos/400/200?random=3"
     },
     {
       "id": 4,
       "name": "Рыба",
       "description": "Нежная форель, еврейская фаршированная рыба, рыба-гриль или запеченная, и... килька... в томатном соусе...",
-      "image": "https://picsum.photos/200/400?random=4"
+      "image": "https://picsum.photos/400/200?random=4"
     }
   ],
   "promo-collections": [
@@ -40,18 +40,30 @@
           "id": 1,
           "name": "Маргарита",
           "rating": 4.5,
-          "image": "https://picsum.photos/250/350?random=4",
+          "image": "https://picsum.photos/350/250?random=4",
           "tags": [
             "Primastoria",
             "Пицца"
           ],
-          "price": 660
+          "price": 1250
         },
         {
           "id": 2,
+          "name": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/350/250?random=7",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
+        },
+        {
+          "id": 3,
           "name": "Пепперони",
           "rating": 4.9,
-          "image": "https://picsum.photos/250/350?random=5",
+          "image": "https://picsum.photos/350/250?random=5",
           "tags": [
             "Primastoria",
             "Пицца",
@@ -60,10 +72,10 @@
           "price": 750
         },
         {
-          "id": 3,
+          "id": 4,
           "name": "Грибная",
           "rating": 4.8,
-          "image": "https://picsum.photos/250/350?random=6",
+          "image": "https://picsum.photos/350/250?random=6",
           "tags": [
             "Primastoria",
             "Пицца"
@@ -95,7 +107,7 @@
           "id": 1,
           "name": "Маргарита",
           "rating": 4.5,
-          "image": "https://picsum.photos/250/350?random=1",
+          "image": "https://picsum.photos/350/250?random=1",
           "tags": [
             "Primastoria",
             "Пицца"
@@ -106,7 +118,7 @@
           "id": 2,
           "name": "Пепперони",
           "rating": 4.9,
-          "image": "https://picsum.photos/250/350?random=2",
+          "image": "https://picsum.photos/350/250?random=2",
           "tags": [
             "Primastoria",
             "Пицца",
@@ -118,7 +130,62 @@
           "id": 3,
           "name": "Грибная",
           "rating": 4.8,
-          "image": "https://picsum.photos/250/350?random=3",
+          "image": "https://picsum.photos/350/250?random=3",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 800
+        }
+      ]
+    }
+  ],
+  "cart-items": [
+    {
+      "id": 1,
+      "name": "Primastoria",
+      "total": 1250,
+      "items": [
+        {
+          "id": 1,
+          "name": "Маргарита",
+          "rating": 4.5,
+          "image": "https://picsum.photos/120/100?random=1",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 1250
+        },
+        {
+          "id": 2,
+          "name": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/120/100?random=2",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "name": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/120/100?random=3",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        },
+        {
+          "id": 4,
+          "name": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/120/100?random=4",
           "tags": [
             "Primastoria",
             "Пицца"

@@ -14,8 +14,9 @@ $red: #A61E11;
 $green-light: #94D2BD;
 $green: #2A9D8F;
 $blue: #3F72AF;
-$grey-light: #4F4F4F;
-$grey: #363636;
+$grey-light: #E5E5E5;
+$grey: #4F4F4F;
+$grey-dark: #363636;
 
 $project-colors: (
   white: $white,
@@ -31,6 +32,7 @@ $project-colors: (
   blue: $blue,
   grey-light: $grey-light,
   grey: $grey,
+  grey-dark: $grey-dark,
 );
 
 //$button-colors: (

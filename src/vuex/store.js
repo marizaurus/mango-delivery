@@ -5,6 +5,7 @@ export const store = createStore({
   state: {
     categories: [],
     promoCollections: [],
+    cart: [],
   },
   // can't be called directly, is a handler
   // mutations as constants from another file, also cool
@@ -15,9 +16,12 @@ export const store = createStore({
     },
     SET_PROMO_COLLECTIONS: (state, promoCollections) => {
       state.promoCollections = promoCollections;
+    },
+    SET_CART: (state, cart) => {
+      state.cart = cart;
     }
   },
-  // actions commit mutations, and you commit suicide ._.
+  // actions commit mutations, you commit suicide ._.
   actions: { // asynchronous
     GET_CATEGORIES_API({ commit }) { // ({ commit, state }, payload)
       return axios(process.env.VUE_APP_API_BASE + 'categories', {
@@ -41,6 +45,17 @@ export const store = createStore({
         return error;
       });
     },
+    GET_CART_API({ commit }) {
+      return axios(process.env.VUE_APP_API_BASE + 'cart-items', {
+        method: 'GET',
+      }).then((cart) => {
+        commit('SET_CART', cart.data);
+        return cart;
+      }).catch((error) => {
+        console.log(error);
+        return error;
+      });
+    },
   },
   getters: {
     // cool method-style thingy
@@ -51,6 +66,9 @@ export const store = createStore({
     PROMO_COLLECTIONS(state) {
       return state.promoCollections;
     },
+    CART_ITEMS(state) {
+      return state.cart;
+    }
   },
 });
 

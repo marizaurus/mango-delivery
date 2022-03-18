@@ -3,7 +3,7 @@
     <img class="v-product-card__image" :src="cardData.image">
     <div class="v-product-card__info">
       <div class="v-product-card__info-row row">
-        <h3 class="v-product-card__info-name">{{ cardData.name }}</h3>
+        <div class="v-product-card__info-name">{{ cardData.name }}</div>
         <div class="v-product-card__info-rating row">
           <font-awesome-icon icon="star"/>
           <div class="v-product-card__info-rating-value">{{ cardData.rating }}</div>
@@ -14,9 +14,6 @@
         <div class="v-product-card__cart-price">{{ cardData.price }} ₽</div>
         <div class="v-product-card__cart-controls row">
           <v-cart-counter/>
-          <button class="btn btn-icon btn-orange-light v-product-card__cart-button">
-            <font-awesome-icon icon="shopping-basket"/>
-          </button>
         </div>
       </div>
     </div>
@@ -46,20 +43,12 @@
 
 <style lang="scss">
   .v-product-card {
-    flex-basis: 33%;
+    flex-basis: 24%;
     background-color: $white;
     border-radius: 5px;
     overflow: hidden;
-    position: relative;
-    transition: .1s linear;
-    top: 0;
-    left: 0;
 
-    &:hover {
-      top: -5px;
-      left: -5px;
-      box-shadow: 5px 5px 0 $beige;
-    }
+    @include shadow-angle($beige);
 
     &:not(:last-child) {
       margin-right: 3rem;
@@ -67,7 +56,7 @@
 
     &__image {
       width: 100%;
-      height: 200px;
+      height: 160px;
       object-fit: cover;
     }
 
@@ -79,12 +68,16 @@
       }
 
       &-name {
+        font-size: 2rem;
+        font-weight: 700;
         margin: 0;
       }
 
       &-rating {
         margin-left: auto;
         color: $yellow;
+        align-self: flex-start;
+        line-height: 2.4rem;
 
         &-value {
           margin-left: 4px;
@@ -94,7 +87,8 @@
       }
 
       &-tags {
-        color: $grey-light;
+        color: $grey-dark;
+        font-size: 1.2rem;
       }
     }
 
@@ -107,10 +101,6 @@
 
       &-controls {
         margin-left: auto;
-      }
-
-      &-button.btn {
-        margin: 0 0 0 1.4rem;
       }
     }
   }
