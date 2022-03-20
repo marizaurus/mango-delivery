@@ -1,17 +1,17 @@
 <template>
   <div class="v-product-card">
-    <img class="img v-product-card__image" :src="cardData.image">
+    <img class="img v-product-card__image" :src="itemData.image">
     <div class="v-product-card__info">
       <div class="v-product-card__info-row row">
-        <div class="v-product-card__info-name">{{ cardData.title }}</div>
+        <div class="v-product-card__info-name">{{ itemData.title }}</div>
         <div class="v-product-card__info-rating row">
           <font-awesome-icon icon="star"/>
-          <div class="v-product-card__info-rating-value">{{ cardData.rating }}</div>
+          <div class="v-product-card__info-rating-value">{{ itemData.rating }}</div>
         </div>
       </div>
-      <div class="v-product-card__info-tags v-product-card__info-row row">{{ cardData.tags.join(' · ') }}</div>
+      <div class="v-product-card__info-tags v-product-card__info-row row">{{ itemData.tags.join(' · ') }}</div>
       <div class="v-product-card__info-row row">
-        <div class="v-product-card__cart-price">{{ cardData.price }} ₽</div>
+        <div class="v-product-card__cart-price">{{ itemData.price }} ₽</div>
         <div class="v-product-card__cart-controls row">
           <cart-counter/>
         </div>
@@ -29,7 +29,7 @@
       'cart-counter': vCartCounter,
     },
     props: {
-      cardData: {
+      itemData: {
         type: Object,
         default() {
           return {}
@@ -43,7 +43,7 @@
 
 <style lang="scss">
   .v-product-card {
-    flex-basis: 24%;
+    width: 210px;
     background-color: $white;
     border-radius: $radius-medium;
     overflow: hidden;

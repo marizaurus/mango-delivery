@@ -26,7 +26,7 @@ export default {
     border-radius: $radius-medium;
     background-size: cover;
     position: relative;
-    flex-basis: 25%;
+    width: 100%;
     height: 15rem;
     cursor: pointer;
 
@@ -52,6 +52,7 @@ export default {
       color: $white;
       opacity: 1;
       transition: .2s linear;
+      user-select: none;
     }
 
     &__description {
