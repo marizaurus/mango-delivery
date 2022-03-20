@@ -17,13 +17,12 @@
 
 <style lang="scss">
   .v-cart-counter {
-    border-top: 2px solid $orange-light;
-    border-bottom: 2px solid $orange-light;
-    border-radius: 2px;
-    box-sizing: border-box;
     height: 3rem;
     font-weight: 500;
     text-align: center;
+    align-items: stretch !important;
+    border-radius: $radius-small;
+    overflow: hidden;
 
     &__btn {
       color: $white;
@@ -41,6 +40,8 @@
     &__value {
       font-size: 2rem;
       width: 3.6rem;
+      border-top: 2px solid $orange-light;
+      border-bottom: 2px solid $orange-light;
     }
   }
 </style>

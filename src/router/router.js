@@ -7,12 +7,12 @@ export default createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
+      path: process.env.VUE_APP_PATH,
       name: 'home',
       component: vHome,
     },
     {
-      path: '/cart',
+      path: process.env.VUE_APP_PATH + 'cart',
       name: 'cart',
       component: vCart,
     }

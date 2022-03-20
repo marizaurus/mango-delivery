@@ -1,39 +1,38 @@
 <template>
   <div class="v-home">
     <div class="container">
-      <v-carousel />
-      <v-promo-collection
-        v-for="promoCollection in this.PROMO_COLLECTIONS"
-        :key="promoCollection.id"
-        :promo-collection-data="promoCollection"
-      />
+      <component
+        v-for="block in this.BLOCKS"
+        :key="block.id"
+        :is="block.type"
+        :blockData="block" />
     </div>
   </div>
 </template>
 
 <script>
 import vCarousel from '@/components/v-carousel';
-import vPromoCollection from '@/components/v-promo-collection'
+import vPromoSet from '@/components/v-promo-set'
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "v-home",
   components: {
-    'v-carousel': vCarousel,
-    'v-promo-collection': vPromoCollection,
+    'carousel': vCarousel,
+    'promo-set': vPromoSet,
   },
   computed: {
     ...mapGetters([
-      'PROMO_COLLECTIONS',
+      'BLOCKS',
     ]),
   },
   methods: {
     ...mapActions([
-      'GET_PROMO_COLLECTIONS_API',
+      'GET_BLOCKS_API',
     ]),
   },
   mounted() {
-    this.GET_PROMO_COLLECTIONS_API();
+    this.GET_BLOCKS_API();
   }
 }
 </script>

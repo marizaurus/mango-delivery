@@ -1,37 +1,33 @@
 <template>
   <div class="v-carousel m-resp">
-    <h2 class="v-carousel__header">{{ $t('blocks.popularCategories') }}</h2>
+    <h2 class="v-carousel__header">{{ blockData.title }}</h2>
     <div class="row">
-      <v-category-card
-        v-for="category in this.CATEGORIES"
-        :key="category.id"
-        :category-data="category"
-      />
+      <component
+        v-for="item in blockData.items"
+        :key="item.id"
+        :itemData="item"
+        :is="item.type" />
     </div>
   </div>
 </template>
 
 <script>
   import vCategoryCard from '@/components/v-category-card';
-  import { mapActions, mapGetters } from 'vuex';
 
   export default {
-    name: "v-carousel",
+    name: 'v-carousel',
     components: {
-      'v-category-card': vCategoryCard,
+      'category-card': vCategoryCard,
     },
-    computed: {
-      ...mapGetters([
-          'CATEGORIES',
-      ]),
-    },
-    methods: {
-      ...mapActions([
-         'GET_CATEGORIES_API',
-      ]),
-    },
-    mounted() {
-      this.GET_CATEGORIES_API();
+    props: {
+      blockData: {
+        type: Object,
+        default() {
+          return {
+            items: []
+          }
+        }
+      }
     }
   }
 </script>

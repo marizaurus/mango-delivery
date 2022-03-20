@@ -1,8 +1,8 @@
 <template>
   <div class="category-card"
-     :style="{ backgroundImage: `url(${ categoryData.image })` }">
-    <div class="category-card__title">{{ categoryData.name }}</div>
-    <div class="category-card__description">{{ categoryData.description }}</div>
+     :style="{ backgroundImage: `url(${ itemData.image })` }">
+    <div class="category-card__title">{{ itemData.title }}</div>
+    <div class="category-card__description">{{ itemData.description }}</div>
   </div>
 </template>
 
@@ -10,12 +10,12 @@
 export default {
   name: "v-category-card",
   props: {
-    categoryData: {
+    itemData: {
       type: Object,
       default() {
         return {}
       }
-    }
+    },
   },
   methods: {}
 }
@@ -23,11 +23,11 @@ export default {
 
 <style lang="scss">
   .category-card {
-    border-radius: 5px;
+    border-radius: $radius-medium;
     background-size: cover;
     position: relative;
     flex-basis: 25%;
-    height: 150px;
+    height: 15rem;
     cursor: pointer;
 
     &:not(:last-child) {
@@ -39,7 +39,7 @@ export default {
       content: "";
       width: 100%;
       height: 100%;
-      border-radius: 5px;
+      border-radius: $radius-medium;
       opacity: 0;
       transition: .2s linear;
       background-color: $white;
@@ -56,7 +56,7 @@ export default {
 
     &__description {
       width: 100%;
-      padding: 0 14px;
+      padding: 0 1.4rem;
       box-sizing: border-box;
       color: $grey-dark;
       opacity: 0;

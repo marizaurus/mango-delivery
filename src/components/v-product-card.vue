@@ -1,9 +1,9 @@
 <template>
   <div class="v-product-card">
-    <img class="v-product-card__image" :src="cardData.image">
+    <img class="img v-product-card__image" :src="cardData.image">
     <div class="v-product-card__info">
       <div class="v-product-card__info-row row">
-        <div class="v-product-card__info-name">{{ cardData.name }}</div>
+        <div class="v-product-card__info-name">{{ cardData.title }}</div>
         <div class="v-product-card__info-rating row">
           <font-awesome-icon icon="star"/>
           <div class="v-product-card__info-rating-value">{{ cardData.rating }}</div>
@@ -13,7 +13,7 @@
       <div class="v-product-card__info-row row">
         <div class="v-product-card__cart-price">{{ cardData.price }} ₽</div>
         <div class="v-product-card__cart-controls row">
-          <v-cart-counter/>
+          <cart-counter/>
         </div>
       </div>
     </div>
@@ -24,9 +24,9 @@
   import vCartCounter from '@/components/v-cart-counter';
 
   export default {
-    name: "product-card",
+    name: 'product-card',
     components: {
-      'v-cart-counter': vCartCounter,
+      'cart-counter': vCartCounter,
     },
     props: {
       cardData: {
@@ -45,7 +45,7 @@
   .v-product-card {
     flex-basis: 24%;
     background-color: $white;
-    border-radius: 5px;
+    border-radius: $radius-medium;
     overflow: hidden;
 
     @include shadow-angle($beige);
@@ -56,8 +56,7 @@
 
     &__image {
       width: 100%;
-      height: 160px;
-      object-fit: cover;
+      height: 16rem;
     }
 
     &__info {

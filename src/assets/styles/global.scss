@@ -61,7 +61,8 @@ body {
 }
 
 .m-none {
-  margin: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .btn {
@@ -82,12 +83,12 @@ body {
     font-size: 1.8rem;
     line-height: 1.2;
     color: $white;
-    border-radius: 5px;
+    border-radius: $radius-medium;
     transition: .2s linear;
 
     svg {
       margin-left: 5px;
-      font-size: 20px;
+      font-size: 2rem;
     }
   }
 
@@ -105,7 +106,7 @@ body {
 
   &-icon {
     padding: .5rem 1rem;
-    border-radius: 2px;
+    border-radius: $radius-small;
   }
 
   &-green-light {
@@ -125,8 +126,33 @@ body {
   }
 }
 
+.img {
+  object-fit: cover;
+}
+
 .d-none {
   display: none;
+}
+
+.accordion {
+  overflow: hidden;
+
+  &-open {
+    position: relative;
+    top: -5px;
+    box-shadow: 0 5px 0 $beige-dark;
+  }
+}
+
+a {
+  margin-left: 2.5rem;
+  color: $grey-dark;
+  font-weight: 500;
+  transition: color .2s;
+
+  &:hover {
+    color: $green;
+  }
 }
 
 // dung

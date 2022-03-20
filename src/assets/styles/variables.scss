@@ -3,10 +3,13 @@
 // https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
 // https://coolors.co/ffc93c-ff9a3c-ff6f3c-155263
 
+//colors
+
 $white: #FFFFFF;
 $beige-light: #FFF9EB;
 $beige-medium: #F7EED5;
 $beige: #EFE2BE;
+$beige-dark: #E2CB8D;
 $yellow: #ffc93c;
 $orange-light: #ff9a3c;
 $orange: #ff6f3c;
@@ -14,7 +17,7 @@ $red: #A61E11;
 $green-light: #94D2BD;
 $green: #2A9D8F;
 $blue: #3F72AF;
-$grey-light: #E5E5E5;
+$grey-light: #C4C4C4;
 $grey: #4F4F4F;
 $grey-dark: #363636;
 
@@ -22,6 +25,7 @@ $project-colors: (
   white: $white,
   beige-light: $beige-light,
   beige-medium: $beige-medium,
+  beige-dark: $beige-dark,
   beige: $beige,
   yellow: $yellow,
   orange-light: $orange-light,
@@ -46,5 +50,13 @@ $project-colors: (
   }
 }
 
+// fonts
+
 $montserrat: "Montserrat", Arial, sans-serif;
 $comforter: "Comforter Brush", Arial, sans-serif;
+
+// border-radius
+
+$radius-small: 2px;
+$radius-medium: 5px;
+$radius-big: 10px;

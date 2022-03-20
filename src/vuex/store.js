@@ -3,19 +3,15 @@ import axios from "axios";
 
 export const store = createStore({
   state: {
-    categories: [],
-    promoCollections: [],
+    blocks: [],
     cart: [],
   },
   // can't be called directly, is a handler
   // mutations as constants from another file, also cool
   // https://next.vuex.vuejs.org/guide/mutations.html#using-constants-for-mutation-types
   mutations: { // synchronous
-    SET_CATEGORIES: (state, categories) => {
-      state.categories = categories;
-    },
-    SET_PROMO_COLLECTIONS: (state, promoCollections) => {
-      state.promoCollections = promoCollections;
+    SET_BLOCKS: (state, blocks) => {
+      state.blocks = blocks;
     },
     SET_CART: (state, cart) => {
       state.cart = cart;
@@ -23,23 +19,12 @@ export const store = createStore({
   },
   // actions commit mutations, you commit suicide ._.
   actions: { // asynchronous
-    GET_CATEGORIES_API({ commit }) { // ({ commit, state }, payload)
-      return axios(process.env.VUE_APP_API_BASE + 'categories', {
+    GET_BLOCKS_API({ commit }) { // ({ commit, state }, payload)
+      return axios(process.env.VUE_APP_API_BASE + 'blocks', {
         method: 'GET',
-      }).then((categories) => {
-        commit('SET_CATEGORIES', categories.data);
-        return categories;
-      }).catch((error) => {
-        console.log(error);
-        return error;
-      });
-    },
-    GET_PROMO_COLLECTIONS_API({ commit }) {
-      return axios(process.env.VUE_APP_API_BASE + 'promo-collections', {
-        method: 'GET',
-      }).then((promoCollections) => {
-        commit('SET_PROMO_COLLECTIONS', promoCollections.data);
-        return promoCollections;
+      }).then((blocks) => {
+        commit('SET_BLOCKS', blocks.data);
+        return blocks;
       }).catch((error) => {
         console.log(error);
         return error;
@@ -60,11 +45,8 @@ export const store = createStore({
   getters: {
     // cool method-style thingy
     // https://next.vuex.vuejs.org/guide/getters.html#method-style-access
-    CATEGORIES(state) { // (state, getters)
-      return state.categories;
-    },
-    PROMO_COLLECTIONS(state) {
-      return state.promoCollections;
+    BLOCKS(state) { // (state, getters)
+      return state.blocks;
     },
     CART_ITEMS(state) {
       return state.cart;

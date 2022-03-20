@@ -1,8 +1,10 @@
 <template>
   <div class="v-header">
     <div class="v-header__wrapper">
-      <div class="container">
+      <div class="container row">
         <img :src="require('@/assets/images/logo.svg')" class="v-header__logo" />
+        <router-link :to="{ name: 'home' }">Главная</router-link>
+        <router-link :to="{ name: 'cart' }">Корзина</router-link>
       </div>
     </div>
 <!--    <div class="v-header__banner">-->
@@ -24,7 +26,7 @@ export default {
   .v-header {
     &__wrapper {
       background-color: $beige;
-      padding: 10px 0;
+      padding: 1rem 0;
     }
 
     &__logo {
@@ -33,7 +35,7 @@ export default {
 
     &__banner {
       background-color: $beige-medium;
-      padding: 12px 0;
+      padding: 1.2rem 0;
 
       &-row {
         position: relative;
