@@ -185,20 +185,6 @@
           "title": "Пицца",
           "description": "На пышном или тонком тесте, мясная или... ананасовая? Доставим ароматной и горячей!",
           "image": "https://picsum.photos/400/200?random=6"
-        },
-        {
-          "id": 7,
-          "type": "category-card",
-          "title": "Стейки",
-          "description": "Мясные и рыбные, разной степени маринованности и прожарки. Для настоящих ценителей хорошего ужина.",
-          "image": "https://picsum.photos/400/200?random=7"
-        },
-        {
-          "id": 8,
-          "type": "category-card",
-          "title": "Рыба",
-          "description": "Нежная форель, еврейская фаршированная рыба, рыба-гриль или запеченная, и... килька... в томатном соусе...",
-          "image": "https://picsum.photos/400/200?random=8"
         }
       ]
     },
@@ -293,66 +279,6 @@
     },
     {
       "id": 3,
-      "type": "promo-set",
-      "title": "Легкий завтрак",
-      "infoAlignment": "right",
-      "tag-type": "tags",
-      "tags": [
-        {
-          "id": 1,
-          "title": "Осторожно, горячо!",
-          "color": "red"
-        },
-        {
-          "id": 2,
-          "title": "Быстрая доставка",
-          "color": "yellow"
-        }
-      ],
-      "itemsToShow": 4,
-      "description": "Нужно перекусить перед важной утренней встречей или захотелось побаловать необычным завтраком тех, кому повезло поваляться подольше? Наши курьеры доставят завтрак горячим и как можно быстрее!",
-      "items": [
-        {
-          "id": 1,
-          "type": "product-card",
-          "title": "Маргарита",
-          "rating": 4.5,
-          "image": "https://picsum.photos/350/250?random=1",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 660
-        },
-        {
-          "id": 2,
-          "type": "product-card",
-          "title": "Пепперони",
-          "rating": 4.9,
-          "image": "https://picsum.photos/350/250?random=2",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 750
-        },
-        {
-          "id": 3,
-          "type": "product-card",
-          "title": "Грибная",
-          "rating": 4.8,
-          "image": "https://picsum.photos/350/250?random=3",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 800
-        }
-      ]
-    },
-    {
-      "id": 4,
       "type": "carousel",
       "title": "Возможно, вам понравится",
       "itemsToShow": 6,
