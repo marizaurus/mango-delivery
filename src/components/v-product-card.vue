@@ -43,7 +43,7 @@
 
 <style lang="scss">
   .v-product-card {
-    width: 210px;
+    // width: 100%;
     background-color: $white;
     border-radius: $radius-medium;
     overflow: hidden;

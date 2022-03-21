@@ -29,6 +29,7 @@
       font-size: 2.4rem;
       width: 2.2rem;
       cursor: pointer;
+      transition: background .1s linear;
 
       &-cart {
         height: 3rem;

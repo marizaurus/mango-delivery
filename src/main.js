@@ -7,10 +7,11 @@ import i18n from "@/i18n";
 import '@/assets/styles/index.scss';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faStar, faAngleRight, faShoppingBasket, faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faShoppingBasket, faAngleRight, faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faStar, faAngleRight, faShoppingBasket, faHeart, faTrashAlt);
+library.add(faStar, faAngleRight, faShoppingBasket, farHeart, fasHeart);
 
 const app = createApp(App);
 

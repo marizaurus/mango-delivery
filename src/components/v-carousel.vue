@@ -54,7 +54,8 @@
       return {
         settings: {
           itemsToShow: this.blockData.itemsToShow,
-          itemsToScroll: 2,
+          // TODO: why does this break if images aren't loaded
+          itemsToScroll: 1,
           snapAlign: 'start',
           wrapAround: true,
           mouseDrag: false,

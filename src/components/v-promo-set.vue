@@ -32,7 +32,7 @@
       <Carousel
         :settings="settings"
         class="v-promo-set__cards"
-        :class="[ (blockData.items.length < blockData.itemsToShow ? 'carousel--slim' : '') ]">  
+        :class="{'carousel--slim': blockData.items.length < blockData.itemsToShow}">  
         <Slide
           :class="[ ('carousel__slide--' + blockData.items[0].type) ]"
           v-for="item in blockData.items"
