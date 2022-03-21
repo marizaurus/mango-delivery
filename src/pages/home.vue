@@ -1,5 +1,5 @@
 <template>
-  <div class="v-home">
+  <div class="home">
     <div class="container">
       <component
         v-for="block in this.BLOCKS"
@@ -11,15 +11,15 @@
 </template>
 
 <script>
-  import vCarousel from '@/components/v-carousel';
-  import vPromoSet from '@/components/v-promo-set'
+  import carousel from '@/components/carousel';
+  import promoSet from '@/components/promo-set'
   import { mapActions, mapGetters } from "vuex";
 
   export default {
-    name: "v-home",
+    name: "home",
     components: {
-      'carousel': vCarousel,
-      'promo-set': vPromoSet,
+      'carousel': carousel,
+      'promo-set': promoSet,
     },
     computed: {
       ...mapGetters([

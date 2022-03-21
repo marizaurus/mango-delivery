@@ -7,14 +7,14 @@
 </template>
 
 <script>
-import vHeader from '@/shared/v-header';
-import vFooter from '@/shared/v-footer';
+import header from '@/shared/header.vue';
+import footer from '@/shared/footer.vue';
 
 export default {
   name: "Layout",
   components: {
-    'v-header': vHeader,
-    'v-footer': vFooter,
+    'v-header': header,
+    'v-footer': footer,
   }
 }
 </script>

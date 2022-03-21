@@ -1,29 +1,29 @@
 <template>
-  <div class="v-promo-set m-resp">
+  <div class="promo-set m-resp">
     <div class="row">
       <div
-        class="v-promo-set__info block-neat"
+        class="promo-set__info block-neat"
         :class="[ ('align-' + blockData.infoAlignment) ]" >
-        <h2 class="v-promo-set__info-title">{{ blockData.title }}</h2>
-        <div class="v-promo-set__info-tags row">
+        <h2 class="promo-set__info-title">{{ blockData.title }}</h2>
+        <div class="promo-set__info-tags row">
           <div
-            class="v-promo-set__info-cuisine"
-            v-if="blockData['tag-type'] === 'cuisine'" >
+            class="promo-set__info-cuisine"
+            if="blockData['tag-type'] === 'cuisine'" >
             {{ blockData.tags[0] }}
           </div>
           <tag
-            v-else
+            else
             v-for="tag in blockData.tags"
             :key="tag.id"
             :tag-data="tag" />
         </div>
-        <div class="v-promo-set__info-desc">{{ blockData.description }}</div>
-        <button class="btn btn-primary btn-green-light v-promo-set__info-button">
+        <div class="promo-set__info-desc">{{ blockData.description }}</div>
+        <button class="btn btn-primary btn-green-light promo-set__info-button">
           <span>{{ $t('buttons.browseAll') }}</span>
           <font-awesome-icon icon="angle-right"/>
         </button>
       </div>
-      <!-- <div class="v-promo-set__cards row">
+      <!-- <div class="promo-set__cards row">
         <product-card
           v-for="item in blockData.items"
           :key="item.id"
@@ -31,7 +31,7 @@
       </div> -->
       <Carousel
         :settings="settings"
-        class="v-promo-set__cards"
+        class="promo-set__cards"
         :class="{'carousel--slim': blockData.items.length < blockData.itemsToShow}">  
         <Slide
           :class="[ ('carousel__slide--' + blockData.items[0].type) ]"
@@ -43,7 +43,7 @@
         </Slide>
 
         <template #addons>
-          <Navigation v-if="blockData.items.length > blockData.itemsToShow" />
+          <Navigation if="blockData.items.length > blockData.itemsToShow" />
           <!-- TODO: only display on mobile -->
           <!-- TODO: no titles needed!! - remove somehow -->
           <!-- <Pagination /> -->
@@ -54,16 +54,16 @@
 </template>
 
 <script>
-  import vProductCard from '@/components/v-product-card';
-  import vTag from '@/components/v-tag';
+  import productCard from '@/components/product-card';
+  import tag from '@/components/tag';
   import { Carousel, Navigation, Slide } from 'vue3-carousel';
   import 'vue3-carousel/dist/carousel.css';
 
   export default {
-    name: "v-promo-set",
+    name: "promo-set",
     components: {
-      'product-card': vProductCard,
-      'tag': vTag,
+      'product-card': productCard,
+      'tag': tag,
       Carousel,
       Slide,
       // Pagination,
@@ -105,7 +105,7 @@
 </script>
 
 <style lang="scss">
-  .v-promo-set {
+  .promo-set {
     &__info {
       width: 33%;
       margin-right: 3.5rem;

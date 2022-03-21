@@ -1,6 +1,6 @@
 <template>
-  <div class="v-carousel m-resp">
-    <h2 class="v-carousel__header">{{ blockData.title }}</h2>
+  <div class="carousel m-resp">
+    <h2 class="carousel__header">{{ blockData.title }}</h2>
     <Carousel :settings="settings">  
       <Slide
         :class="[ ('carousel__slide--' + blockData.items[0].type) ]"
@@ -23,17 +23,17 @@
 </template>
 
 <script>
-  import vCategoryCard from '@/components/v-category-card';
-  import vProductCard from '@/components/v-product-card';
+  import categoryCard from '@/components/category-card';
+  import productCard from '@/components/product-card';
   import { Carousel, Navigation, Slide } from 'vue3-carousel';
 
   import 'vue3-carousel/dist/carousel.css';
 
   export default {
-    name: 'v-carousel',
+    name: 'carousel',
     components: {
-      'category-card': vCategoryCard,
-      'product-card': vProductCard,
+      'category-card': categoryCard,
+      'product-card': productCard,
       Carousel,
       Slide,
       // Pagination,

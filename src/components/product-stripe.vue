@@ -20,12 +20,12 @@
 </template>
 
 <script>
-  import vCartCounter from '@/components/v-cart-counter';
+  import cartCounter from '@/components/cart-counter';
 
   export default {
     name: 'product-stripe',
     components: {
-      'cart-counter': vCartCounter,
+      'cart-counter': cartCounter,
     },
     props: {
       itemData: {

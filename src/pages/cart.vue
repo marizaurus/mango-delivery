@@ -48,7 +48,7 @@
   import productStripe from '../components/product-stripe.vue';
 
   export default {
-    name: "v-cart",
+    name: "cart",
 
     components: {
       'product-stripe': productStripe,

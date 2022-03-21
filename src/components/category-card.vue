@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "v-category-card",
+  name: "category-card",
   props: {
     itemData: {
       type: Object,

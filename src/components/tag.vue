@@ -1,13 +1,14 @@
 <template>
   <div
-      class="v-tag"
-      :class="[ ('bg-' + tagData.color) ]"
-  >{{ tagData.title }}</div>
+    class="tag"
+    :class="[ ('bg-' + tagData.color) ]">
+    {{ tagData.title }}
+  </div>
 </template>
 
 <script>
   export default {
-    name: "v-tag",
+    name: "tag",
     props: {
       tagData: {
         type: Object,
@@ -20,7 +21,7 @@
 </script>
 
 <style lang="scss">
-  .v-tag {
+  .tag {
     user-select: none;
     white-space: nowrap;
     border-radius: $radius-small;

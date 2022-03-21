@@ -1,18 +1,18 @@
 <template>
-  <div class="v-product-card">
-    <img class="img v-product-card__image" :src="itemData.image">
-    <div class="v-product-card__info">
-      <div class="v-product-card__info-row row">
-        <div class="v-product-card__info-name">{{ itemData.title }}</div>
-        <div class="v-product-card__info-rating row">
+  <div class="product-card">
+    <img class="img product-card__image" :src="itemData.image">
+    <div class="product-card__info">
+      <div class="product-card__info-row row">
+        <div class="product-card__info-name">{{ itemData.title }}</div>
+        <div class="product-card__info-rating row">
           <font-awesome-icon icon="star"/>
-          <div class="v-product-card__info-rating-value">{{ itemData.rating }}</div>
+          <div class="product-card__info-rating-value">{{ itemData.rating }}</div>
         </div>
       </div>
-      <div class="v-product-card__info-tags v-product-card__info-row row">{{ itemData.tags.join(' · ') }}</div>
-      <div class="v-product-card__info-row row">
-        <div class="v-product-card__cart-price">{{ itemData.price }} ₽</div>
-        <div class="v-product-card__cart-controls row">
+      <div class="product-card__info-tags product-card__info-row row">{{ itemData.tags.join(' · ') }}</div>
+      <div class="product-card__info-row row">
+        <div class="product-card__cart-price">{{ itemData.price }} ₽</div>
+        <div class="product-card__cart-controls row">
           <cart-counter/>
         </div>
       </div>
@@ -21,12 +21,12 @@
 </template>
 
 <script>
-  import vCartCounter from '@/components/v-cart-counter';
+  import cartCounter from '@/components/cart-counter';
 
   export default {
     name: 'product-card',
     components: {
-      'cart-counter': vCartCounter,
+      'cart-counter': cartCounter,
     },
     props: {
       itemData: {
@@ -42,7 +42,7 @@
 </script>
 
 <style lang="scss">
-  .v-product-card {
+  .product-card {
     // width: 100%;
     background-color: $white;
     border-radius: $radius-medium;

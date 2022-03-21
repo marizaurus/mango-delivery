@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Layout from "@/shared/v-layout";
+import Layout from "@/shared/layout";
 
 export default {
   name: 'App',
