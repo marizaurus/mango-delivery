@@ -37,13 +37,12 @@
       }
     }
   }
-
-  // https://via.placeholder.com/200x200
 </script>
 
 <style lang="scss">
   .product-card {
-    // width: 100%;
+    width: 100%;
+    max-width: 28rem;
     background-color: $white;
     border-radius: $radius-medium;
     overflow: hidden;

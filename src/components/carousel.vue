@@ -1,7 +1,10 @@
 <template>
   <div class="carousel m-resp">
     <h2 class="carousel__header">{{ blockData.title }}</h2>
-    <Carousel :settings="settings">  
+    <Carousel
+      :settings="settings"
+      :breakpoints="breakpoints[blockData.items[0].type]"
+      :class="{'carousel--slim': blockData.items.length < blockData.itemsToShow}">  
       <Slide
         :class="[ ('carousel__slide--' + blockData.items[0].type) ]"
         v-for="item in blockData.items"
@@ -11,12 +14,9 @@
           :is="item.type"
           :itemData="item" />
       </Slide>
-
       <template #addons>
-        <Navigation v-if="blockData.items.length > blockData.itemsToShow" />
-        <!-- TODO: only display on mobile -->
-        <!-- TODO: no titles needed!! - remove somehow -->
-        <!-- <Pagination /> -->
+        <Navigation/>
+        <Pagination/>
       </template>
     </Carousel>
   </div>
@@ -25,7 +25,7 @@
 <script>
   import categoryCard from '@/components/category-card';
   import productCard from '@/components/product-card';
-  import { Carousel, Navigation, Slide } from 'vue3-carousel';
+  import { Carousel, Navigation, Pagination, Slide } from 'vue3-carousel';
 
   import 'vue3-carousel/dist/carousel.css';
 
@@ -36,7 +36,7 @@
       'product-card': productCard,
       Carousel,
       Slide,
-      // Pagination,
+      Pagination,
       Navigation,
     },
     props: {
@@ -53,28 +53,45 @@
     data() {
       return {
         settings: {
-          itemsToShow: this.blockData.itemsToShow,
-          // TODO: why does this break if images aren't loaded
-          itemsToScroll: 1,
           snapAlign: 'start',
           wrapAround: true,
           mouseDrag: false,
         },
-        // TODO: define breakpoints (mobile first)
-        // breakpoints: {
-        //   700: {
-        //     itemsToShow: 3.5,
-        //     snapAlign: 'center',
-        //   },
-        //   1024: {
-        //     itemsToShow: 5,
-        //     snapAlign: 'start',
-        //   },
-        // },
+        breakpoints: {
+          'category-card': {
+            480: {
+              itemsToShow: 1,
+            },
+            768: {
+              itemsToShow: 2,
+            },
+            1024: {
+              itemsToShow: 3,
+            },
+            1200: {
+              itemsToShow: 4,
+            },
+          },
+          'product-card': {
+            480: {
+              itemsToShow: 2,
+            },
+            768: {
+              itemsToShow: 3,
+            },
+            1024: {
+              itemsToShow: 4,
+            },
+            1200: {
+              itemsToShow: 5,
+            }
+          }
+        },
       }
     },
   }
 </script>
 
 <style lang="scss">
+ 
 </style>

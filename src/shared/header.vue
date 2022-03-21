@@ -1,8 +1,8 @@
 <template>
-  <div class="header">
-    <div class="header__wrapper">
+  <div class="v-header">
+    <div class="v-header__wrapper">
       <div class="container row">
-        <img :src="require('@/assets/images/logo.svg')" class="header__logo" />
+        <img :src="require('@/assets/images/logo.svg')" class="v-header__logo" />
         <router-link :to="{ name: 'home' }">Главная</router-link>
         <router-link :to="{ name: 'cart' }">Корзина</router-link>
       </div>
@@ -18,12 +18,12 @@
 
 <script>
 export default {
-  name: "header"
+  name: "vHeader"
 }
 </script>
 
 <style lang="scss">
-  .header {
+  .v-header {
     &__wrapper {
       background-color: $beige;
       padding: 1rem 0;

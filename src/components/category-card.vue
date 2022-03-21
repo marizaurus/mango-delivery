@@ -27,6 +27,7 @@ export default {
     background-size: cover;
     position: relative;
     width: 100%;
+    max-width: 42rem;
     height: 15rem;
     cursor: pointer;
 

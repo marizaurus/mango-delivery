@@ -96,42 +96,42 @@
           "type": "category-card",
           "title": "Макароны",
           "description": "Капеллини, равиоли и спагетти, тортеллини, фузилли и фетучине - найдется блюдо для самых изысканных.",
-          "image": "https://picsum.photos/400/200?random=1"
+          "image": "https://picsum.photos/420/200?random=1"
         },
         {
           "id": 2,
           "type": "category-card",
           "title": "Пицца",
           "description": "На пышном или тонком тесте, мясная или... ананасовая? Доставим ароматной и горячей!",
-          "image": "https://picsum.photos/400/200?random=2"
+          "image": "https://picsum.photos/420/200?random=2"
         },
         {
           "id": 3,
           "type": "category-card",
           "title": "Стейки",
           "description": "Мясные и рыбные, разной степени маринованности и прожарки. Для настоящих ценителей хорошего ужина.",
-          "image": "https://picsum.photos/400/200?random=3"
+          "image": "https://picsum.photos/420/200?random=3"
         },
         {
           "id": 4,
           "type": "category-card",
           "title": "Рыба",
           "description": "Нежная форель, еврейская фаршированная рыба, рыба-гриль или запеченная, и... килька... в томатном соусе...",
-          "image": "https://picsum.photos/400/200?random=4"
+          "image": "https://picsum.photos/420/200?random=4"
         },
         {
           "id": 5,
           "type": "category-card",
           "title": "Макароны",
           "description": "Капеллини, равиоли и спагетти, тортеллини, фузилли и фетучине - найдется блюдо для самых изысканных.",
-          "image": "https://picsum.photos/400/200?random=5"
+          "image": "https://picsum.photos/420/200?random=5"
         },
         {
           "id": 6,
           "type": "category-card",
           "title": "Пицца",
           "description": "На пышном или тонком тесте, мясная или... ананасовая? Доставим ароматной и горячей!",
-          "image": "https://picsum.photos/400/200?random=6"
+          "image": "https://picsum.photos/420/200?random=6"
         }
       ]
     },
@@ -140,7 +140,7 @@
       "type": "promo-set",
       "title": "Кухня недели",
       "infoAlignment": "left",
-      "tag-type": "cuisine",
+      "tagType": "cuisine",
       "tags": [
         "Итальянская"
       ],
@@ -152,7 +152,7 @@
           "type": "product-card",
           "title": "Маргарита",
           "rating": 4.5,
-          "image": "https://picsum.photos/350/250?random=4",
+          "image": "https://picsum.photos/280/250?random=4",
           "tags": [
             "Primastoria",
             "Пицца"
@@ -164,7 +164,7 @@
           "type": "product-card",
           "title": "Ветчина и грибы",
           "rating": 4.4,
-          "image": "https://picsum.photos/350/250?random=7",
+          "image": "https://picsum.photos/280/250?random=7",
           "tags": [
             "Primastoria",
             "Пицца",
@@ -177,7 +177,7 @@
           "type": "product-card",
           "title": "Пепперони",
           "rating": 4.9,
-          "image": "https://picsum.photos/350/250?random=5",
+          "image": "https://picsum.photos/280/250?random=5",
           "tags": [
             "Primastoria",
             "Пицца",
@@ -190,7 +190,7 @@
           "type": "product-card",
           "title": "Грибная",
           "rating": 4.8,
-          "image": "https://picsum.photos/350/250?random=6",
+          "image": "https://picsum.photos/280/250?random=6",
           "tags": [
             "Primastoria",
             "Пицца"
@@ -202,7 +202,7 @@
           "type": "product-card",
           "title": "Пепперони",
           "rating": 4.9,
-          "image": "https://picsum.photos/350/250?random=8",
+          "image": "https://picsum.photos/280/250?random=8",
           "tags": [
             "Primastoria",
             "Пицца",
@@ -215,7 +215,7 @@
           "type": "product-card",
           "title": "Грибная",
           "rating": 4.8,
-          "image": "https://picsum.photos/350/250?random=9",
+          "image": "https://picsum.photos/280/250?random=9",
           "tags": [
             "Primastoria",
             "Пицца"
@@ -235,7 +235,7 @@
           "type": "product-card",
           "title": "Маргарита",
           "rating": 4.5,
-          "image": "https://picsum.photos/350/250?random=4",
+          "image": "https://picsum.photos/280/250?random=4",
           "tags": [
             "Primastoria",
             "Пицца"
@@ -247,7 +247,7 @@
           "type": "product-card",
           "title": "Ветчина и грибы",
           "rating": 4.4,
-          "image": "https://picsum.photos/350/250?random=7",
+          "image": "https://picsum.photos/280/250?random=7",
           "tags": [
             "Primastoria",
             "Пицца",
@@ -260,7 +260,7 @@
           "type": "product-card",
           "title": "Пепперони",
           "rating": 4.9,
-          "image": "https://picsum.photos/350/250?random=5",
+          "image": "https://picsum.photos/280/250?random=5",
           "tags": [
             "Primastoria",
             "Пицца",
@@ -273,7 +273,7 @@
           "type": "product-card",
           "title": "Грибная",
           "rating": 4.8,
-          "image": "https://picsum.photos/350/250?random=6",
+          "image": "https://picsum.photos/280/250?random=6",
           "tags": [
             "Primastoria",
             "Пицца"
@@ -285,7 +285,7 @@
           "type": "product-card",
           "title": "Ветчина и грибы",
           "rating": 4.4,
-          "image": "https://picsum.photos/350/250?random=8",
+          "image": "https://picsum.photos/280/250?random=8",
           "tags": [
             "Primastoria",
             "Пицца",
@@ -298,7 +298,7 @@
           "type": "product-card",
           "title": "Пепперони",
           "rating": 4.9,
-          "image": "https://picsum.photos/350/250?random=9",
+          "image": "https://picsum.photos/280/250?random=9",
           "tags": [
             "Primastoria",
             "Пицца",

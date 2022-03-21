@@ -25,3 +25,30 @@
     box-shadow: 0 5px 0 $color;
   }
 }
+
+@mixin breakpoint($point) {
+  /* 1200px */
+  @if $point == desktop {
+    @media (min-width: 75em) {
+      @content;
+    }
+  }
+  /* 1024px */
+  @else if $point == laptop {
+    @media (min-width: 64em) {
+      @content;
+    }
+  }
+  /* 768px */
+  @else if $point == tablet {
+    @media (min-width: 48em) {
+      @content;
+    }
+  }
+  /* 480px */
+  @else if $point == mobile {
+    @media (min-width: 30em) {
+      @content;
+    }
+  }
+}

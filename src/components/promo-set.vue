@@ -8,11 +8,11 @@
         <div class="promo-set__info-tags row">
           <div
             class="promo-set__info-cuisine"
-            if="blockData['tag-type'] === 'cuisine'" >
+            v-if="blockData.tagType === 'cuisine'" >
             {{ blockData.tags[0] }}
           </div>
           <tag
-            else
+            v-else
             v-for="tag in blockData.tags"
             :key="tag.id"
             :tag-data="tag" />
@@ -23,15 +23,10 @@
           <font-awesome-icon icon="angle-right"/>
         </button>
       </div>
-      <!-- <div class="promo-set__cards row">
-        <product-card
-          v-for="item in blockData.items"
-          :key="item.id"
-          :itemData="item" />
-      </div> -->
       <Carousel
         :settings="settings"
-        class="promo-set__cards"
+        :breakpoints="breakpoints"
+        class="promo-set__items"
         :class="{'carousel--slim': blockData.items.length < blockData.itemsToShow}">  
         <Slide
           :class="[ ('carousel__slide--' + blockData.items[0].type) ]"
@@ -41,12 +36,9 @@
             class="carousel__item"
             :itemData="item" />
         </Slide>
-
         <template #addons>
-          <Navigation if="blockData.items.length > blockData.itemsToShow" />
-          <!-- TODO: only display on mobile -->
-          <!-- TODO: no titles needed!! - remove somehow -->
-          <!-- <Pagination /> -->
+          <Navigation/>
+          <Pagination/>
         </template>
       </Carousel>
     </div>
@@ -56,7 +48,7 @@
 <script>
   import productCard from '@/components/product-card';
   import tag from '@/components/tag';
-  import { Carousel, Navigation, Slide } from 'vue3-carousel';
+  import { Carousel, Navigation, Pagination, Slide } from 'vue3-carousel';
   import 'vue3-carousel/dist/carousel.css';
 
   export default {
@@ -66,7 +58,7 @@
       'tag': tag,
       Carousel,
       Slide,
-      // Pagination,
+      Pagination,
       Navigation,
     },
     props: {
@@ -82,23 +74,18 @@
     data() {
       return {
         settings: {
-          itemsToShow: this.blockData.itemsToShow,
-          itemsToScroll: 1,
           snapAlign: 'start',
           wrapAround: true,
           mouseDrag: false,
         },
-        // TODO: define breakpoints (mobile first)
-        // breakpoints: {
-        //   700: {
-        //     itemsToShow: 3.5,
-        //     snapAlign: 'center',
-        //   },
-        //   1024: {
-        //     itemsToShow: 5,
-        //     snapAlign: 'start',
-        //   },
-        // },
+        breakpoints: {
+          480: {
+            itemsToShow: 2,
+          },
+          1200: {
+            itemsToShow: 3,
+          }
+        }
       }
     },
   }
@@ -106,9 +93,13 @@
 
 <style lang="scss">
   .promo-set {
+    & > .row {
+      flex-direction: column;
+    }
+
     &__info {
-      width: 33%;
-      margin-right: 3.5rem;
+      width: 100%;
+      margin-bottom: 3.2rem;
 
       &.align-right {
         order: 2;
@@ -124,12 +115,38 @@
         font-family: $comforter;
         font-size: 3.2rem;
       }
+
+      &-button {
+        margin: 1.5rem auto 0 !important;
+      }
     }
 
-    &__cards {
-      width: 66%;
+    &__items {
+      width: 100%;
       justify-content: center;
       align-items: flex-start !important;
+    }
+  }
+
+  @include breakpoint(tablet) {
+    .promo-set {
+      & > .row {
+        flex-direction: row;
+      }
+
+      &__info {
+        width: 35%;
+        margin-right: 3.5rem;
+        margin-bottom: 0;
+
+        &-button {
+          margin: revert !important;
+        }
+      }
+
+      &__items {
+        width: 65%;
+      }
     }
   }
 </style>
