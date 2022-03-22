@@ -1,6 +1,6 @@
 <template>
   <button class="btn btn-icon btn-orange-light cart-counter__btn-cart d-none">
-    <font-awesome-icon icon="shopping-basket"/>
+    <font-awesome-icon icon="basket-shopping"/>
   </button>
   <div class="cart-counter row">
     <div class="btn-orange-light cart-counter__btn cart-counter__btn-minus">–</div>
