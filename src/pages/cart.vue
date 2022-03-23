@@ -3,7 +3,7 @@
     <div class="container">
       <div class="container-slim">
         <h1 class="cart-title">{{ $t('cart.title') }}</h1>
-        <div class="row a-start">
+        <div class="cart row a-start">
           <accordion class="cart__items">
             <accordion-item
               v-for="cartItem in this.CART_ITEMS"
@@ -28,8 +28,8 @@
           </accordion>
           <div class="cart__tab block-neat">
             <h3 class="cart__tab-title">{{ $t('cart.tab-title') }}</h3>
-            <h3 class="cart__tab-title">{{ $t('cart.total') }}</h3>
-            <h3 class="cart__tab-title">{{ $t('cart.code') }}</h3>
+            <h3 class="cart__tab-total">{{ $t('cart.total') }}</h3>
+            <h3 class="cart__tab-code">{{ $t('cart.code') }}</h3>
             <button class="btn btn-primary btn-orange-light m-auto">
               <span>{{ $t('buttons.order') }}</span>
               <font-awesome-icon icon="angle-right"/>
@@ -76,46 +76,105 @@
     &-title {
       margin-top: 6rem;
     }
+    
+    &.row {
+      flex-direction: column;
+    }
 
     &__items {
-      flex-basis: 70%;
-      margin-right: 2.8rem;
+      width: 100%;
     }
 
     &__tab {
-      flex-basis: 30%;
+      width: 100%;
       background-color: $white;
       padding: 1.6rem 2rem;
       border-radius: $radius-medium;
+      box-sizing: border-box;
 
-      // @include shadow-angle($grey-light);
+      h3 {
+        font-size: 2rem;
+      }
     }
 
     &-section {
       margin-bottom: 3.2rem;
 
       &__header {
-        padding: 1.6rem 1.8rem;
+        padding: 1rem 1.2rem;
         background-color: $beige;
         border-radius: $radius-medium;
         font-size: 1.6rem;
         font-weight: 500;
+        flex-wrap: wrap;
         
         @include shadow-bottom($beige-dark);
 
         &-title {
           margin: 0;
+          width: 100%;
+          margin-bottom: .4rem;
         }
 
         &-items {
-          margin-left: auto;
           margin-right: 2rem;
+        }
+
+        &-items,
+        &-total {
+          font-size: 1.4rem;
         }
       }
 
       .accordion__trigger--active .cart-section__header{
         top: -5px;
         box-shadow: 0 5px 0 $beige-dark;
+      }
+    }
+  }
+
+  @include breakpoint(tablet) {
+    .cart {
+      &-section {
+      margin-bottom: 3.2rem;
+
+        &__header {
+          padding: 1.6rem 1.8rem;
+
+          &-title {
+            width: auto;
+            margin-bottom: 0;
+          }
+
+          &-items {
+            margin-left: auto;
+          }
+
+          &-items,
+          &-total {
+            font-size: 1.6rem;
+          }
+        }
+      }
+    }
+  }
+
+  @include breakpoint(laptop) {
+    .cart {
+      &.row {
+        flex-direction: row;
+      }
+
+      &__items {
+        width: 70%;
+        margin-right: 2.8rem;
+      }
+
+      &__tab {
+        width: 30%;
+        h3 {
+          font-size: 2.4rem;
+        }
       }
     }
   }

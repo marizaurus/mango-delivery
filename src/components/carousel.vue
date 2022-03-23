@@ -1,43 +1,34 @@
 <template>
   <div class="carousel m-resp">
     <h2 class="carousel__header">{{ blockData.title }}</h2>
-    <Carousel
-      :settings="settings"
-      :breakpoints="breakpoints[blockData.items[0].type]"
-      :class="{'carousel--slim': blockData.items.length < blockData.itemsToShow}">  
-      <Slide
-        :class="[ ('carousel__slide--' + blockData.items[0].type) ]"
+    <flickity
+      ref="flickity"
+      :options="options"
+      :class="[ ('flickity-slider--' + blockData.items[0].type) ]">
+      <div
+        class="carousel-cell"
         v-for="item in blockData.items"
-        :key="item.id" >
+        :key="item.id">
         <component
           class="carousel__item"
           :is="item.type"
           :itemData="item" />
-      </Slide>
-      <template #addons>
-        <Navigation/>
-        <Pagination/>
-      </template>
-    </Carousel>
+      </div>
+    </flickity>  
   </div>
 </template>
 
 <script>
   import categoryCard from '@/components/category-card';
   import productCard from '@/components/product-card';
-  import { Carousel, Navigation, Pagination, Slide } from 'vue3-carousel';
-
-  import 'vue3-carousel/dist/carousel.css';
+  import Flickity from 'vue-flickity';
 
   export default {
     name: 'carousel',
     components: {
       'category-card': categoryCard,
       'product-card': productCard,
-      Carousel,
-      Slide,
-      Pagination,
-      Navigation,
+      Flickity,
     },
     props: {
       blockData: {
@@ -52,46 +43,13 @@
     },
     data() {
       return {
-        settings: {
-          snapAlign: 'start',
+        options: {
           wrapAround: true,
-          mouseDrag: false,
-        },
-        breakpoints: {
-          'category-card': {
-            480: {
-              itemsToShow: 1,
-            },
-            768: {
-              itemsToShow: 2,
-            },
-            1024: {
-              itemsToShow: 3,
-            },
-            1200: {
-              itemsToShow: 4,
-            },
-          },
-          'product-card': {
-            480: {
-              itemsToShow: 2,
-            },
-            768: {
-              itemsToShow: 3,
-            },
-            1024: {
-              itemsToShow: 4,
-            },
-            1200: {
-              itemsToShow: 5,
-            }
-          }
-        },
+          accessibility: false,
+          cellAlign: 'left',
+          groupCells: true,
+        }
       }
     },
   }
 </script>
-
-<style lang="scss">
- 
-</style>

@@ -27,6 +27,7 @@ body {
 }
 
 .container {
+  min-width: 390px;
   max-width: 1440px;
   width: 95%;
   margin: 0 auto;
@@ -40,7 +41,7 @@ body {
 
 .row {
   display: flex;
-  flex-flow: row;
+  flex-direction: row;
   align-items: center;
 
   &-base {
@@ -145,80 +146,9 @@ a {
   }
 }
 
-.carousel {
-  text-align: unset;
-
-  &__track {
-    align-items: flex-start;
-  }
-
-  &--slim {
-    .carousel__track {
-      justify-content: center;
-    }
-  }
-
-  &__slide {
-    &--category-card {
-      padding: 0 2rem;
-    }
-
-    &--product-card {
-      padding: .5rem 1.5rem 0;
-    }
-  }
-
-  &__pagination {
-    align-items: center;
-    margin: 1.6rem 0 0;
-    padding: 0;
-
-    &-item {
-      display: flex;
-    }
-
-    &-button {
-      width: 1.5rem;
-      height: 1.5rem;
-      padding: 0;
-      margin: 0 0.8rem;
-      border: 3px solid $green-light;
-      border-radius: 50%;
-      background-color: transparent;
-
-      &--active {
-        width: 1.8rem;
-        height: 1.8rem;
-        background-color: $green-light;
-      }
-    }
-  }
-
-  &__next,
-  &__prev {
-    display: none;
-    background-color: $green-light;
-    width: 4rem;
-    height: 4rem;
-    font-size: 3.6rem;
-    border: 4px solid $beige-light;
-  }
-}
-
 @include breakpoint(tablet) {
   .m-resp {
     margin: 6rem 0;
-  }
-
-  .carousel {
-    &__prev,
-    &__next {
-      display: flex;
-    }
-
-    &__pagination {
-      display: none;
-    }
   }
 }
 

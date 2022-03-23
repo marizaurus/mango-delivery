@@ -89,7 +89,6 @@
       "id": 1,
       "type": "carousel",
       "title": "Популярные категории",
-      "itemsToShow": 4,
       "items": [
         {
           "id": 1,
@@ -144,7 +143,6 @@
       "tags": [
         "Итальянская"
       ],
-      "itemsToShow": 4,
       "description": "Особенность итальянской кухни - использование свежих продуктов, местных овощей, вина и сыра. В ней одинаково почитаются мясо и рыба. Мало какие блюда обходятся без оливкового масла.",
       "items": [
         {
@@ -209,26 +207,74 @@
             "Мясная"
           ],
           "price": 750
+        }
+      ]
+    },
+    
+    {
+      "id": 3,
+      "type": "promo-set",
+      "title": "Легкий завтрак",
+      "infoAlignment": "right",
+      "tag-type": "tags",
+      "tags": [
+        {
+          "id": 1,
+          "title": "Осторожно, горячо!",
+          "color": "red"
         },
         {
-          "id": 6,
+          "id": 2,
+          "title": "Быстрая доставка",
+          "color": "yellow"
+        }
+      ],
+      "description": "Нужно перекусить перед важной утренней встречей или захотелось побаловать необычным завтраком тех, кому повезло поваляться подольше? Наши курьеры доставят завтрак горячим и как можно быстрее!",
+      "items": [
+        {
+          "id": 1,
           "type": "product-card",
-          "title": "Грибная",
-          "rating": 4.8,
-          "image": "https://picsum.photos/280/250?random=9",
+          "title": "Маргарита",
+          "rating": 4.5,
+          "image": "https://picsum.photos/280/250?random=1",
           "tags": [
             "Primastoria",
             "Пицца"
           ],
-          "price": 800
+          "price": 660
+        },
+        {
+          "id": 2,
+          "type": "product-card",
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=2",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        },
+        {
+          "id": 3,
+          "type": "product-card",
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=8",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
         }
       ]
     },
     {
-      "id": 3,
+      "id": 4,
       "type": "carousel",
       "title": "Возможно, вам понравится",
-      "itemsToShow": 6,
       "items": [
         {
           "id": 1,

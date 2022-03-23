@@ -23,24 +23,19 @@
           <font-awesome-icon icon="angle-right"/>
         </button>
       </div>
-      <Carousel
-        :settings="settings"
-        :breakpoints="breakpoints"
-        class="promo-set__items"
-        :class="{'carousel--slim': blockData.items.length < blockData.itemsToShow}">  
-        <Slide
-          :class="[ ('carousel__slide--' + blockData.items[0].type) ]"
+      <flickity
+        ref="flickity"
+        :options="options"
+        class="promo-set__items flickity-slider--promo-set">
+        <div
+          class="carousel-cell"
           v-for="item in blockData.items"
-          :key="item.id" >
+          :key="item.id">
           <product-card
             class="carousel__item"
             :itemData="item" />
-        </Slide>
-        <template #addons>
-          <Navigation/>
-          <Pagination/>
-        </template>
-      </Carousel>
+        </div>
+      </flickity> 
     </div>
   </div>
 </template>
@@ -48,18 +43,14 @@
 <script>
   import productCard from '@/components/product-card';
   import tag from '@/components/tag';
-  import { Carousel, Navigation, Pagination, Slide } from 'vue3-carousel';
-  import 'vue3-carousel/dist/carousel.css';
+  import Flickity from 'vue-flickity';
 
   export default {
     name: "promo-set",
     components: {
       'product-card': productCard,
       'tag': tag,
-      Carousel,
-      Slide,
-      Pagination,
-      Navigation,
+      Flickity,
     },
     props: {
       blockData: {
@@ -73,18 +64,12 @@
     },
     data() {
       return {
-        settings: {
-          snapAlign: 'start',
+        options: {
           wrapAround: true,
-          mouseDrag: false,
-        },
-        breakpoints: {
-          480: {
-            itemsToShow: 2,
-          },
-          1200: {
-            itemsToShow: 3,
-          }
+          // contain: true,
+          accessibility: false,
+          cellAlign: 'left',
+          groupCells: true,
         }
       }
     },
@@ -99,13 +84,8 @@
 
     &__info {
       width: 100%;
-      margin-bottom: 3.2rem;
-
-      &.align-right {
-        order: 2;
-        margin-left: 3.5rem;
-        margin-right: 0;
-      }
+      margin-bottom: 2rem;
+      order: 0;
 
       & > * {
         margin-bottom: 1rem;
@@ -122,6 +102,7 @@
     }
 
     &__items {
+      order: 1;
       width: 100%;
       justify-content: center;
       align-items: flex-start !important;
@@ -136,8 +117,16 @@
 
       &__info {
         width: 35%;
-        margin-right: 3.5rem;
         margin-bottom: 0;
+
+        &.align-right {
+          order: 2;
+          margin-left: 3.5rem;
+        }
+
+        &.align-left {
+          margin-right: 3.5rem;
+        }
 
         &-button {
           margin: revert !important;
