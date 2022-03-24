@@ -30,13 +30,8 @@
     },
     props: {
       blockData: {
-        type: Object,
-        default() {
-          return {
-            itemsToShow: 0,
-            items: []
-          }
-        }
+        title: String,
+        items: Array
       }
     },
     data() {

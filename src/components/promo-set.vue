@@ -48,12 +48,12 @@
     },
     props: {
       blockData: {
-        type: Object,
-        default() {
-          return {
-            cards: []
-          }
-        }
+        title: String,
+        infoAlignment: String,
+        tagType: String,
+        tags: Array,
+        description: String,
+        items: Array
       }
     },
     data() {

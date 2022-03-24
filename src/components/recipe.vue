@@ -66,13 +66,10 @@
     },
     props: {
       blockData: {
-        type: Object,
-        default() {
-          return {
-            steps: [],
-            ingredients: [],
-          }
-        }
+        title: String,
+        steps: Array,
+        ingredients: Array,
+        item: Object
       }
     },
     methods: {

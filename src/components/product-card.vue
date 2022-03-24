@@ -30,10 +30,11 @@
     },
     props: {
       itemData: {
-        type: Object,
-        default() {
-          return {}
-        }
+        title: String,
+        rating: Number,
+        image: String,
+        tags: Array,
+        price: Number
       }
     }
   }

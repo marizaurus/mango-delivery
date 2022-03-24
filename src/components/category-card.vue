@@ -11,10 +11,9 @@ export default {
   name: "category-card",
   props: {
     itemData: {
-      type: Object,
-      default() {
-        return {}
-      }
+      title: String,
+      description: String,
+      image: String
     },
   },
   methods: {}
