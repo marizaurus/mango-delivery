@@ -1,90 +1,5 @@
 {
-  "cart-items": [
-    {
-      "id": 1,
-      "title": "Primastoria",
-      "total": 1250,
-      "items": [
-        {
-          "id": 1,
-          "title": "Маргарита",
-          "rating": 4.5,
-          "image": "https://picsum.photos/120/100?random=1",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 1250
-        },
-        {
-          "id": 2,
-          "title": "Ветчина и грибы",
-          "rating": 4.4,
-          "image": "https://picsum.photos/120/100?random=2",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 1350
-        },
-        {
-          "id": 3,
-          "title": "Пепперони",
-          "rating": 4.9,
-          "image": "https://picsum.photos/120/100?random=3",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 750
-        },
-        {
-          "id": 4,
-          "title": "Грибная",
-          "rating": 4.8,
-          "image": "https://picsum.photos/120/100?random=4",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 800
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "title": "Primastoria",
-      "total": 1250,
-      "items": [
-        {
-          "id": 1,
-          "title": "Маргарита",
-          "rating": 4.5,
-          "image": "https://picsum.photos/120/100?random=9",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 1250
-        },
-        {
-          "id": 2,
-          "title": "Ветчина и грибы",
-          "rating": 4.4,
-          "image": "https://picsum.photos/120/100?random=10",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 1350
-        }
-      ]
-    }
-  ],
-  "blocks": [
+  "home-blocks": [
     {
       "id": 1,
       "type": "carousel",
@@ -210,7 +125,6 @@
         }
       ]
     },
-    
     {
       "id": 3,
       "type": "promo-set",
@@ -353,6 +267,462 @@
           "price": 750
         }
       ]
+    }
+  ],
+  "cart-items": [
+    {
+      "id": 1,
+      "title": "Primastoria",
+      "total": 1250,
+      "items": [
+        {
+          "id": 1,
+          "title": "Маргарита",
+          "rating": 4.5,
+          "image": "https://picsum.photos/120/100?random=1",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 1250
+        },
+        {
+          "id": 2,
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/120/100?random=2",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/120/100?random=3",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        },
+        {
+          "id": 4,
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/120/100?random=4",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 800
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Primastoria",
+      "total": 1250,
+      "items": [
+        {
+          "id": 1,
+          "title": "Маргарита",
+          "rating": 4.5,
+          "image": "https://picsum.photos/120/100?random=9",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 1250
+        },
+        {
+          "id": 2,
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/120/100?random=10",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
+        }
+      ]
+    }
+  ],
+  "cart-blocks": [
+    {
+      "id": 1,
+      "type": "carousel",
+      "title": "Возможно, вам понравится",
+      "items": [
+        {
+          "id": 1,
+          "type": "product-card",
+          "title": "Маргарита",
+          "rating": 4.5,
+          "image": "https://picsum.photos/280/250?random=4",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 1250
+        },
+        {
+          "id": 2,
+          "type": "product-card",
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=7",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "type": "product-card",
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=5",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        },
+        {
+          "id": 4,
+          "type": "product-card",
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/280/250?random=6",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 800
+        },
+        {
+          "id": 5,
+          "type": "product-card",
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=8",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
+        },
+        {
+          "id": 6,
+          "type": "product-card",
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=9",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        }
+      ]
+    }
+  ],
+  "restaurant-info": {
+    "infoAlignment": "left",
+    "title": "Primastoria",
+    "description": "Наша пицца — лучший выбор в Санкт-Петербурге!<br><br>У нас комфортно проводить время всей семьей. Для самых маленьких есть детские стульчики. Вы также можете отметить семейное торжество в нашем ресторане, либо заказать банкет.",
+    "orderSum": 1000,
+    "categories": [
+      "Пицца",
+      "Паста"
+    ],
+    "cuisines": [
+      "Итальянская",
+      "Французская"
+    ],
+    "tags": [
+      {
+        "id": 1,
+        "title": "Быстрая доставка",
+        "color": "yellow"
+      },
+      {
+        "id": 2,
+        "title": "Веганское",
+        "color": "green"
+      }
+    ],
+    "image": "https://picsum.photos/600/450"
+  },
+  "restaurant-blocks": [
+    {
+      "id": 1,
+      "type": "carousel",
+      "title": "Популярные категории",
+      "items": [
+        {
+          "id": 1,
+          "type": "category-card",
+          "title": "Макароны",
+          "description": "Капеллини, равиоли и спагетти, тортеллини, фузилли и фетучине - найдется блюдо для самых изысканных.",
+          "image": "https://picsum.photos/420/200?random=1"
+        },
+        {
+          "id": 2,
+          "type": "category-card",
+          "title": "Пицца",
+          "description": "На пышном или тонком тесте, мясная или... ананасовая? Доставим ароматной и горячей!",
+          "image": "https://picsum.photos/420/200?random=2"
+        },
+        {
+          "id": 3,
+          "type": "category-card",
+          "title": "Стейки",
+          "description": "Мясные и рыбные, разной степени маринованности и прожарки. Для настоящих ценителей хорошего ужина.",
+          "image": "https://picsum.photos/420/200?random=3"
+        },
+        {
+          "id": 4,
+          "type": "category-card",
+          "title": "Рыба",
+          "description": "Нежная форель, еврейская фаршированная рыба, рыба-гриль или запеченная, и... килька... в томатном соусе...",
+          "image": "https://picsum.photos/420/200?random=4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "promo-set",
+      "title": "Кухня недели",
+      "infoAlignment": "left",
+      "tagType": "cuisine",
+      "tags": [
+        "Итальянская"
+      ],
+      "description": "Особенность итальянской кухни - использование свежих продуктов, местных овощей, вина и сыра. В ней одинаково почитаются мясо и рыба. Мало какие блюда обходятся без оливкового масла.",
+      "items": [
+        {
+          "id": 1,
+          "type": "product-card",
+          "title": "Маргарита",
+          "rating": 4.5,
+          "image": "https://picsum.photos/280/250?random=4",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 1250
+        },
+        {
+          "id": 2,
+          "type": "product-card",
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=7",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "type": "product-card",
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=5",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        },
+        {
+          "id": 4,
+          "type": "product-card",
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/280/250?random=6",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 800
+        },
+        {
+          "id": 5,
+          "type": "product-card",
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=8",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "carousel",
+      "title": "Возможно, вам понравится",
+      "items": [
+        {
+          "id": 1,
+          "type": "product-card",
+          "title": "Маргарита",
+          "rating": 4.5,
+          "image": "https://picsum.photos/280/250?random=4",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 1250
+        },
+        {
+          "id": 2,
+          "type": "product-card",
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=7",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "type": "product-card",
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=5",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        },
+        {
+          "id": 4,
+          "type": "product-card",
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/280/250?random=6",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "price": 800
+        },
+        {
+          "id": 5,
+          "type": "product-card",
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=8",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 1350
+        },
+        {
+          "id": 6,
+          "type": "product-card",
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=9",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "price": 750
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "recipe",
+      "title": "Рецепт от шефа",
+      "steps": [
+        "Для приготовления шарлотки нам понадобятся четыре некрупных яблока, лучше отдавать предпочтение кислым сортам. Очищаем яблоки от плодоножек и семечек, нарезаем тонкими дольками.",
+        "Для приготовления теста просеиваем муку с разрыхлителем. Оставляем на время.",
+        "Охлажденные куриные яйца разбиваем в высокую посуду и взбиваем с помощью миксера, постепенно увеличивая скорость. Добавляем сахарный песок. Продолжаем взбивать, пока масса не посветлеет и не увеличится в объеме.",
+        "Ставим скорость миксера на минимум и постепенно добавляем просеянную муку с разрыхлителем. Тесто должно получиться густым, как сметана, и быть однородным.",
+        "Форму для выпечки смазываем сливочным маслом и присыпаем мукой (можно вместо муки посыпать панировочными сухарями с сахаром, так у готовой шарлотки появится хрустящая карамельная корочка) Кладем в форму подготовленные яблочные дольки, равномерно распределяем.",
+        "С помощью ложки или лопатки перекладываем тесто в форму, покрывая яблоки, и разравниваем.",
+        "Разогреваем духовку до 170 градусов. Ставим форму на решётку и отправляем в духовку на 30–35 минут. Когда шарлотка увеличится в объеме и станет светло-коричневого цвета, достаем ее из духовки, немного остужаем и вынимаем из формы. Лучше всего перевернуть тёплую шарлотку на решётку и дать ей остыть, так пирог получится более ровным.",
+        "Готовую воздушную шарлотку, с помощью мелкого сита, посыпаем сахарной пудрой и, нарезав на порционные кусочки, подаем к столу.",
+        "Домашняя яблочная шарлотка станет прекрасным дополнением к вечернему чаепитию в кругу семьи. Приятного аппетита!"
+      ],
+      "ingredients": [
+        {
+          "id": 1,
+          "name": "Ванильный сахар",
+          "amount": "1 ч.л."
+        },
+        {
+          "id": 2,
+          "name": "Сахарная пудра со вкусом ванили",
+          "amount": "2 ч.л."
+        },
+        {
+          "id": 3,
+          "name": "Разрыхлитель теста",
+          "amount": "1 ч.л."
+        },
+        {
+          "id": 4,
+          "name": "Яйцо",
+          "amount": "4 шт."
+        },
+        {
+          "id": 5,
+          "name": "Сахар",
+          "amount": "100 г."
+        },
+        {
+          "id": 6,
+          "name": "Мука",
+          "amount": "100 г."
+        },
+        {
+          "id": 7,
+          "name": "Яблоки",
+          "amount": "4 шт."
+        }
+      ],
+      "item": {
+        "title": "Шарлотка",
+        "rating": 4.9,
+        "image": "https://picsum.photos/280/250?random=9",
+        "tags": [
+          "Primastoria",
+          "Выпечка"
+        ],
+        "price": 550
+      }
     }
   ]
 }

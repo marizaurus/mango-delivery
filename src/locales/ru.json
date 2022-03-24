@@ -1,9 +1,13 @@
 {
   "blocks": {
-    "popularCategories": "Популярные категории"
+    "popularCategories": "Популярные категории",
+    "ingredients": "Ингредиенты",
+    "tryChef": "Попробуйте у шефа!"
   },
   "buttons": {
     "browseAll": "Посмотреть все",
+    "readMore": "Читать дальше",
+    "readLess": "Свернуть",
     "order": "Заказать",
     "remove": "Убрать",
     "favorite": "В любимое"
