@@ -4,7 +4,7 @@
       <div class="accordion__trigger"
         :class="{'accordion__trigger--active': visible}"
         @click="toggle">
-        <slot name="accordionTrigger"></slot>
+        <slot name="accordionTrigger"/>
       </div>
 
       <transition 
@@ -14,7 +14,7 @@
         @before-leave="start"
         @leave="end">
         <div class="accordion__content" v-show="visible">
-          <slot name="accordionContent" :visible="visible"></slot>
+          <slot name="accordionContent" :visible="visible"/>
         </div>
       </transition>
     </li>

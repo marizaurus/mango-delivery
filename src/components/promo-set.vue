@@ -1,6 +1,6 @@
 <template>
   <div class="promo-set m-resp grid grid-tablet gg-2"
-    :class="getGrid(blockData.infoAlignment)">
+    :class="getGrid">
     <div class="promo-set__info block-neat grid-center">
       <h2 class="promo-set__info-title">{{ blockData.title }}</h2>
       <div class="promo-set__info-tags row">
@@ -14,21 +14,25 @@
           :key="tag.id"
           :tag-data="tag"/>
       </div>
-      <div class="promo-set__info-desc">{{ blockData.description }}</div>
-      <button class="btn btn-primary btn-green-light promo-set__info-button m-auto">
+      <div class="promo-set__info-desc" v-html="blockData.description"/>
+      <button class="btn btn-primary btn-green-light promo-set__info-button">
         <span>{{ $t('buttons.browseAll') }}</span>
         <font-awesome-icon icon="angle-right"/>
       </button>
     </div>
 
+    <product-card class="carousel__item grid-center m-auto"
+      v-if="count === 1"
+      :itemData="blockData.items[0]"/>
     <flickity class="promo-set__items flickity-slider--promo-set"
       ref="flickity"
-      :options="options">
+      :options="options"
+      v-else>
       <div class="carousel-cell"
         v-for="item in blockData.items"
         :key="item.id">
         <product-card class="carousel__item"
-          :itemData="item" />
+          :itemData="item"/>
       </div>
     </flickity> 
   </div>
@@ -64,13 +68,20 @@
           accessibility: false,
           cellAlign: 'left',
           groupCells: true,
-        }
+        },
+        count: 0,
+        side: ''
       }
     },
     computed: {
       getGrid() {
-        return (side) => side === 'left' ? 'g-1-2' : 'g-2-1'
+        return this.count === 1 ? this.side === 'left' ? 'g-7-3 block-slim' : 'g-3-7 block-slim'
+          : this.side === 'left' ? 'g-1-2' : 'g-2-1';
       },
+    },
+    mounted() {
+      this.count = this.blockData.items.length;
+      this.side = this.blockData.infoAlignment;
     }
   }
 </script>
@@ -85,6 +96,11 @@
       &-cuisine {
         font-family: $comforter;
         font-size: 3.2rem;
+      }
+
+      &-button.btn {
+        margin-left: auto;
+        margin-right: auto;
       }
     }
   }
@@ -102,8 +118,9 @@
         }
       }
 
-      &__info-button {
+      &__info-button.btn {
         margin-top: 1.5rem;
+        margin-left: unset;
       }
     }
   }
