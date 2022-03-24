@@ -176,7 +176,7 @@ a {
   display: block;
 }
 
-.desktop {
+.laptop {
   display: none;
 }
 
@@ -186,8 +186,42 @@ a {
     margin-bottom: 6rem;
   }
 
-  .grid {
+  .grid.grid-tablet {
     grid-auto-columns: 1fr;
+
+    &.g-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &.g-1-2 {
+      grid-template-columns: 1fr 2fr;
+    }
+
+    &.g-2-1 {
+      grid-template-columns: 2fr 1fr;
+    }
+
+    &.g-7-3 {
+      grid-template-columns: 7fr 3fr;
+    }
+  }
+}
+
+@include breakpoint(laptop) {
+  .grid.grid-laptop {
+    grid-auto-columns: 1fr;
+
+    &.g-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &.g-1-2 {
+      grid-template-columns: 1fr 2fr;
+    }
+
+    &.g-2-1 {
+      grid-template-columns: 2fr 1fr;
+    }
 
     &.g-7-3 {
       grid-template-columns: 7fr 3fr;
@@ -198,7 +232,7 @@ a {
     display: none;
   }
 
-  .desktop {
+  .laptop {
     display: block;
   }
 }

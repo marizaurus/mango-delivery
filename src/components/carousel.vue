@@ -5,14 +5,12 @@
       ref="flickity"
       :options="options"
       :class="[ ('flickity-slider--' + blockData.items[0].type) ]">
-      <div
-        class="carousel-cell"
+      <div class="carousel-cell"
         v-for="item in blockData.items"
         :key="item.id">
-        <component
-          class="carousel__item"
+        <component class="carousel__item"
           :is="item.type"
-          :itemData="item" />
+          :itemData="item"/>
       </div>
     </flickity>  
   </div>

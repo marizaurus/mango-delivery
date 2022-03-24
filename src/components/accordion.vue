@@ -14,7 +14,7 @@
         @before-leave="start"
         @leave="end">
         <div class="accordion__content" v-show="visible">
-          <slot name="accordionContent" :visible="this.visible"></slot>
+          <slot name="accordionContent" :visible="visible"></slot>
         </div>
       </transition>
     </li>
@@ -37,7 +37,7 @@
     },
     methods: {
       toggle() {
-        this.visible = !this.visible
+        this.visible = !this.visible;
       },
       start(el) {
         el.style.height = el.scrollHeight + "px";

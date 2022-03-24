@@ -10,7 +10,6 @@
           <font-awesome-icon :icon="['far', 'heart']" class="product-stripe__favorite"/>
         </div>
       </div>
-      
       <div class="break"/>
       <div class="product-stripe__info-tags">{{ itemData.tags.join(' · ') }}</div>
     </div>
