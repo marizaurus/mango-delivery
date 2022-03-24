@@ -1,6 +1,6 @@
 <template>
   <div class="category-card"
-     :style="{ backgroundImage: `url(${ itemData.image })` }">
+    :style="{ backgroundImage: `url(${ itemData.image })` }">
     <div class="category-card__title">{{ itemData.title }}</div>
     <div class="category-card__description">{{ itemData.description }}</div>
   </div>

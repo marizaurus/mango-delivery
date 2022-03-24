@@ -1,42 +1,47 @@
 <template>
-  <div class="v-cart">
-    <div class="container">
-      <div class="container-slim">
-        <h1 class="cart-title">{{ $t('cart.title') }}</h1>
-        <div class="cart row a-start">
-          <accordion class="cart__items">
-            <accordion-item
-              v-for="cartItem in this.CART_ITEMS"
-              :key="cartItem.id"
-              class="cart-section">
-              <template #accordionTrigger>
-                <div class="cart-section__header row">
-                  <h3 class="cart-section__header-title">{{ cartItem.title }}</h3>
-                  <div class="cart-section__header-items">{{ $t('cart.items') }} {{ cartItem.items.length }}</div>
-                  <div class="cart-section__header-total">{{ $t('cart.total') }} {{ cartItem.total }} ₽</div>
-                </div>
-              </template>
-              <template #accordionContent>
-                <div class="cart-section__items accordion">
-                  <product-stripe
-                    v-for="item in cartItem.items"
-                    :key="item.id"
-                    :itemData="item"/>
-                </div>
-              </template>
-            </accordion-item>
+  <div class="cart">
+    <div class="container container-slim">
+      <h1 class="cart-title">{{ $t('cart.title') }}</h1>
+      <div class="cart row a-start">
+        <div class="cart__items">
+          <accordion class="cart-section"
+            v-for="cartItem in this.CART_ITEMS"
+            :key="cartItem.id">
+            <template #accordionTrigger>
+              <div class="cart-section__header row">
+                <h3 class="cart-section__header-title">{{ cartItem.title }}</h3>
+                <div class="cart-section__header-items">{{ $t('cart.items') }} {{ cartItem.items.length }}</div>
+                <div class="cart-section__header-total">{{ $t('cart.total') }} {{ cartItem.total }} ₽</div>
+              </div>
+            </template>
+            <template #accordionContent>
+              <div class="cart-section__items accordion">
+                <product-stripe
+                  v-for="item in cartItem.items"
+                  :key="item.id"
+                  :itemData="item"/>
+              </div>
+            </template>
           </accordion>
-          <div class="cart__tab block-neat">
-            <h3 class="cart__tab-title">{{ $t('cart.tab-title') }}</h3>
-            <h3 class="cart__tab-total">{{ $t('cart.total') }}</h3>
-            <h3 class="cart__tab-code">{{ $t('cart.code') }}</h3>
-            <button class="btn btn-primary btn-orange-light m-auto">
-              <span>{{ $t('buttons.order') }}</span>
-              <font-awesome-icon icon="angle-right"/>
-            </button>
-          </div>
+        </div>
+
+        <div class="cart__tab block-neat">
+          <h3 class="cart__tab-title">{{ $t('cart.tab-title') }}</h3>
+          <h3 class="cart__tab-total">{{ $t('cart.total') }}</h3>
+          <h3 class="cart__tab-code">{{ $t('cart.code') }}</h3>
+          <button class="btn btn-primary btn-orange-light m-auto">
+            <span>{{ $t('buttons.order') }}</span>
+            <font-awesome-icon icon="angle-right"/>
+          </button>
         </div>
       </div>
+    </div>
+    <div class="container">
+      <component
+        v-for="block in this.CART_BLOCKS"
+        :key="block.id"
+        :is="block.type"
+        :blockData="block" />
     </div>
   </div>
 </template>
@@ -44,29 +49,34 @@
 <script>
   import { mapActions, mapGetters } from "vuex";
   import accordion from '../components/accordion.vue';
-  import accordionItem from "../components/accordion-item.vue";
   import productStripe from '../components/product-stripe.vue';
+  import carousel from '@/components/carousel';
+  import promoSet from '@/components/promo-set'
 
   export default {
     name: "cart",
 
     components: {
       'product-stripe': productStripe,
-      'accordion-item': accordionItem,
       'accordion': accordion,
+      'carousel': carousel,
+      'promo-set': promoSet,
     },
     computed: {
       ...mapGetters([
         'CART_ITEMS',
+        'CART_BLOCKS',
       ]),
     },
     methods: {
       ...mapActions([
-        'GET_CART_API',
+        'GET_CART_ITEMS_API',
+        'GET_CART_BLOCKS_API',
       ]),
     },
     mounted() {
-      this.GET_CART_API();
+      this.GET_CART_ITEMS_API();
+      this.GET_CART_BLOCKS_API();
     }
   }
 </script>

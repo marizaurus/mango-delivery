@@ -2,7 +2,7 @@
   <div class="home">
     <div class="container">
       <component
-        v-for="block in this.BLOCKS"
+        v-for="block in this.HOME_BLOCKS"
         :key="block.id"
         :is="block.type"
         :blockData="block" />
@@ -23,19 +23,16 @@
     },
     computed: {
       ...mapGetters([
-        'BLOCKS',
+        'HOME_BLOCKS',
       ]),
     },
     methods: {
       ...mapActions([
-        'GET_BLOCKS_API',
+        'GET_HOME_BLOCKS_API',
       ]),
     },
     mounted() {
-      this.GET_BLOCKS_API();
+      this.GET_HOME_BLOCKS_API();
     }
   }
 </script>
-
-<style lang="scss">
-</style>

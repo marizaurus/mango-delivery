@@ -1,66 +1,111 @@
 import { createStore } from 'vuex';
 import axios from "axios";
+import db from "../../db.json";
 
 export const store = createStore({
   state: {
-    blocks: [],
-    cart: [],
+    homeBlocks: [],
+    cartItems: [],
+    cartBlocks: [],
+    restaurantInfo: {
+      categories: [],
+      cuisines: [],
+      tags: [],
+    },
+    restaurantBlocks: [],
   },
   // can't be called directly, is a handler
   // mutations as constants from another file, also cool
   // https://next.vuex.vuejs.org/guide/mutations.html#using-constants-for-mutation-types
   mutations: { // synchronous
-    SET_BLOCKS: (state, blocks) => {
-      state.blocks = blocks;
+    SET_HOME_BLOCKS: (state, homeBlocks) => {
+      state.homeBlocks = homeBlocks;
     },
-    SET_CART: (state, cart) => {
-      state.cart = cart;
-    }
+    SET_CART_ITEMS: (state, cartItems) => {
+      state.cartItems = cartItems;
+    },
+    SET_CART_BLOCKS: (state, cartBlocks) => {
+      state.cartBlocks = cartBlocks;
+    },
+    SET_RESTAURANT_INFO: (state, restaurantInfo) => {
+      state.restaurantInfo = restaurantInfo;
+    },
+    SET_RESTAURANT_BLOCKS: (state, restaurantBlocks) => {
+      state.restaurantBlocks = restaurantBlocks;
+    },
   },
   // actions commit mutations, you commit suicide ._.
   actions: { // asynchronous
-    GET_BLOCKS_API({ commit }) { // ({ commit, state }, payload)
-      // forgive me for this ugly piece of workaround
+    GET_HOME_BLOCKS_API({ commit }) {
       if (process.env.NODE_ENV === 'production') {
-        return axios(process.env.VUE_APP_API_BASE, {
-          method: 'GET',
-        }).then((response) => {
-          commit('SET_BLOCKS', response.data.blocks);
-          return response;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
+        commit('SET_HOME_BLOCKS', db['home-blocks']);
       } else {
-        return axios(process.env.VUE_APP_API_BASE + 'blocks', {
+        return axios(process.env.VUE_APP_API_BASE + 'home-blocks', {
           method: 'GET',
-        }).then((blocks) => {
-          commit('SET_BLOCKS', blocks.data);
-          return blocks;
+        }).then((home) => {
+          commit('SET_HOME_BLOCKS', home.data);
+          return home;
         }).catch((error) => {
           console.log(error);
           return error;
         });
       }
     },
-    GET_CART_API({ commit }) {
+    GET_CART_ITEMS_API({ commit }) {
       // i'm serious, my eyes are bleeding looking at this
       if (process.env.NODE_ENV === 'production') {
-        return axios(process.env.VUE_APP_API_BASE, {
-          method: 'GET',
-        }).then((response) => {
-          commit('SET_CART', response.data['cart-items']);
-          return response;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
+        commit('SET_CART_ITEMS', db['cart-items']);
       } else {
         return axios(process.env.VUE_APP_API_BASE + 'cart-items', {
           method: 'GET',
         }).then((cart) => {
-          commit('SET_CART', cart.data);
+          commit('SET_CART_ITEMS', cart.data);
           return cart;
+        }).catch((error) => {
+          console.log(error);
+          return error;
+        });
+      }
+    },
+    GET_CART_BLOCKS_API({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_CART_BLOCKS', db['cart-blocks']);
+      } else {
+        return axios(process.env.VUE_APP_API_BASE + 'cart-blocks', {
+          method: 'GET',
+        }).then((cart) => {
+          commit('SET_CART_BLOCKS', cart.data);
+          return cart;
+        }).catch((error) => {
+          console.log(error);
+          return error;
+        });
+      }
+    },
+    GET_RESTAURANT_INFO_API({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_RESTAURANT_INFO', db['restaurant-info']);
+      } else {
+        return axios(process.env.VUE_APP_API_BASE + 'restaurant-info', {
+          method: 'GET',
+        }).then((restaurant) => {
+          commit('SET_RESTAURANT_INFO', restaurant.data);
+          return restaurant;
+        }).catch((error) => {
+          console.log(error);
+          return error;
+        });
+      }
+    },
+    GET_RESTAURANT_BLOCKS_API({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_RESTAURANT_BLOCKS', db['restaurant-blocks']);
+      } else {
+        return axios(process.env.VUE_APP_API_BASE + 'restaurant-blocks', {
+          method: 'GET',
+        }).then((restaurant) => {
+          commit('SET_RESTAURANT_BLOCKS', restaurant.data);
+          return restaurant;
         }).catch((error) => {
           console.log(error);
           return error;
@@ -71,11 +116,20 @@ export const store = createStore({
   getters: {
     // cool method-style thingy
     // https://next.vuex.vuejs.org/guide/getters.html#method-style-access
-    BLOCKS(state) { // (state, getters)
-      return state.blocks;
+    HOME_BLOCKS(state) { // (state, getters)
+      return state.homeBlocks;
     },
     CART_ITEMS(state) {
-      return state.cart;
+      return state.cartItems;
+    },
+    CART_BLOCKS(state) {
+      return state.cartBlocks;
+    },
+    RESTAURANT_INFO(state) {
+      return state.restaurantInfo;
+    },
+    RESTAURANT_BLOCKS(state) {
+      return state.restaurantBlocks;
     }
   },
 });

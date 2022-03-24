@@ -1,10 +1,15 @@
 <template>
   <div class="v-header">
     <div class="v-header__wrapper">
-      <div class="container row">
-        <img :src="require('@/assets/images/logo.svg')" class="v-header__logo" />
-        <router-link :to="{ name: 'home' }">Главная</router-link>
-        <router-link :to="{ name: 'cart' }">Корзина</router-link>
+      <div class="container">
+        <div class="row">
+          <img :src="require('@/assets/images/logo.svg')" class="v-header__logo" />
+          <div class="temp-links">
+            <router-link :to="{ name: 'home' }">Главная</router-link>
+            <router-link :to="{ name: 'cart' }">Корзина</router-link>
+            <router-link :to="{ name: 'restaurant' }">Ресторан</router-link>
+          </div>
+        </div>
       </div>
     </div>
 <!--    <div class="header__banner">-->
@@ -27,6 +32,7 @@ export default {
     &__wrapper {
       background-color: $beige;
       padding: 1rem 0;
+      min-width: 390px;
     }
 
     &__logo {
@@ -50,6 +56,15 @@ export default {
         width: auto;
         line-height: 1;
       }
+    }
+  }
+
+  .temp-links {
+    margin-top: -5px;
+
+    a {
+      display: inline-block;
+      margin-top: 5px;
     }
   }
 </style>
