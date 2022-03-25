@@ -1,28 +1,28 @@
 <template>
-  <div class="recipe block-slim grid g-7-3 gg-2 m-resp"
-    :style="{ gridTemplateRows: this.assetsHeight }">
+  <div class="recipe block-slim grid grid-laptop g-7-3 gg-2 m-resp"
+    :style="{ gridTemplateRows: assetsHeight }">
     <div class="recipe-info block-neat">
-      <h2 class="recipe-info__title desktop">{{ blockData.title }}</h2>
+      <h2 class="recipe-info__title laptop">{{ blockData.title }}</h2>
       <div class="recipe-step row"
-        v-for="(step, index) in this.getSteps()"
+        v-for="(step, index) in getSteps()"
         :key="index">
-        <div class="recipe-step__number">{{ this.zeroPad(index + 1, 2) }}</div>
+        <div class="recipe-step__number">{{ zeroPad(index + 1, 2) }}</div>
         <div class="recipe-step__description">{{ step }}</div>
       </div>
       <accordion
-        :initialVisible="this.visible"
-        v-if="blockData.steps.length > this.limit">
+        :initialVisible="visible"
+        v-if="blockData.steps.length > limit">
         <template #accordionContent>
           <div class="recipe-step row"
-            v-for="(step, index) in blockData.steps.slice(this.limit)"
+            v-for="(step, index) in blockData.steps.slice(limit)"
             :key="index"
             ref="steps">
-            <div class="recipe-step__number">{{ this.zeroPad(index + limit + 1, 2) }}</div>
+            <div class="recipe-step__number">{{ zeroPad(index + limit + 1, 2) }}</div>
             <div class="recipe-step__description">{{ step }}</div>
           </div>
         </template>
         <template #accordionTrigger="accProps">
-          <button ref="collapseBtn" class="recipe-info__btn btn btn-outline" @click="collapse">{{ this.btnValue(accProps.visible) }}</button>
+          <button ref="collapseBtn" class="recipe-info__btn btn btn-outline">{{ btnValue(accProps.visible) }}</button>
         </template>
       </accordion>
     </div>
@@ -66,13 +66,10 @@
     },
     props: {
       blockData: {
-        type: Object,
-        default() {
-          return {
-            steps: [],
-            ingredients: [],
-          }
-        }
+        title: String,
+        steps: Array,
+        ingredients: Array,
+        item: Object
       }
     },
     methods: {
@@ -84,6 +81,7 @@
         return visible ? this.$t('buttons.readLess') : this.$t('buttons.readMore');
       },
       isMobile() {
+        //nextTick() - waits for the state update, might need somewhere later 
         return window.screen.width < 769;
       },
       getSteps() {
@@ -94,6 +92,8 @@
       this.assetsHeight = this.$refs.assets.offsetHeight + 'px auto';
     }
   }
+  // some debounce stuff
+  // https://vuejs.org/guide/essentials/reactivity-fundamentals.html#stateful-methods
 </script>
 
 <style lang="scss">
@@ -162,15 +162,17 @@
   }
 
   @include breakpoint(tablet) {
+    .recipe-step__number {
+      font-size: 6.4rem;
+      margin-right: 1.6rem;
+      width: 9rem;
+    }
+  }
+
+  @include breakpoint(laptop) {
     .recipe {
       &-info {
         grid-row: 1/3;
-      }
-
-      &-step__number {
-        font-size: 6.4rem;
-        margin-right: 1.6rem;
-        width: 9rem;
       }
 
       &-assets {

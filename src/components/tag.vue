@@ -11,10 +11,7 @@
     name: "tag",
     props: {
       tagData: {
-        type: Object,
-        default() {
-          return {}
-        }
+        title: String
       }
     }
   }

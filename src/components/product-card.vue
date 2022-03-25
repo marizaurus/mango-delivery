@@ -30,10 +30,11 @@
     },
     props: {
       itemData: {
-        type: Object,
-        default() {
-          return {}
-        }
+        title: String,
+        rating: Number,
+        image: String,
+        tags: Array,
+        price: Number
       }
     }
   }
@@ -46,8 +47,6 @@
     background-color: $white;
     border-radius: $radius-medium;
     overflow: hidden;
-
-    @include shadow-angle($beige);
 
     &:not(:last-child) {
       margin-right: 3rem;
@@ -100,6 +99,12 @@
       &-controls {
         margin-left: auto;
       }
+    }
+  }
+
+  @include breakpoint(tablet) {
+    .product-card {
+      @include shadow-angle($beige);
     }
   }
 </style>

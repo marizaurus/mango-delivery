@@ -2,10 +2,10 @@
   <div class="cart">
     <div class="container container-slim">
       <h1 class="cart-title">{{ $t('cart.title') }}</h1>
-      <div class="cart row a-start">
+      <div class="grid grid-laptop g-7-3 gg-2">
         <div class="cart__items">
           <accordion class="cart-section"
-            v-for="cartItem in this.CART_ITEMS"
+            v-for="cartItem in CART_ITEMS"
             :key="cartItem.id">
             <template #accordionTrigger>
               <div class="cart-section__header row">
@@ -38,7 +38,7 @@
     </div>
     <div class="container">
       <component
-        v-for="block in this.CART_BLOCKS"
+        v-for="block in CART_BLOCKS"
         :key="block.id"
         :is="block.type"
         :blockData="block" />
@@ -91,16 +91,12 @@
       flex-direction: column;
     }
 
-    &__items {
-      width: 100%;
-    }
-
     &__tab {
-      width: 100%;
       background-color: $white;
       padding: 1.6rem 2rem;
       border-radius: $radius-medium;
       box-sizing: border-box;
+      align-self: flex-start;
 
       h3 {
         font-size: 2rem;
@@ -175,16 +171,8 @@
         flex-direction: row;
       }
 
-      &__items {
-        width: 70%;
-        margin-right: 2.8rem;
-      }
-
-      &__tab {
-        width: 30%;
-        h3 {
-          font-size: 2.4rem;
-        }
+      &__tab h3 {
+        font-size: 2.4rem;
       }
     }
   }

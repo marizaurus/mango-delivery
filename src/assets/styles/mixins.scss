@@ -52,3 +52,27 @@
     }
   }
 }
+
+@mixin grid-layout {
+  grid-auto-columns: 1fr;
+
+  &.g-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &.g-1-2 {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  &.g-2-1 {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  &.g-3-7 {
+    grid-template-columns: 3fr 7fr;
+  }
+
+  &.g-7-3 {
+    grid-template-columns: 7fr 3fr;
+  }
+}

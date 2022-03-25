@@ -1,17 +1,20 @@
 <template>
   <div class="restaurant">
     <div class="container container-slim">
-      <div class="restaurant-card m-resp row">
-        <div class="restaurant-card__info block-neat">
-          <h1 class="restaurant-card__info-title">{{ this.RESTAURANT_INFO.title }}</h1>
-          <div class="restaurant-card__info-description" v-html="this.RESTAURANT_INFO.description"/>
-          <div class="restaurant-card__info-order">Заказ от <span class="restaurant-card__info-order-sum">{{ this.RESTAURANT_INFO.orderSum }} ₽</span></div>
-          <!-- <div class="restaurant-card__info-delivery">Бесплатная доставка от <span class="restaurant-card__info-delivery-sum">1000 ₽</span></div> -->
-          <div class="restaurant-card__info-categories">{{ this.RESTAURANT_INFO.categories.join(' · ') }}</div>
-          <div class="restaurant-card__info-cuisines"><span class="t-bold">Кухни:</span> {{ this.RESTAURANT_INFO.cuisines.join(', ') }}</div>
+      <div class="restaurant-card m-resp grid grid-tablet g-2">
+        <div class="restaurant-card__image"
+          :style="{ backgroundImage: `url(${ RESTAURANT_INFO.image })` }"/>
+
+        <div class="restaurant-card__info block-neat"
+          :class="[ ('restaurant-card__info--' + RESTAURANT_INFO.infoAlignment) ]">
+          <h1 class="restaurant-card__info-title">{{ RESTAURANT_INFO.title }}</h1>
+          <div class="restaurant-card__info-description" v-html="RESTAURANT_INFO.description"/>
+          <div class="restaurant-card__info-order">Заказ от <span class="restaurant-card__info-order-sum">{{ RESTAURANT_INFO.orderSum }} ₽</span></div>
+          <div class="restaurant-card__info-categories">{{ RESTAURANT_INFO.categories.join(' · ') }}</div>
+          <div class="restaurant-card__info-cuisines"><span class="t-bold">Кухни:</span> {{ RESTAURANT_INFO.cuisines.join(', ') }}</div>
           <div class="restaurant-card__info-tags row">
             <tag
-              v-for="tag in this.RESTAURANT_INFO.tags"
+              v-for="tag in RESTAURANT_INFO.tags"
               :key="tag.id"
               :tag-data="tag"/>
           </div>
@@ -20,17 +23,17 @@
             <font-awesome-icon icon="angle-right"/>
           </button>
         </div>
-        <div class="restaurant-card__image"
-          :style="{ backgroundImage: `url(${ this.RESTAURANT_INFO.image })` }"/>
       </div>
+
       <button class="btn btn-primary btn-orange-light restaurant-btn m-auto">
         <span>{{ $t('buttons.browseAll') }}</span>
         <font-awesome-icon icon="angle-right"/>
       </button>
     </div>
+
     <div class="container">
       <component
-        v-for="block in this.RESTAURANT_BLOCKS"
+        v-for="block in RESTAURANT_BLOCKS"
         :key="block.id"
         :is="block.type"
         :blockData="block" />
@@ -82,15 +85,10 @@
       background-color: $white;
       border-radius: $radius-big;
       overflow: hidden;
-      align-items: stretch !important;
       margin-bottom: 3.2rem !important;
-      flex-wrap: wrap;
 
       &__info {
-        order: 1;
-        flex-basis: 100%;
         padding: 1.2rem 1.6rem 1.6rem;
-        box-sizing: border-box;
 
         &-title,
         &-description,
@@ -113,7 +111,6 @@
       }
 
       &__image {
-        flex-basis: 100%;
         background-size: cover;
         background-position: center;
         height: 20rem;
@@ -134,13 +131,15 @@
     .restaurant {
       &-card {
         &__info {
-          flex-basis: 50%;
-          order: 0;
           padding: 3.2rem 4.2rem;
+
+          &--left {
+            grid-column: 1;
+            grid-row: 1;
+          }
         }
 
         &__image {
-          flex-basis: 50%;
           height: unset;
         }
 

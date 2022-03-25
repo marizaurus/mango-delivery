@@ -8,6 +8,7 @@
             <router-link :to="{ name: 'home' }">Главная</router-link>
             <router-link :to="{ name: 'cart' }">Корзина</router-link>
             <router-link :to="{ name: 'restaurant' }">Ресторан</router-link>
+            <router-link :to="{ name: 'product' }">Блюдо</router-link>
           </div>
         </div>
       </div>
@@ -63,6 +64,7 @@ export default {
     margin-top: -5px;
 
     a {
+      margin-left: 2.5rem;
       display: inline-block;
       margin-top: 5px;
     }

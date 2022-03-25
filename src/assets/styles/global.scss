@@ -150,7 +150,6 @@ body {
 }
 
 a {
-  margin-left: 2.5rem;
   color: $grey-dark;
   font-weight: 500;
   transition: color .2s;
@@ -176,7 +175,7 @@ a {
   display: block;
 }
 
-.desktop {
+.laptop {
   display: none;
 }
 
@@ -186,19 +185,21 @@ a {
     margin-bottom: 6rem;
   }
 
-  .grid {
-    grid-auto-columns: 1fr;
+  .grid.grid-tablet {
+    @include grid-layout;
+  }
+}
 
-    &.g-7-3 {
-      grid-template-columns: 7fr 3fr;
-    }
+@include breakpoint(laptop) {
+  .grid.grid-laptop {
+    @include grid-layout;
   }
 
   .mobile {
     display: none;
   }
 
-  .desktop {
+  .laptop {
     display: block;
   }
 }

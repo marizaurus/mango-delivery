@@ -2,10 +2,14 @@
   "blocks": {
     "popularCategories": "Популярные категории",
     "ingredients": "Ингредиенты",
-    "tryChef": "Попробуйте у шефа!"
+    "tryChef": "Попробуйте у шефа!",
+    "tryPromo": "Советуем попробовать",
+    "ratingComments": "Оценки и комментарии",
+    "productOffers": "Этот товар в подборках"
   },
   "buttons": {
     "browseAll": "Посмотреть все",
+    "hidePromo": "Скрыть",
     "readMore": "Читать дальше",
     "readLess": "Свернуть",
     "order": "Заказать",
