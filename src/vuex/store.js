@@ -13,6 +13,7 @@ export const store = createStore({
       tags: [],
     },
     restaurantBlocks: [],
+    comments: [],
   },
   // can't be called directly, is a handler
   // mutations as constants from another file, also cool
@@ -32,6 +33,10 @@ export const store = createStore({
     },
     SET_RESTAURANT_BLOCKS: (state, restaurantBlocks) => {
       state.restaurantBlocks = restaurantBlocks;
+    },
+    SET_COMMENTS: (state, comments) => {
+      // hehe, dormammu, I've come with the same 3 comments
+      state.comments = comments;
     },
   },
   // actions commit mutations, you commit suicide ._.
@@ -112,6 +117,21 @@ export const store = createStore({
         });
       }
     },
+    GET_COMMENTS_API({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_COMMENTS', db['comments']);
+      } else {
+        return axios(process.env.VUE_APP_API_BASE + 'comments', {
+          method: 'GET',
+        }).then((comments) => {
+          commit('SET_COMMENTS', comments.data);
+          return comments;
+        }).catch((error) => {
+          console.log(error);
+          return error;
+        });
+      }
+    },
   },
   getters: {
     // cool method-style thingy
@@ -130,7 +150,10 @@ export const store = createStore({
     },
     RESTAURANT_BLOCKS(state) {
       return state.restaurantBlocks;
-    }
+    },
+    COMMENTS(state) {
+      return state.comments;
+    },
   },
 });
 

@@ -48,8 +48,6 @@
     border-radius: $radius-medium;
     overflow: hidden;
 
-    @include shadow-angle($beige);
-
     &:not(:last-child) {
       margin-right: 3rem;
     }
@@ -101,6 +99,12 @@
       &-controls {
         margin-left: auto;
       }
+    }
+  }
+
+  @include breakpoint(tablet) {
+    .product-card {
+      @include shadow-angle($beige);
     }
   }
 </style>

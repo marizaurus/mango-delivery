@@ -3,6 +3,7 @@ import { createWebHistory, createRouter } from 'vue-router';
 import home from '../pages/home';
 import cart from '../pages/cart';
 import restaurant from '../pages/restaurant';
+import product from '../pages/product';
 
 export default createRouter({
   history: createWebHistory(),
@@ -21,6 +22,11 @@ export default createRouter({
       path: process.env.VUE_APP_PATH + 'restaurant',
       name: 'restaurant',
       component: restaurant,
+    },
+    {
+      path: process.env.VUE_APP_PATH + 'product',
+      name: 'product',
+      component: product,
     },
   ]
 });
