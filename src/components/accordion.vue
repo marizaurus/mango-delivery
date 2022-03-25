@@ -4,17 +4,18 @@
       <div class="accordion__trigger"
         :class="{'accordion__trigger--active': visible}"
         @click="toggle">
-        <slot name="accordionTrigger"/>
+        <slot name="accordionTrigger" :visible="visible"/>
       </div>
 
       <transition 
         name="accordion"
         @before-enter="end"
         @enter="start"
+        @after-enter="reset"
         @before-leave="start"
         @leave="end">
         <div class="accordion__content" v-show="visible">
-          <slot name="accordionContent" :visible="visible"/>
+          <slot name="accordionContent"/>
         </div>
       </transition>
     </li>
@@ -44,6 +45,9 @@
       },
       end(el) {
         el.style.height = "0";
+      },
+      reset(el) {
+        el.style.height = "auto";
       }
     },
   };

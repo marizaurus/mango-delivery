@@ -2,34 +2,31 @@
   <div class="recipe block-slim grid grid-laptop g-7-3 gg-2 m-resp"
     :style="{ gridTemplateRows: assetsHeight }">
     <div class="recipe-info block-neat">
-      <h2 class="recipe-info__title laptop">{{ blockData.title }}</h2>
+      <h2 class="recipe-info__title" v-if="isLaptop">{{ blockData.title }}</h2>
       <div class="recipe-step row"
-        v-for="(step, index) in getSteps()"
-        :key="index">
+        v-for="(step, index) in visibleSteps" :key="index">
         <div class="recipe-step__number">{{ zeroPad(index + 1, 2) }}</div>
         <div class="recipe-step__description">{{ step }}</div>
       </div>
       <accordion
-        :initialVisible="visible"
+        :initialVisible="initialVisible"
         v-if="blockData.steps.length > limit">
         <template #accordionContent>
           <div class="recipe-step row"
-            v-for="(step, index) in blockData.steps.slice(limit)"
-            :key="index"
-            ref="steps">
+            v-for="(step, index) in hiddenSteps" :key="index">
             <div class="recipe-step__number">{{ zeroPad(index + limit + 1, 2) }}</div>
             <div class="recipe-step__description">{{ step }}</div>
           </div>
         </template>
-        <template #accordionTrigger="accProps">
+        <template #accordionTrigger="accProps" ref="trigger">
           <button ref="collapseBtn" class="recipe-info__btn btn btn-outline">{{ btnValue(accProps.visible) }}</button>
         </template>
       </accordion>
     </div>
 
-    <div class="recipe-assets block-neat" ref="assets">
-      <h2 class="recipe-assets__title mobile">{{ blockData.title }}</h2>
-      <div class="recipe-ingredients block-neat">
+    <div class="recipe-assets block-neat">
+      <h2 class="recipe-assets__title" v-if="!isLaptop">{{ blockData.title }}</h2>
+      <div class="recipe-ingredients block-neat" ref="assets">
         <h3 class="recipe-ingredients__title">{{ $t('blocks.ingredients') }}</h3>
         <div class="recipe-ingredient row"
           v-for="ingredient in blockData.ingredients"
@@ -58,10 +55,14 @@
       accordion,
     },
     data() {
+      const laptopQuery = window.matchMedia('(min-width: 1024px)');
       return {
-        limit: this.isMobile() ? 3 : 5,
-        visible: false,
+        limit: laptopQuery.matches ? 5 : 3,
+        initialVisible: false,
+        actualVisible: null,
         assetsHeight: null,
+        laptopViewQuery: laptopQuery,
+        isLaptop: laptopQuery.matches,
       }
     },
     props: {
@@ -78,22 +79,41 @@
         return String(num).padStart(places, '0');
       },
       btnValue(visible) {
+        this.actualVisible = visible;
         return visible ? this.$t('buttons.readLess') : this.$t('buttons.readMore');
       },
-      isMobile() {
-        //nextTick() - waits for the state update, might need somewhere later 
-        return window.screen.width < 769;
+      calcAssetsHeight() {
+        return this.$refs.assets.offsetHeight + 'px auto';
+      }
+    },
+    computed: {
+      stepsLimit() {
+        return this.isLaptop ? 5 : 3;
       },
-      getSteps() {
+      visibleSteps() {
         return this.blockData.steps.slice(0, Math.min(this.limit, this.blockData.steps.length));
+      },
+      hiddenSteps() {
+        return this.blockData.steps.slice(this.limit);
       }
     },
     mounted() {
-      this.assetsHeight = this.$refs.assets.offsetHeight + 'px auto';
-    }
+
+      if (this.isLaptop)
+        this.assetsHeight = this.calcAssetsHeight();
+
+      this.laptopViewQuery.addEventListener('change', () => {
+        this.isLaptop = this.laptopViewQuery.matches;
+        this.limit = this.stepsLimit;
+        this.$nextTick(() => {
+          this.assetsHeight = this.isLaptop ? this.calcAssetsHeight() : 'auto';
+          if (this.actualVisible) {
+            this.$refs.collapseBtn.click();
+          }
+        });
+      });
+    },
   }
-  // some debounce stuff
-  // https://vuejs.org/guide/essentials/reactivity-fundamentals.html#stateful-methods
 </script>
 
 <style lang="scss">
