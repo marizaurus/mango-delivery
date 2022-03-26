@@ -1,38 +1,103 @@
 <template>
   <div class="product">
-    <div class="m-resp comments container container-slim">
-      <h1 class="comments__title">{{ $t('blocks.ratingComments') }}</h1>
-      <div class="grid grid-tablet g-7-3 gg-2">
-        <div class="comments__content">
-          <div class="comment"
-            v-for="comment in comments"
-            :key="comment.id">
-            <div class="row">
-              <div class="comment-name">{{ comment.name }}</div>
-              <star-rating :rating="comment.rating" v-bind="options"/>
+    <div class="m-resp comments">
+      <div class="comments__feedback">
+        <form class="container container-slim block-neat">
+          <div class="grid grid-tablet g-2 gg-2">
+            <div class="comments__form block-neat">
+              <div class="row">
+                <div class="custom-input">
+                  <input type="text" id="name" @focus="currentField = 'name'" @blur="clearFocus" v-model="form.name">
+                  <!-- try to separate non-empty logic into watcher/computed/??? -->
+                  <!-- upd: and focus/blur for extra points :3 -->
+                  <!-- upd: separate as components??? -->
+                  <label class="custom-input-label" :class="{ 'non-empty' :  currentField == 'name' || !!form.name }" for="name">{{ $t('forms.name') }}<span class="t-red">*</span></label>
+                </div>
+                <div class="custom-input comments__form-rating">
+                  <star-rating v-bind="formOptions" v-model:rating="form.rating"/>
+                  <label class="custom-input-label non-empty">{{ $t('forms.rating') }}<span class="t-red">*</span></label>
+                </div>
+              </div>
+              <div class="custom-input comments__form-comment">
+                <textarea id="text" class="comments__form-comment-field" rows="5" @focus="currentField = 'comment'" @blur="clearFocus" v-model="form.comment"/>
+                <label class="custom-input-label" for="text" :class="{ 'non-empty' :  currentField == 'comment' || !!form.comment }">{{ $t('forms.comment') }}</label>
+                <div class="comments__form-comment-check">
+                  <div class="custom-checkbox">
+                    <input type="checkbox" id="hideComment" name="hideComment" v-model="form.hideComment">
+                    <label class="custom-checkbox-label" for="hideComment">{{ $t('forms.hideComment') }}</label>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="comment-text">{{ comment.text }}</div>
-            <div class="comment-reply"
-              v-for="reply in comment.replies"
-              :key="reply.id">
-              <div class="comment-name">{{ reply.name }}</div>
-              <div class="comment-text" v-html="reply.text"/>
+            <div class="comments__features block-neat">
+              <div class="comments__features-title">{{ $t('forms.features') }}</div>
+              <div class="comments__features-card block-neat">
+                <div class="custom-checkbox">
+                  <input type="checkbox" id="speed" name="speed">
+                  <label class="custom-checkbox-label" for="speed">{{ $t('forms.speed') }}</label>
+                </div>
+                <div class="custom-checkbox">
+                  <input type="checkbox" id="ingredients" name="ingredients">
+                  <label class="custom-checkbox-label" for="ingredients">{{ $t('forms.ingredients') }}</label>
+                </div>
+                <div class="custom-checkbox">
+                  <input type="checkbox" id="serving" name="serving">
+                  <label class="custom-checkbox-label" for="serving">{{ $t('forms.serving') }}</label>
+                </div>
+              </div>
+              <!-- <div class="custom-select-wrapper">
+                <accordion class="custom-select">
+                  <template #accordionTrigger>
+                    <div class="custom-select__initial"
+                      :class="{ 'non-empty' :  selectItems.length > 0 }">{{ selectItems.length > 0 ? selectItems.length + ' selected' : '' }}</div>
+                  </template>
+                  <template #accordionContent>
+                    <div class="custom-checkbox" v-for="i in 4" :key="i">
+                      <input type="checkbox" :id="'item' + i" :value="'item' + i" v-model="selectItems">
+                      <label class="custom-checkbox-label" :for="'item' + i">item {{ i }}</label>
+                    </div>
+                  </template>
+                </accordion>
+              </div> -->
             </div>
           </div>
-        </div>
+          <button class="btn btn-primary btn-orange-light m-auto" type="submit">{{ $t('buttons.submit') }}</button>
+        </form>
+      </div>
+      <div class="container container-slim">
+        <h1 class="comments__title">{{ $t('blocks.ratingComments') }}</h1>
+        <div class="grid grid-tablet g-7-3 gg-2">
+          <div class="comments__content">
+            <div class="comment"
+              v-for="comment in comments"
+              :key="comment.id">
+              <div class="row">
+                <div class="comment-name">{{ comment.name }}</div>
+                <star-rating :rating="comment.rating" v-bind="options"/>
+              </div>
+              <div class="comment-text">{{ comment.text }}</div>
+              <div class="comment-reply"
+                v-for="reply in comment.replies"
+                :key="reply.id">
+                <div class="comment-name">{{ reply.name }}</div>
+                <div class="comment-text" v-html="reply.text"/>
+              </div>
+            </div>
+          </div>
 
-        <div class="comments__promo block-neat"
-          id="product-offer"
-          v-if="showCard">
-          <h3 class="comments__promo-title">{{ $t('blocks.tryPromo') }}</h3>
-          <product-card
-            :itemData="focusedItem"
-            class="m-auto"/>
-          <button class="comments__promo-btn btn btn-outline m-auto"
-            v-if="showCard"
-            @click="toggleCard">
-            {{ $t('buttons.hidePromo') }}
-          </button>
+          <div class="comments__promo block-neat"
+            id="product-offer"
+            v-if="showCard">
+            <h3 class="comments__promo-title">{{ $t('blocks.tryPromo') }}</h3>
+            <product-card
+              :itemData="focusedItem"
+              class="m-auto"/>
+            <button class="comments__promo-btn btn btn-outline m-auto"
+              v-if="showCard"
+              @click="toggleCard">
+              {{ $t('buttons.hidePromo') }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +118,7 @@
   import productCard from '@/components/product-card';
   import carousel from '@/components/carousel';
   import promoSet from '@/components/promo-set'
+  // import accordion from '../components/accordion.vue';
 
   export default {
     name: "product",
@@ -61,6 +127,7 @@
       'product-card': productCard,
       'carousel': carousel,
       'promo-set': promoSet,
+      // 'accordion': accordion,
     },
     data() {
       return {
@@ -74,15 +141,33 @@
           'active-color': '#ffc93c',
           'border-color': '#ffc93c',
         },
+        formOptions: {
+          'show-rating': false,
+          'rounded-corners': true,
+          'border-width': 3,
+          'star-size': 17,
+          'inactive-color': '#ffffff',
+          'active-color': '#ffc93c',
+          'border-color': '#ffffff',
+          'active-border-color': '#ffc93c',
+        },
         showCard: false,
         focusedItem: null,
+        currentField: '',
+        selectItems: [],
+        form: {
+          name: '',
+          rating: 0,
+          comment: '',
+          hideComment: false,
+        },
       }
     },
     computed: {
       ...mapGetters({
         comments: 'COMMENTS',
         blocks: 'CART_BLOCKS',
-      }),
+      })
     },
     methods: {
       ...mapActions([
@@ -96,6 +181,9 @@
       isMobile() { 
         return window.screen.width < 769;
       },
+      clearFocus() {
+        this.currentField = '';
+      }
     },
     mounted() {
       this.GET_COMMENTS_API();
@@ -131,6 +219,65 @@
   }
 
   .comments {
+    &__feedback {
+      background-color: $beige-medium;
+      padding: 2rem 0;
+      min-width: 390px;
+    }
+
+    &__form {
+      & > .row {
+        align-items: stretch;
+      }
+
+      &-rating.custom-input {
+        margin-left: 1.2rem;
+
+        label.non-empty {
+          color: $grey-dark;
+        }
+      }
+
+      .vue-star-rating-star {
+        height: 20px;
+      }
+
+      &-comment {
+        textarea.comments__form-comment-field {
+          border-top: 1.6rem solid;
+          border-bottom: 3.5rem solid;
+          border-color: $white;
+          padding: 0 1rem;
+        }
+
+        &-check {
+          position: absolute;
+          bottom: .5rem;
+          left: 1rem;
+        }
+      }
+    }
+
+    &__features {
+      &-title {
+        font-size: 2rem;
+        font-weight: 500;
+        margin-bottom: .8rem;
+      }
+
+      &-card {
+        background-color: $white;
+        border-radius: $radius-medium;
+        padding: 1.2rem 1.6rem;
+        display: flex;
+        flex-flow: column;
+        align-items: flex-start;
+        box-sizing: border-box;
+        // temp margin
+        margin-bottom: .8rem;
+      }
+    }
+
     &__promo {
       &-btn {
         margin-top: 1.6rem;

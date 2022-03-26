@@ -9,7 +9,6 @@
         <div class="recipe-step__description">{{ step }}</div>
       </div>
       <accordion
-        :initialVisible="initialVisible"
         v-if="blockData.steps.length > limit">
         <template #accordionContent>
           <div class="recipe-step row"
@@ -58,7 +57,6 @@
       const laptopQuery = window.matchMedia('(min-width: 1024px)');
       return {
         limit: laptopQuery.matches ? 5 : 3,
-        initialVisible: false,
         actualVisible: null,
         assetsHeight: null,
         laptopViewQuery: laptopQuery,

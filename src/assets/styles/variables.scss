@@ -18,6 +18,7 @@ $green-light: #94D2BD;
 $green: #2A9D8F;
 $blue: #3F72AF;
 $grey-light: #C4C4C4;
+$grey-medium: #8F8F8F;
 $grey: #4F4F4F;
 $grey-dark: #363636;
 
@@ -35,6 +36,7 @@ $project-colors: (
   green: $green,
   blue: $blue,
   grey-light: $grey-light,
+  grey-medium: $grey-medium,
   grey: $grey,
   grey-dark: $grey-dark,
 );
@@ -50,6 +52,12 @@ $project-colors: (
   }
 }
 
+@each $text-color, $color in $project-colors {
+  .t-#{"" + $text-color} {
+    color: $color;
+  }
+}
+
 // fonts
 
 $montserrat: "Montserrat", Arial, sans-serif;
@@ -60,3 +68,6 @@ $comforter: "Comforter Brush", Arial, sans-serif;
 $radius-small: 2px;
 $radius-medium: 5px;
 $radius-big: 10px;
+
+$input-border: .3rem solid $beige-dark;
+$input-border-active: .3rem solid $white;

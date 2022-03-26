@@ -20,6 +20,10 @@ h3 {
   font-weight: 700;
 }
 
+.t-medium {
+  font-weight: 500;
+}
+
 @include breakpoint(tablet) {
   h1 {
     font-size: 4.2rem;

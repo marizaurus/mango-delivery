@@ -31,10 +31,7 @@
       };
     },
     props: {
-      initialVisible: {
-        type: Boolean,
-        default: true,
-      },
+      initialVisible: Boolean,
     },
     methods: {
       toggle() {

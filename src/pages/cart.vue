@@ -6,7 +6,8 @@
         <div class="cart__items">
           <accordion class="cart-section"
             v-for="cartItem in CART_ITEMS"
-            :key="cartItem.id">
+            :key="cartItem.id"
+            :initialVisible="initialVisible">
             <template #accordionTrigger>
               <div class="cart-section__header row">
                 <h3 class="cart-section__header-title">{{ cartItem.title }}</h3>
@@ -55,12 +56,16 @@
 
   export default {
     name: "cart",
-
     components: {
       'product-stripe': productStripe,
       'accordion': accordion,
       'carousel': carousel,
       'promo-set': promoSet,
+    },
+    data() {
+      return {
+        initialVisible: true,
+      }
     },
     computed: {
       ...mapGetters([
