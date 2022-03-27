@@ -28,8 +28,7 @@
       <div class="recipe-ingredients block-neat" ref="assets">
         <h3 class="recipe-ingredients__title">{{ $t('blocks.ingredients') }}</h3>
         <div class="recipe-ingredient row"
-          v-for="ingredient in blockData.ingredients"
-          :key="ingredient.id">
+          v-for="ingredient in blockData.ingredients" :key="ingredient.id">
           <div>{{ ingredient.name }}</div>
           <div class="recipe-ingredient__amount">{{ ingredient.amount }}</div>
         </div>

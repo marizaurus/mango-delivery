@@ -835,6 +835,56 @@
       }
     }
   ],
+  "product-info": {
+    "ingredientOptions": [
+      {
+        "code": "vegetables",
+        "title": "Овощи",
+        "options": [
+          {
+            "code": "tomato",
+            "name": "Томаты"
+          },
+          {
+            "code": "onion",
+            "name": "Лук"
+          }
+        ]
+      },
+      {
+        "code": "meat",
+        "title": "Мясо",
+        "options": [
+          {
+            "code": "salami",
+            "name": "Колбаса"
+          },
+          {
+            "code": "ham",
+            "name": "Ветчина"
+          },
+          {
+            "code": "bacon",
+            "name": "Бекон"
+          }
+        ]
+      },
+      {
+        "code": "toppings",
+        "title": "Топпинги",
+        "options": [
+          {
+            "code": "basil",
+            "name": "Базилик"
+          },
+          {
+            "code": "parsley",
+            "name": "Петрушка"
+          }
+        ]
+      }
+    ]
+  },
   "comments": [
     {
       "id": 1,

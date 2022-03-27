@@ -13,6 +13,9 @@ export const store = createStore({
       tags: [],
     },
     restaurantBlocks: [],
+    productInfo: {
+      ingredientOptions: [],
+    },
     comments: [],
   },
   // can't be called directly, is a handler
@@ -33,6 +36,9 @@ export const store = createStore({
     },
     SET_RESTAURANT_BLOCKS: (state, restaurantBlocks) => {
       state.restaurantBlocks = restaurantBlocks;
+    },
+    SET_PRODUCT_INFO: (state, productInfo) => {
+      state.productInfo = productInfo;
     },
     SET_COMMENTS: (state, comments) => {
       // hehe, dormammu, I've come with the same 3 comments
@@ -117,6 +123,21 @@ export const store = createStore({
         });
       }
     },
+    GET_PRODUCT_INFO_API({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_PRODUCT_INFO', db['product-info']);
+      } else {
+        return axios(process.env.VUE_APP_API_BASE + 'product-info', {
+          method: 'GET',
+        }).then((product) => {
+          commit('SET_PRODUCT_INFO', product.data);
+          return product;
+        }).catch((error) => {
+          console.log(error);
+          return error;
+        });
+      }
+    },
     GET_COMMENTS_API({ commit }) {
       if (process.env.NODE_ENV === 'production') {
         commit('SET_COMMENTS', db['comments']);
@@ -150,6 +171,9 @@ export const store = createStore({
     },
     RESTAURANT_BLOCKS(state) {
       return state.restaurantBlocks;
+    },
+    PRODUCT_INFO(state) {
+      return state.productInfo;
     },
     COMMENTS(state) {
       return state.comments;

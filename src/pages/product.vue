@@ -1,6 +1,17 @@
 <template>
   <div class="product">
+    <div class="container container-slim m-resp block-neat">
+      <h2 class="product__ingredients-title">{{ $t('blocks.alterIngredients') }}</h2>
+      <div class="product__ingredients row">
+        <custom-select
+          v-for="(option, i) in productInfo.ingredientOptions" :key="i"
+          :selectData="option"/>
+      </div>
+    </div>
     <div class="m-resp comments">
+      <div class="container container-slim">
+        <h1 class="comments__title">{{ $t('blocks.ratingComments') }}</h1>
+      </div>
       <div class="comments__feedback">
         <form class="container container-slim block-neat">
           <div class="grid grid-tablet g-2 gg-2">
@@ -23,8 +34,10 @@
                 <label class="custom-input-label" for="text" :class="{ 'non-empty' :  currentField == 'comment' || !!form.comment }">{{ $t('forms.comment') }}</label>
                 <div class="comments__form-comment-check">
                   <div class="custom-checkbox">
-                    <input type="checkbox" id="hideComment" name="hideComment" v-model="form.hideComment">
-                    <label class="custom-checkbox-label" for="hideComment">{{ $t('forms.hideComment') }}</label>
+                    <label>
+                      <input type="checkbox" name="hideComment" v-model="form.hideComment">
+                      <span class="custom-checkbox-label">{{ $t('forms.hideComment') }}</span>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -33,52 +46,47 @@
               <div class="comments__features-title">{{ $t('forms.features') }}</div>
               <div class="comments__features-card block-neat">
                 <div class="custom-checkbox">
-                  <input type="checkbox" id="speed" name="speed">
-                  <label class="custom-checkbox-label" for="speed">{{ $t('forms.speed') }}</label>
+                  <label>
+                    <input type="checkbox" name="features">
+                    <span class="custom-checkbox-label">{{ $t('forms.speed') }}</span>
+                  </label>
                 </div>
                 <div class="custom-checkbox">
-                  <input type="checkbox" id="ingredients" name="ingredients">
-                  <label class="custom-checkbox-label" for="ingredients">{{ $t('forms.ingredients') }}</label>
+                  <label>
+                    <input type="checkbox" name="features">
+                    <span class="custom-checkbox-label">{{ $t('forms.ingredients') }}</span>
+                  </label>
                 </div>
                 <div class="custom-checkbox">
-                  <input type="checkbox" id="serving" name="serving">
-                  <label class="custom-checkbox-label" for="serving">{{ $t('forms.serving') }}</label>
+                  <label>
+                    <input type="checkbox" name="features">
+                    <span class="custom-checkbox-label">{{ $t('forms.serving') }}</span>
+                  </label>
+                </div>
+                <div class="custom-radio">
+                  <label>
+                    <input type="radio" name="serving">
+                    <span class="custom-checkbox-label">{{ $t('forms.serving') }}</span>
+                  </label>
                 </div>
               </div>
-              <!-- <div class="custom-select-wrapper">
-                <accordion class="custom-select">
-                  <template #accordionTrigger>
-                    <div class="custom-select__initial"
-                      :class="{ 'non-empty' :  selectItems.length > 0 }">{{ selectItems.length > 0 ? selectItems.length + ' selected' : '' }}</div>
-                  </template>
-                  <template #accordionContent>
-                    <div class="custom-checkbox" v-for="i in 4" :key="i">
-                      <input type="checkbox" :id="'item' + i" :value="'item' + i" v-model="selectItems">
-                      <label class="custom-checkbox-label" :for="'item' + i">item {{ i }}</label>
-                    </div>
-                  </template>
-                </accordion>
-              </div> -->
             </div>
           </div>
           <button class="btn btn-primary btn-orange-light m-auto" type="submit">{{ $t('buttons.submit') }}</button>
         </form>
       </div>
       <div class="container container-slim">
-        <h1 class="comments__title">{{ $t('blocks.ratingComments') }}</h1>
-        <div class="grid grid-tablet g-7-3 gg-2">
-          <div class="comments__content">
+        <div class="comments__content grid grid-tablet g-7-3 gg-2">
+          <div>
             <div class="comment"
-              v-for="comment in comments"
-              :key="comment.id">
+              v-for="comment in comments" :key="comment.id">
               <div class="row">
                 <div class="comment-name">{{ comment.name }}</div>
                 <star-rating :rating="comment.rating" v-bind="options"/>
               </div>
               <div class="comment-text">{{ comment.text }}</div>
               <div class="comment-reply"
-                v-for="reply in comment.replies"
-                :key="reply.id">
+                v-for="reply in comment.replies" :key="reply.id">
                 <div class="comment-name">{{ reply.name }}</div>
                 <div class="comment-text" v-html="reply.text"/>
               </div>
@@ -104,10 +112,8 @@
     <div class="container product__blocks">
       <h1>{{ $t('blocks.productOffers') }}</h1>
       <component
-        v-for="block in blocks"
-        :key="block.id"
-        :is="block.type"
-        :blockData="block" />
+        v-for="block in blocks" :key="block.id"
+        :is="block.type" :blockData="block"/>
     </div>
   </div>
 </template>
@@ -118,7 +124,7 @@
   import productCard from '@/components/product-card';
   import carousel from '@/components/carousel';
   import promoSet from '@/components/promo-set'
-  // import accordion from '../components/accordion.vue';
+  import customSelect from '@/forms/custom-select';
 
   export default {
     name: "product",
@@ -127,7 +133,7 @@
       'product-card': productCard,
       'carousel': carousel,
       'promo-set': promoSet,
-      // 'accordion': accordion,
+      'custom-select': customSelect,
     },
     data() {
       return {
@@ -165,12 +171,14 @@
     },
     computed: {
       ...mapGetters({
+        productInfo: 'PRODUCT_INFO',
         comments: 'COMMENTS',
         blocks: 'CART_BLOCKS',
       })
     },
     methods: {
       ...mapActions([
+        'GET_PRODUCT_INFO_API',
         'GET_COMMENTS_API',
         'GET_CART_BLOCKS_API',
       ]),
@@ -186,6 +194,7 @@
       }
     },
     mounted() {
+      this.GET_PRODUCT_INFO_API();
       this.GET_COMMENTS_API();
       this.GET_CART_BLOCKS_API();
     },
@@ -282,6 +291,10 @@
       &-btn {
         margin-top: 1.6rem;
       }
+    }
+
+    &__content {
+      margin-top: 2.4rem;
     }
   }
 

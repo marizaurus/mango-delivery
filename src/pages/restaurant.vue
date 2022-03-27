@@ -14,8 +14,7 @@
           <div class="restaurant-card__info-cuisines"><span class="t-bold">Кухни:</span> {{ RESTAURANT_INFO.cuisines.join(', ') }}</div>
           <div class="restaurant-card__info-tags row">
             <tag
-              v-for="tag in RESTAURANT_INFO.tags"
-              :key="tag.id"
+              v-for="tag in RESTAURANT_INFO.tags" :key="tag.id"
               :tag-data="tag"/>
           </div>
           <button class="btn btn-primary btn-orange-light restaurant-btn m-auto">
@@ -33,10 +32,8 @@
 
     <div class="container">
       <component
-        v-for="block in RESTAURANT_BLOCKS"
-        :key="block.id"
-        :is="block.type"
-        :blockData="block" />
+        v-for="block in RESTAURANT_BLOCKS" :key="block.id"
+        :is="block.type" :blockData="block"/>
     </div>
   </div>
 </template>

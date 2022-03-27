@@ -6,8 +6,7 @@
       :options="options"
       :class="[ ('flickity-slider--' + blockData.items[0].type) ]">
       <div class="carousel-cell"
-        v-for="item in blockData.items"
-        :key="item.id">
+        v-for="item in blockData.items" :key="item.id">
         <component class="carousel__item"
           :is="item.type"
           :itemData="item"/>

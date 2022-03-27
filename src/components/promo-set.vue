@@ -8,10 +8,8 @@
           v-if="blockData.tagType === 'cuisine'">
           {{ blockData.tags[0] }}
         </div>
-        <tag
-          v-else
-          v-for="tag in blockData.tags"
-          :key="tag.id"
+        <tag v-else
+          v-for="tag in blockData.tags" :key="tag.id"
           :tag-data="tag"/>
       </div>
       <div class="promo-set__info-desc" v-html="blockData.description"/>
@@ -29,8 +27,7 @@
       :options="options"
       v-else>
       <div class="carousel-cell"
-        v-for="item in blockData.items"
-        :key="item.id">
+        v-for="item in blockData.items" :key="item.id">
         <product-card class="carousel__item"
           :itemData="item"/>
       </div>

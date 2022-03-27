@@ -5,8 +5,7 @@
       <div class="grid grid-laptop g-7-3 gg-2">
         <div class="cart__items">
           <accordion class="cart-section"
-            v-for="cartItem in CART_ITEMS"
-            :key="cartItem.id"
+            v-for="cartItem in CART_ITEMS" :key="cartItem.id"
             :initialVisible="initialVisible">
             <template #accordionTrigger>
               <div class="cart-section__header row">
@@ -18,8 +17,7 @@
             <template #accordionContent>
               <div class="cart-section__items accordion">
                 <product-stripe
-                  v-for="item in cartItem.items"
-                  :key="item.id"
+                  v-for="item in cartItem.items" :key="item.id"
                   :itemData="item"/>
               </div>
             </template>
@@ -39,10 +37,8 @@
     </div>
     <div class="container">
       <component
-        v-for="block in CART_BLOCKS"
-        :key="block.id"
-        :is="block.type"
-        :blockData="block" />
+        v-for="block in CART_BLOCKS" :key="block.id"
+        :is="block.type" :blockData="block"/>
     </div>
   </div>
 </template>

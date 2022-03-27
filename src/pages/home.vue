@@ -2,10 +2,8 @@
   <div class="home">
     <div class="container">
       <component
-        v-for="block in HOME_BLOCKS"
-        :key="block.id"
-        :is="block.type"
-        :blockData="block" />
+        v-for="block in HOME_BLOCKS" :key="block.id"
+        :is="block.type" :blockData="block"/>
     </div>
   </div>
 </template>
