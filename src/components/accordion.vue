@@ -1,25 +1,23 @@
 <template>
-  <ul class="accordion">
-    <li class="accordion__item">
-      <div class="accordion__trigger"
-        :class="{'accordion__trigger--active': visible}"
-        @click="toggle">
-        <slot name="accordionTrigger" :visible="visible"/>
-      </div>
+  <div class="accordion" tabindex="1" @focusout="checkBlur">
+    <div class="accordion__trigger"
+      :class="{'accordion__trigger--active': visible}"
+      @click="toggle">
+      <slot name="accordionTrigger" :visible="visible"/>
+    </div>
 
-      <transition 
-        name="accordion"
-        @before-enter="end"
-        @enter="start"
-        @after-enter="reset"
-        @before-leave="start"
-        @leave="end">
-        <div class="accordion__content" v-show="visible">
-          <slot name="accordionContent"/>
-        </div>
-      </transition>
-    </li>
-  </ul>
+    <transition 
+      name="accordion"
+      @before-enter="end"
+      @enter="start"
+      @after-enter="reset"
+      @before-leave="start"
+      @leave="end">
+      <div class="accordion__content" v-show="visible">
+        <slot name="accordionContent"/>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -32,6 +30,7 @@
     },
     props: {
       initialVisible: Boolean,
+      closeOnBlur: Boolean,
     },
     methods: {
       toggle() {
@@ -45,6 +44,12 @@
       },
       reset(el) {
         el.style.height = "auto";
+      },
+      checkBlur(e) {
+        // prevent blur when a child is focused
+        if (this.closeOnBlur && !e.currentTarget.contains(e.relatedTarget)) {
+          this.visible = false;
+        }
       }
     },
   };
@@ -52,15 +57,6 @@
 
 <style lang="scss">
   .accordion {
-    list-style: none;
-    padding: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-
-    &__item {
-      position: relative;
-    }
-
     &__trigger {
       cursor: pointer;
     }

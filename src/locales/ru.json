@@ -6,7 +6,8 @@
     "tryPromo": "Советуем попробовать",
     "alterIngredients": "Изменить ингредиенты в составе",
     "ratingComments": "Оценки и комментарии",
-    "productOffers": "Этот товар в подборках"
+    "productOffers": "Этот товар в подборках",
+    "productIngredients": "Состав"
   },
   "buttons": {
     "browseAll": "Посмотреть все",
@@ -14,6 +15,7 @@
     "readMore": "Читать дальше",
     "readLess": "Свернуть",
     "order": "Заказать",
+    "toCart": "В корзину",
     "remove": "Убрать",
     "favorite": "В любимое",
     "submit": "Отправить"
@@ -36,5 +38,17 @@
     "total": "Итого:",
     "items": "Товаров:",
     "code": "Есть промокод?"
+  },
+  "ingredientCategories": {
+    "main": "Основные ингредиенты",
+    "calories": "Калорийность",
+    "protein": "Белки",
+    "fat": "Жиры",
+    "carbon": "Углеводы",
+    "weight": "Масса"
+  },
+  "units": {
+    "kcal": "ккал",
+    "g": "г"
   }
 }

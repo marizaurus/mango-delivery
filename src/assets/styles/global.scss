@@ -169,6 +169,10 @@ a {
   &-center {
     align-self: center;
   }
+
+  &.grid-mobile {
+    @include grid-layout;
+  }
 }
 
 .mobile {

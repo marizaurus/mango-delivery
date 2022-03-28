@@ -20,12 +20,9 @@
     </div>
 
     <product-card class="carousel__item grid-center m-auto"
-      v-if="count === 1"
-      :itemData="blockData.items[0]"/>
+      v-if="count === 1" :itemData="blockData.items[0]"/>
     <flickity class="promo-set__items flickity-slider--promo-set"
-      ref="flickity"
-      :options="options"
-      v-else>
+      ref="flickity" :options="options" v-else>
       <div class="carousel-cell"
         v-for="item in blockData.items" :key="item.id">
         <product-card class="carousel__item"

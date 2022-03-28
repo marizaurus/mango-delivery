@@ -19,6 +19,26 @@
     &--promo-set .carousel-cell {
       padding: .5rem 1.5rem 0;
     }
+
+    &--product-image {
+      .flickity {
+        &-viewport {
+          padding-bottom: 0;
+        }
+
+        &-page-dots {
+          bottom: 1.6rem;
+    
+          .dot {
+            border-color: $white;
+      
+            &.is-selected {
+              background-color: $white;
+            }
+          }
+        }
+      }
+    }
   }
 
   &-button {
@@ -76,10 +96,6 @@
         height: 1.8rem;
         background-color: $green-light;
       }
-
-      // &:only-child {
-      //   display: none;
-      // }
     }
   }
 }
@@ -115,6 +131,18 @@
   
     &-button {
       display: block;
+    }
+
+    &-slider--product-image {
+      .flickity {
+        &-button {
+          display: none;
+        }
+
+        &-page-dots {
+          display: flex;
+        }
+      }
     }
   }
 }

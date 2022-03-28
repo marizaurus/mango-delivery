@@ -836,7 +836,53 @@
     }
   ],
   "product-info": {
-    "ingredientOptions": [
+    "images": [
+      "https://picsum.photos/550/400?random=1",
+      "https://picsum.photos/550/400?random=2",
+      "https://picsum.photos/550/400?random=3",
+      "https://picsum.photos/550/400?random=4"
+    ],
+    "title": "Маргарита",
+    "rating": 4.5,
+    "tags": [
+      "Пицца",
+      "Итальянская", 
+      "Овощная" 
+    ],
+    "price": 1250,
+    "newPrice": 1000,
+    "ingredients": [
+      {
+        "code": "main",
+        "value": "пицца соус, сыр моцарелла, томат, базилик"
+      },
+      {
+        "code": "calories",
+        "value": 240,
+        "unit": "kcal"
+      },
+      {
+        "code": "protein",
+        "value": 12,
+        "unit": "g"
+      },
+      {
+        "code": "fat",
+        "value": 10,
+        "unit": "g"
+      },
+      {
+        "code": "carbon",
+        "value": 26,
+        "unit": "g"
+      },
+      {
+        "code": "weight",
+        "value": 480,
+        "unit": "g"
+      }
+    ],
+    "alterOptions": [
       {
         "code": "vegetables",
         "title": "Овощи",

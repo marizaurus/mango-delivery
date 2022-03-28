@@ -118,7 +118,7 @@
     &-info {
       grid-row: 2;
 
-      .accordion__item {
+      .accordion {
         display: flex;
         flex-direction: column;
         align-items: center;

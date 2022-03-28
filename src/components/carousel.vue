@@ -11,7 +11,7 @@
           :is="item.type"
           :itemData="item"/>
       </div>
-    </flickity>  
+    </flickity>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="custom-select-wrapper">
-    <accordion class="custom-select">
+    <accordion class="custom-select" :closeOnBlur="true">
       <template #accordionTrigger>
         <div class="custom-select__initial" :class="{ 'non-empty' :  items.length > 0 }">
           <span class="custom-select__initial-label">{{ selectData.title }}</span>
@@ -54,12 +54,84 @@
 </script>
 
 <style lang="scss">
-  .custom-select__initial {
-    @include shadow-bottom($beige-dark);
+  .custom-select {
+    position: absolute;
+    user-select: none;
+
+    &-wrapper {
+      position: relative;
+      min-width: 16rem;
+      height: 5.1rem;
+
+      &:not(:last-child) {
+        margin-right: 1.8rem;
+      }
+    }
+
+    &__initial {
+      background-color: $beige;
+      border-radius: $radius-medium;
+      padding: 1.6rem 1rem;
+      box-sizing: border-box;
+      min-width: 16rem;
+      height: 5.1rem;
+      @include shadow-bottom($beige-dark);
+
+      &-label {
+        position: absolute;
+        font-weight: 500;
+        left: 1rem;
+        top: 2.4rem;
+        transform: translateY(-50%);
+        transition: all .2s ease;
+      }
+
+      &.non-empty {
+        .custom-select__initial-label {
+          font-size: 1.2rem;
+          top: .4rem;
+          transform: none;
+        }
+      }
+    }
+
+    .accordion__trigger {
+      position: relative;
+      z-index: 2;
+    }
+
+    .accordion__content {
+      border-radius: $radius-medium;
+      padding: 2rem 1rem 1rem;
+      top: -1rem;
+      background-color: $white;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+
+      @extend .block-neat;
+    }
   }
 
   .accordion__trigger--active .custom-select__initial {
     top: -5px;
     box-shadow: 0 5px 0 $beige-dark;
+  }
+
+  @include breakpoint(tablet) {
+    .custom-select {
+      &-wrapper {
+        min-width: 20rem;
+        height: 5.1rem;
+
+        &:not(:last-child) {
+          margin-right: 2.4rem;
+        }
+      }
+
+      &__initial {
+        min-width: 20rem;
+      }
+    }
   }
 </style>

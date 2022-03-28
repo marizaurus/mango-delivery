@@ -14,7 +14,14 @@ export const store = createStore({
     },
     restaurantBlocks: [],
     productInfo: {
-      ingredientOptions: [],
+      images: [],
+      tags: [],
+      ingredients: [
+        {
+          value: '',
+        }
+      ],
+      alterOptions: [],
     },
     comments: [],
   },
