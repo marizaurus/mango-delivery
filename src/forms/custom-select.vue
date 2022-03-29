@@ -3,17 +3,27 @@
     <accordion class="custom-select" :closeOnBlur="true">
       <template #accordionTrigger>
         <div class="custom-select__initial" :class="{ 'non-empty' :  items.length > 0 }">
-          <span class="custom-select__initial-label">{{ selectData.title }}</span>
+          <span class="custom-select__initial-label">{{ selectData.title }}<span class="t-red" v-if="selectData.required">*</span></span>
           <span class="custom-select__initial-text">{{ selectText }}</span>
         </div>
       </template>
       <template #accordionContent>
-        <div class="custom-checkbox" v-for="(option, i) in selectData.options" :key="i">
-          <label>
-            <input type="checkbox" :name="selectData.code" :value="option.code" v-model="items">
-            <span class="custom-checkbox-label">{{ option.name }}</span>
-          </label>
-        </div>
+        <template v-if="selectData.optionType == 'radio'">
+          <div class="custom-radio" v-for="(option, i) in selectData.options" :key="i">
+            <label>
+              <input type="radio" :name="selectData.code" :value="option.name" v-model="items">
+              <span class="custom-checkbox-label">{{ option.name }}</span>
+            </label>
+          </div>
+        </template>
+        <template v-else>
+          <div class="custom-checkbox" v-for="(option, i) in selectData.options" :key="i">
+            <label>
+              <input type="checkbox" :name="selectData.code" :value="option.code" v-model="items">
+              <span class="custom-checkbox-label">{{ option.name }}</span>
+            </label>
+          </div>
+        </template>
       </template>
     </accordion>
   </div>
@@ -30,24 +40,31 @@
     data() {
       return {
         items: [],
+        trigger: '$beige',
+        shadow: '$beige-dark'
       }
     },
     props: {
       selectData: {
         code: String,
         title: String,
+        optionType: String,
+        required: Boolean,
         options: [
           {
             code: String,
             name: String,
           }
         ],
-      }
+      },
     },
     computed: {
       selectText() {
-        return this.items.length > 0 ? 
-          this.items.length == 1 ? this.$t('forms.singleSelected') : this.items.length + this.$t('forms.multSelected') : '';
+        if (this.selectData.optionType == 'radio')
+          return this.items.length > 0 ? this.items : '';
+
+        return this.items.length > 0 ? this.items.length == 1 ?
+          this.$t('forms.singleSelected') : this.items.length + this.$t('forms.multSelected') : '';
       }
     }
   }
@@ -57,20 +74,40 @@
   .custom-select {
     position: absolute;
     user-select: none;
+    min-width: 16rem;
+    width: max-content;
 
     &-wrapper {
       position: relative;
       min-width: 16rem;
       height: 5.1rem;
+      margin-bottom: 0.8rem;
 
       &:not(:last-child) {
         margin-right: 1.8rem;
+      }
+
+      &.select-form .custom-select {
+        min-width: 20rem;
+
+        &__initial {
+          background-color: $white;
+          @include shadow-bottom($beige);
+
+          &-label {
+            font-weight: 400;
+          }
+        }
+
+        .accordion__trigger--active .custom-select__initial {
+          box-shadow: 0 5px 0 $beige;
+        }
       }
     }
 
     &__initial {
       background-color: $beige;
-      border-radius: $radius-medium;
+      border-radius: $radius-small;
       padding: 1.6rem 1rem;
       box-sizing: border-box;
       min-width: 16rem;
@@ -96,30 +133,28 @@
     }
 
     .accordion__trigger {
-      position: relative;
-      z-index: 2;
+      width: 20px;
     }
 
     .accordion__content {
-      border-radius: $radius-medium;
-      padding: 2rem 1rem 1rem;
-      top: -1rem;
+      border-radius: $radius-small;
+      padding: 1rem;
       background-color: $white;
       box-sizing: border-box;
-      position: relative;
-      z-index: 1;
 
       @extend .block-neat;
     }
-  }
 
-  .accordion__trigger--active .custom-select__initial {
-    top: -5px;
-    box-shadow: 0 5px 0 $beige-dark;
+    .accordion__trigger--active .custom-select__initial {
+      top: -5px;
+      box-shadow: 0 5px 0 $beige-dark;
+    }
   }
 
   @include breakpoint(tablet) {
     .custom-select {
+      min-width: 20rem;
+
       &-wrapper {
         min-width: 20rem;
         height: 5.1rem;

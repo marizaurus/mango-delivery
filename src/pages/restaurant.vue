@@ -3,18 +3,24 @@
     <div class="container container-slim">
       <div class="restaurant-card m-resp grid grid-tablet g-2">
         <div class="restaurant-card__image"
-          :style="{ backgroundImage: `url(${ RESTAURANT_INFO.image })` }"/>
+          :style="{ backgroundImage: `url(${ info.image })` }"/>
 
         <div class="restaurant-card__info block-neat"
-          :class="[ ('restaurant-card__info--' + RESTAURANT_INFO.infoAlignment) ]">
-          <h1 class="restaurant-card__info-title">{{ RESTAURANT_INFO.title }}</h1>
-          <div class="restaurant-card__info-description" v-html="RESTAURANT_INFO.description"/>
-          <div class="restaurant-card__info-order">Заказ от <span class="restaurant-card__info-order-sum">{{ RESTAURANT_INFO.orderSum }} ₽</span></div>
-          <div class="restaurant-card__info-categories">{{ RESTAURANT_INFO.categories.join(' · ') }}</div>
-          <div class="restaurant-card__info-cuisines"><span class="t-bold">Кухни:</span> {{ RESTAURANT_INFO.cuisines.join(', ') }}</div>
+          :class="[ ('restaurant-card__info--' + info.infoAlignment) ]">
+          <h1 class="restaurant-card__info-title">{{ info.title }}</h1>
+          <div class="restaurant-card__info-description" v-html="info.description"/>
+          <div class="restaurant-card__info-order">
+            <span>{{ $t('blockTypes.main.fields.orderMin') }}</span> 
+            <span class="restaurant-card__info-order-sum">{{ info.orderSum }} ₽</span>
+          </div>
+          <div class="restaurant-card__info-categories">{{ info.categories.join(' · ') }}</div>
+          <div class="restaurant-card__info-cuisines">
+            <span class="t-bold">{{ $t('blockTypes.main.fields.cuisines') }}: </span>
+            <span>{{ info.cuisines.join(', ') }}</span>  
+          </div>
           <div class="restaurant-card__info-tags row">
             <tag
-              v-for="tag in RESTAURANT_INFO.tags" :key="tag.id"
+              v-for="tag in info.tags" :key="tag.id"
               :tag-data="tag"/>
           </div>
           <button class="btn btn-primary btn-orange-light restaurant-btn m-auto">
@@ -32,7 +38,7 @@
 
     <div class="container">
       <component
-        v-for="block in RESTAURANT_BLOCKS" :key="block.id"
+        v-for="block in blocks" :key="block.id"
         :is="block.type" :blockData="block"/>
     </div>
   </div>
@@ -54,14 +60,10 @@
       tag,
     },
     computed: {
-    ...mapGetters([
-      'RESTAURANT_INFO',
-      'RESTAURANT_BLOCKS',
-    ]),
-      // TODO: alias example, not working great with 'join'
-      // ...mapGetters({
-      //   blocks: 'RESTAURANT_BLOCKS' 
-      // })
+      ...mapGetters({
+        info: 'RESTAURANT_INFO',
+        blocks: 'RESTAURANT_BLOCKS',
+      }),
     },
     methods: {
       ...mapActions([

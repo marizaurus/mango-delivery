@@ -4,6 +4,7 @@ import home from '../pages/home';
 import cart from '../pages/cart';
 import restaurant from '../pages/restaurant';
 import product from '../pages/product';
+import pageEditor from '../pages/page-editor';
 
 export default createRouter({
   history: createWebHistory(),
@@ -27,6 +28,11 @@ export default createRouter({
       path: process.env.VUE_APP_PATH + 'product',
       name: 'product',
       component: product,
+    },
+    {
+      path: process.env.VUE_APP_PATH + 'page-editor',
+      name: 'page-editor',
+      component: pageEditor,
     },
   ]
 });

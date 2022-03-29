@@ -11,6 +11,10 @@ export const store = createStore({
       categories: [],
       cuisines: [],
       tags: [],
+      db: {
+        categories: [],
+        cuisines: [],
+      }
     },
     restaurantBlocks: [],
     productInfo: {
@@ -24,6 +28,7 @@ export const store = createStore({
       alterOptions: [],
     },
     comments: [],
+    tags: [],
   },
   // can't be called directly, is a handler
   // mutations as constants from another file, also cool
@@ -50,6 +55,9 @@ export const store = createStore({
     SET_COMMENTS: (state, comments) => {
       // hehe, dormammu, I've come with the same 3 comments
       state.comments = comments;
+    },
+    SET_TAGS: (state, tags) => {
+      state.tags = tags;
     },
   },
   // actions commit mutations, you commit suicide ._.
@@ -160,6 +168,21 @@ export const store = createStore({
         });
       }
     },
+    GET_TAGS_API({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_TAGS', db['tags']);
+      } else {
+        return axios(process.env.VUE_APP_API_BASE + 'tags', {
+          method: 'GET',
+        }).then((tags) => {
+          commit('SET_TAGS', tags.data);
+          return tags;
+        }).catch((error) => {
+          console.log(error);
+          return error;
+        });
+      }
+    },
   },
   getters: {
     // cool method-style thingy
@@ -185,6 +208,9 @@ export const store = createStore({
     COMMENTS(state) {
       return state.comments;
     },
+    TAGS(state) {
+      return state.tags;
+    }
   },
 });
 

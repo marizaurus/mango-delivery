@@ -9,6 +9,7 @@
             <router-link :to="{ name: 'cart' }">Корзина</router-link>
             <router-link :to="{ name: 'restaurant' }">Ресторан</router-link>
             <router-link :to="{ name: 'product' }">Блюдо</router-link>
+            <router-link :to="{ name: 'page-editor' }">Редактор</router-link>
           </div>
         </div>
       </div>

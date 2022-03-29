@@ -18,7 +18,12 @@
     }
   }
 
+  & > input {
+    max-width: 20rem;
+  }
+
   textarea {
+    display: block;
     resize: none;
     width: 100%;
   }

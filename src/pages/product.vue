@@ -9,9 +9,11 @@
             v-if="productInfo.images.length > 0">
             <div class="carousel-cell"
               v-for="(image, i) in productInfo.images" :key="i">
-              <img class="product__image"
-                :data-flickity-lazyload-src="image"
-                alt="product image">
+              <div class="product__image-wrapper">
+                <img class="product__image"
+                  :data-flickity-lazyload-src="image"
+                  alt="product image">
+              </div>
             </div>
           </flickity>
         </div>
@@ -292,15 +294,21 @@
 <style lang="scss">
   .product {
     &__image {
-      // i suffered for this
-      // background-image: url('~@/assets/images/placeholder-big.png');
-      max-width: 55rem;
       width: 100%;
-      height: 20rem;
+      height: 100%;
       object-fit: cover;
-      border-radius: $radius-big;
       opacity: 0;
-      transition: opacity .3s ease;
+      transition: opacity .2s linear;
+
+      &-wrapper {
+        max-width: 55rem;
+        width: 100%;
+        height: 20rem;
+        border-radius: $radius-big;
+        background-image: url('~@/assets/images/placeholder-big.png');
+        background-size: cover;
+        overflow: hidden;
+      }
 
       &.flickity-lazyloaded,
       &.flickity-lazyerror {
@@ -533,7 +541,7 @@
 
   @include breakpoint(tablet) {
     .product {
-      &__image {
+      &__image-wrapper {
         height: 37rem;
       }
 

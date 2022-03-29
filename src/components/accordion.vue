@@ -13,7 +13,7 @@
       @after-enter="reset"
       @before-leave="start"
       @leave="end">
-      <div class="accordion__content" v-show="visible">
+      <div class="accordion__content" ref="content" v-show="visible">
         <slot name="accordionContent"/>
       </div>
     </transition>
@@ -38,20 +38,26 @@
       },
       start(el) {
         el.style.height = el.scrollHeight + "px";
+        el.style.overflow = "hidden";
       },
       end(el) {
         el.style.height = "0";
       },
       reset(el) {
         el.style.height = "auto";
+        el.style.overflow = "visible";
       },
       checkBlur(e) {
-        // prevent blur when a child is focused
+        // prevent blur when a child is focused, blur otherwise
         if (this.closeOnBlur && !e.currentTarget.contains(e.relatedTarget)) {
           this.visible = false;
         }
       }
     },
+    mounted() {
+      if (this.initialVisible)
+        this.$refs.content.style.overflow = "visible";
+    }
   };
 </script>
 
@@ -63,10 +69,6 @@
 
     &__content {
       overflow: hidden;
-
-      ul {
-        padding: 0;
-      }
     }
 
     &-enter-active,
