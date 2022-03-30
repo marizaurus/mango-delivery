@@ -77,11 +77,8 @@
             <div class="comments__form block-neat">
               <div class="row">
                 <div class="custom-input">
-                  <input type="text" id="name" @focus="currentField = 'name'" @blur="clearFocus" v-model="form.name">
-                  <!-- try to separate non-empty logic into watcher/computed/??? -->
-                  <!-- upd: and focus/blur for extra points :3 -->
-                  <!-- upd: separate as components??? -->
-                  <label class="custom-input-label" :class="{ 'non-empty' :  currentField == 'name' || !!form.name }" for="name">{{ $t('forms.name') }}<span class="t-red">*</span></label>
+                  <input type="text" v-on="formEvents('form.name')" v-model="form.name">
+                  <label class="custom-input-label" :class="checkFocus('form.name')">{{ $t('forms.name') }}<span class="t-red">*</span></label>
                 </div>
                 <div class="custom-input comments__form-rating">
                   <star-rating v-bind="formOptions" v-model:rating="form.rating"/>
@@ -89,8 +86,8 @@
                 </div>
               </div>
               <div class="custom-input comments__form-comment">
-                <textarea id="text" class="comments__form-comment-field" rows="5" @focus="currentField = 'comment'" @blur="clearFocus" v-model="form.comment"/>
-                <label class="custom-input-label" for="text" :class="{ 'non-empty' :  currentField == 'comment' || !!form.comment }">{{ $t('forms.comment') }}</label>
+                <textarea class="comments__form-comment-field" rows="5" v-on="formEvents('form.comment')" v-model="form.comment"/>
+                <label class="custom-input-label" :class="checkFocus('form.comment')">{{ $t('forms.comment') }}</label>
                 <div class="comments__form-comment-check">
                   <div class="custom-checkbox">
                     <label>
@@ -186,6 +183,7 @@
   import customSelect from '@/forms/custom-select';
   import Flickity from 'vue-flickity';
   import accordion from '../components/accordion.vue';
+  import _get from 'lodash/get';
 
   export default {
     name: "product",
@@ -259,8 +257,20 @@
       isMobile() { 
         return window.screen.width < 769;
       },
+      formEvents(target) {
+        return {
+          focus: () => this.setField(target),
+          blur: this.clearFocus,
+        }
+      },
+      setField(target) {
+        this.currentField = target; 
+      },
       clearFocus() {
         this.currentField = '';
+      },
+      checkFocus(target) {
+        return { 'non-empty': this.currentField == target || !!_get(this.$data, target) };
       }
     },
     mounted() {

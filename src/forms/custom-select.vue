@@ -40,8 +40,6 @@
     data() {
       return {
         items: [],
-        trigger: '$beige',
-        shadow: '$beige-dark'
       }
     },
     props: {
@@ -50,6 +48,7 @@
         title: String,
         optionType: String,
         required: Boolean,
+        initial: Array,
         options: [
           {
             code: String,
@@ -61,10 +60,24 @@
     computed: {
       selectText() {
         if (this.selectData.optionType == 'radio')
-          return this.items.length > 0 ? this.items : '';
+          return this.items.length > 0 ? this.selectData.options.find((i) => i.code == this.items[0]).name : '';
 
         return this.items.length > 0 ? this.items.length == 1 ?
           this.$t('forms.singleSelected') : this.items.length + this.$t('forms.multSelected') : '';
+      }
+    },
+    methods: {
+      setInitial() {
+        this.selectData.initial.forEach(el => {
+          let item = this.selectData.options.find((i) => i.name == el);
+          if (!item) return;
+          this.items.push(item.code);
+        });
+      }
+    },
+    watch: {
+      'selectData.initial': function() {
+        this.setInitial();
       }
     }
   }
@@ -118,16 +131,14 @@
         position: absolute;
         font-weight: 500;
         left: 1rem;
-        top: 2.4rem;
-        transform: translateY(-50%);
-        transition: all .2s ease;
+        top: 1.6rem;
+        transition: .2s ease;
       }
 
       &.non-empty {
         .custom-select__initial-label {
           font-size: 1.2rem;
           top: .4rem;
-          transform: none;
         }
       }
     }

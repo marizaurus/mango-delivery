@@ -16,15 +16,15 @@
             <template #accordionContent>
               <div class="block-editor__content block-neat">
                 <div class="custom-input">
-                  <textarea rows="5"/>
-                  <label class="custom-input-label">{{ $t('blockTypes.main.fields.description') }}</label>
+                  <textarea rows="5" v-on="formEvents('editor.info.description')" v-model="editor.info.description"/>
+                  <label class="custom-input-label" :class="checkFocus('editor.info.description')">{{ $t('blockTypes.main.fields.description') }}</label>
                 </div>
                 <div class="row">
                   <div class="custom-input">
-                    <input type="text">
-                    <label class="custom-input-label">{{ $t('blockTypes.main.fields.orderMin') }}<span class="t-red">*</span></label>
+                    <input type="text" v-on="formEvents('editor.info.orderSum')" v-model="editor.info.orderSum">
+                    <label class="custom-input-label" :class="checkFocus('editor.info.orderSum')">{{ $t('blockTypes.main.fields.orderMin') }}<span class="t-red">*</span></label>
                   </div>
-                  <custom-select class="select-form" :selectData="getAlignData" :style="{ 'z-index': 3 }"/>
+                  <custom-select class="select-form" :selectData="alignData" :style="{ 'z-index': 3 }"/>
                 </div>
                 <div class="block-editor__content-title">{{ $t('blockTypes.main.fields.сategoriesTitle') }}</div>
                 <div class="row">
@@ -98,9 +98,10 @@
 </template>
 
 <script>
+  import { mapActions, mapGetters } from "vuex";
   import accordion from '@/components/accordion';
   import customSelect from '@/forms/custom-select';
-  import { mapActions, mapGetters } from "vuex";
+  import _get from 'lodash/get';
 
   export default {
     name: 'page-editor',
@@ -132,10 +133,19 @@
           'tags'
         ],
         showBlockInfo: true,
+        alignData: {
+          code: 'infoAlignment',
+          title: this.$t('blockTypes.main.fields.infoAlignment'),
+          optionType: 'radio',
+          required: true,
+          options: [],
+          initial: [],
+        },
         categoriesData: {
           code: 'categoriesData',
           title: this.$t('blockTypes.main.fields.categories'),
-          options: []
+          options: [],
+          initial: [],
         },
         cuisinesData: {
           code: 'cuisinesData',
@@ -147,6 +157,35 @@
           title: this.$t('blockTypes.main.fields.tags'),
           options: []
         },
+        // the doom is upon us
+        editor: {
+          currentField: '',
+          info: {
+            infoAlignment: '',
+            description: '',
+            orderSum: 0,
+            categories: [],
+            cuisines: [],
+            tags: []
+          },
+          blocks: [
+            {
+              id: 0,
+              type: '',
+              title: '',
+              description: '',
+              infoAlignment: '',
+              tagType: '',
+              categories: [],
+              cuisines: [],
+              tags: [],
+              items: [],
+              steps: [],
+              ingredients: [],
+              item: {},
+            }
+          ],
+        },
       }
     },
     computed: {
@@ -154,22 +193,14 @@
         info: 'RESTAURANT_INFO',
         blocks: 'RESTAURANT_BLOCKS',
         tags: 'TAGS',
+        editorData: 'RESTAURANT_COPY',
       }),
-      getAlignData() {
-        return {
-          code: 'infoAlignment',
-          title: this.$t('blockTypes.main.fields.infoAlignment'),
-          optionType: 'radio',
-          required: true,
-          options: this.alignOptions.map((el) => ({ code: el, name: this.$t('alignOptions.' + el + '.title') }))
-        }
-      },
       getCardData() {
         return {
           code: 'cardData',
           title: this.$t('blockTypes.carousel.fields.cardType'),
           required: true,
-          options: this.cardTypes.map((el) => ({ code: el, name: this.$t('cardTypes.' + el + '.title') }))
+          options: this.cardTypes.map((el) => ({ code: el, name: this.$t('cardTypes.' + el + '.title') })),
         }
       },
       getCategoryData() {
@@ -177,32 +208,60 @@
           code: 'categoryData',
           title: this.$t('blockTypes["promo-set"].fields.categoriesType'),
           required: true,
-          options: this.categoryTypes.map((el) => ({ code: el, name: this.$t('categoryTypes.' + el + '.title') }))
+          options: this.categoryTypes.map((el) => ({ code: el, name: this.$t('categoryTypes.' + el + '.title') })),
         }
-      }
+      },
     },
     methods: {
       ...mapActions([
         'GET_RESTAURANT_INFO_API',
         'GET_RESTAURANT_BLOCKS_API',
         'GET_TAGS_API',
+        'GET_RESTAURANT_COPY'
       ]),
+      formEvents(target) {
+        return {
+          focus: () => this.setField(target),
+          blur: this.clearFocus,
+        }
+      },
+      setField(target) {
+        this.editor.currentField = target; 
+      },
+      clearFocus() {
+        this.editor.currentField = '';
+      },
+      checkFocus(target) {
+        return { 'non-empty': this.editor.currentField == target || !!_get(this.$data, target) };
+      }
     },
     mounted() {
+      // hier kommt die spaghetti-code
       this.GET_RESTAURANT_INFO_API().then(() => {
+      }).then(() => {
+        this.GET_RESTAURANT_BLOCKS_API();
+      }).then(() => {
+        this.GET_RESTAURANT_COPY();
+      }).then(() => {
+        this.editor = this.editorData;
+        // this.alignData.options = this.alignOptions.map((el, i) => ({ code: i, name: this.$t('alignOptions.' + el + '.title') })),
+        // this.alignData.initial = [this.$t('alignOptions.' + this.editor.info.infoAlignment + '.title')];
         this.categoriesData.options = this.info.db.categories.map((el, i) => ({ code: i, name: el }));
+        this.categoriesData.initial = this.editor.info.categories;
         this.cuisinesData.options = this.info.db.cuisines.map((el, i) => ({ code: i, name: el }));
+        this.cuisinesData.initial = this.editor.info.cuisines;
       });
-      this.GET_RESTAURANT_BLOCKS_API();
+
       this.GET_TAGS_API().then(() => {
         this.tagsData.options = this.tags.map(el => ({ code: el.id, name: el.title }));
+        this.tagsData.initial = this.editor.info.tags.map(el => el.title);
       });
 
       Array.from(this.$el.querySelectorAll('.block')).forEach(el => {
         let info = el.querySelector('.block-info');
+        // move to methods
         el.addEventListener('mouseover', () => {
-          if (!this.showBlockInfo)
-            return;
+          if (!this.showBlockInfo) return;
           info.style.height = info.scrollHeight + "px";
         });
 

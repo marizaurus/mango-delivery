@@ -9,10 +9,7 @@
           :class="[ ('restaurant-card__info--' + info.infoAlignment) ]">
           <h1 class="restaurant-card__info-title">{{ info.title }}</h1>
           <div class="restaurant-card__info-description" v-html="info.description"/>
-          <div class="restaurant-card__info-order">
-            <span>{{ $t('blockTypes.main.fields.orderMin') }}</span> 
-            <span class="restaurant-card__info-order-sum">{{ info.orderSum }} ₽</span>
-          </div>
+          <div class="restaurant-card__info-order">{{ $t('blockTypes.main.fields.orderMin') }} <span class="restaurant-card__info-order-sum">{{ info.orderSum }} ₽</span></div>
           <div class="restaurant-card__info-categories">{{ info.categories.join(' · ') }}</div>
           <div class="restaurant-card__info-cuisines">
             <span class="t-bold">{{ $t('blockTypes.main.fields.cuisines') }}: </span>

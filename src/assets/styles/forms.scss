@@ -31,14 +31,12 @@
   & > label {
     position: absolute;
     left: 1rem;
-    top: 2.4rem;
-    transform: translateY(-50%);
+    top: 1.6rem;
     transition: .2s ease;
     user-select: none;
 
     &.non-empty {
       top: .4rem;
-      transform: none;
       color: $grey-medium;
       font-size: 1.2rem;
     }

@@ -29,10 +29,11 @@ export const store = createStore({
     },
     comments: [],
     tags: [],
+    editor: {
+      info: {},
+      blocks: []
+    }
   },
-  // can't be called directly, is a handler
-  // mutations as constants from another file, also cool
-  // https://next.vuex.vuejs.org/guide/mutations.html#using-constants-for-mutation-types
   mutations: { // synchronous
     SET_HOME_BLOCKS: (state, homeBlocks) => {
       state.homeBlocks = homeBlocks;
@@ -59,8 +60,15 @@ export const store = createStore({
     SET_TAGS: (state, tags) => {
       state.tags = tags;
     },
+    SET_RESTAURANT_COPY: (state) => {
+      // if (Object.keys(state.editor) !== 0)
+      //   return;
+      state.editor = {
+        info: JSON.parse(JSON.stringify(state.restaurantInfo)),
+        blocks: JSON.parse(JSON.stringify(state.restaurantBlocks))
+      }
+    }
   },
-  // actions commit mutations, you commit suicide ._.
   actions: { // asynchronous
     GET_HOME_BLOCKS_API({ commit }) {
       if (process.env.NODE_ENV === 'production') {
@@ -183,6 +191,10 @@ export const store = createStore({
         });
       }
     },
+    // create a copy during edit
+    GET_RESTAURANT_COPY({commit}) {
+      commit('SET_RESTAURANT_COPY');
+    }
   },
   getters: {
     // cool method-style thingy
@@ -210,6 +222,9 @@ export const store = createStore({
     },
     TAGS(state) {
       return state.tags;
+    },
+    RESTAURANT_COPY(state) {
+      return state.editor;
     }
   },
 });
