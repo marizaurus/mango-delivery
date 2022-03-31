@@ -60,6 +60,10 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  &.g-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   &.g-1-2 {
     grid-template-columns: 1fr 2fr;
   }

@@ -1,7 +1,7 @@
 <template>
-  <div class="product-stripe row">
+  <div class="product-stripe grid grid-mobile g-3">
     <img class="product-stripe__img" :src="itemData.image">
-    <div class="product-stripe__info row">
+    <div class="product-stripe__info">
       <div class="product-stripe__info-name row">
         <span>{{ itemData.title }}</span>
         <div class="product-stripe__info-rating row">
@@ -10,11 +10,9 @@
           <font-awesome-icon :icon="['far', 'heart']" class="product-stripe__favorite"/>
         </div>
       </div>
-      <div class="break"/>
       <div class="product-stripe__info-tags">{{ itemData.tags.join(' · ') }}</div>
     </div>
     <div class="product-stripe__controls row">
-      <div class="break"/>
       <cart-counter/>
       <div class="product-stripe__price">{{ itemData.price }} ₽</div>
     </div>
@@ -45,10 +43,13 @@
   .product-stripe {
     padding: 1rem 1.2rem;
     border-radius: $radius-medium;
-    justify-content: space-between;
 
     &:nth-child(even) {
       background-color: $white;
+    }
+
+    &.grid.grid-mobile.g-3 {
+      grid-template-columns: auto 8rem 0;
     }
 
     &__img {
@@ -60,22 +61,19 @@
       border-radius: $radius-small;
     }
 
-    &__info,
-    &__controls {
-      flex-wrap: wrap;
-    }
-
     &__info {
-      width: 65%;
+      align-self: center;
+      &-name {
+        margin-bottom: .8rem;
 
-      &-name span {
-        font-weight: 700;
-        font-size: 2rem;
-        margin-bottom: 0.8rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 15rem;
+        span {
+          font-weight: 700;
+          font-size: 2rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 15rem;
+        }
       }
 
       &-rating {
@@ -97,19 +95,18 @@
         }
       }
 
-      .break {
-        flex-basis: 100%;
-      }
-
       &-tags {
         font-size: 1.2rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 24rem;
       }
     }
 
     &__controls {
+      flex-wrap: wrap;
       margin-top: -.4rem;
-      width: 16rem;
-      justify-content: flex-end;
       
       .cart-counter,
       .product-stripe__price {
@@ -128,13 +125,17 @@
     .product-stripe {
       padding: 1.2rem 2rem;
 
+      &.grid.grid-mobile.g-3 {
+        grid-template-columns: min-content auto 17rem;
+      }
+
       &__img {
         display: block;
       }
+
+      &__controls {
+        justify-content: space-between;
+      }
     }
-  }
-
-  @include breakpoint(laptop) {
-
   }
 </style>

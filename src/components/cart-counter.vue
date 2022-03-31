@@ -1,7 +1,7 @@
 <template>
-  <button class="btn btn-icon btn-orange-light cart-counter__btn-cart d-none">
+  <!-- <button class="btn btn-icon btn-orange-light cart-counter__btn-cart d-none">
     <font-awesome-icon icon="basket-shopping"/>
-  </button>
+  </button> -->
   <div class="cart-counter row">
     <div class="btn-orange-light cart-counter__btn cart-counter__btn-minus">–</div>
     <div class="cart-counter__value">1</div>
@@ -23,6 +23,7 @@
     align-items: stretch !important;
     border-radius: $radius-small;
     overflow: hidden;
+    background-color: $white;
 
     &__btn {
       color: $white;

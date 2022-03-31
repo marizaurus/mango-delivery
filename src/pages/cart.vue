@@ -3,7 +3,7 @@
     <div class="container container-slim">
       <h1 class="cart-title">{{ $t('cart.title') }}</h1>
       <div class="grid grid-laptop g-7-3 gg-2">
-        <div class="cart__items">
+        <div class="cart__items block-neat">
           <accordion class="cart-section"
             v-for="cartItem in CART_ITEMS" :key="cartItem.id"
             :initialVisible="initialVisible">
@@ -105,7 +105,7 @@
     }
 
     &-section {
-      margin-bottom: 3.2rem;
+      margin-bottom: 1.6rem;
 
       &__header {
         padding: 1rem 1.2rem;
@@ -143,8 +143,6 @@
   @include breakpoint(tablet) {
     .cart {
       &-section {
-      margin-bottom: 3.2rem;
-
         &__header {
           padding: 1.6rem 1.8rem;
 
