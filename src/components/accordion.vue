@@ -80,5 +80,9 @@
     &-leave-to {
       opacity: 0;
     }
+
+    &:focus {
+      outline: none;
+    }
   }
 </style>

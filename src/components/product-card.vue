@@ -1,6 +1,9 @@
 <template>
   <div class="product-card">
-    <img class="img product-card__image" :src="itemData.image">
+    <div class="product-card__image-wrapper">
+      <img class="img product-card__image" :class="{ 'img-loaded': this.isLoaded }"
+        :src="itemData.image" @load="onLoad">
+    </div>
     <div class="product-card__info">
       <div class="product-card__info-row row">
         <div class="product-card__info-name">{{ itemData.title }}</div>
@@ -28,6 +31,11 @@
     components: {
       'cart-counter': cartCounter,
     },
+    data() {
+      return {
+        isLoaded: false,
+      }
+    },
     props: {
       itemData: {
         title: String,
@@ -35,6 +43,11 @@
         image: String,
         tags: Array,
         price: Number
+      }
+    },
+    methods: {
+      onLoad() {
+        this.isLoaded = true;
       }
     }
   }
@@ -54,7 +67,22 @@
 
     &__image {
       width: 100%;
-      height: 16rem;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity .2s linear;
+
+      &-wrapper {
+        width: 100%;
+        height: 16rem;
+        background-image: url('~@/assets/images/placeholder-small.png');
+        background-size: cover;
+        background-position: center;
+      }
+
+      &.img-loaded {
+        opacity: 1;
+      }
     }
 
     &__info {

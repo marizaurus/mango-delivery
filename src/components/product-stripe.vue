@@ -1,6 +1,9 @@
 <template>
   <div class="product-stripe grid grid-mobile g-3">
-    <img class="product-stripe__img" :src="itemData.image">
+    <div class="product-stripe__img-wrapper">
+      <img class="product-stripe__img" :class="{ 'img-loaded': this.isLoaded }"
+        :src="itemData.image" @load="onLoad">
+    </div>
     <div class="product-stripe__info">
       <div class="product-stripe__info-name row">
         <span>{{ itemData.title }}</span>
@@ -27,6 +30,11 @@
     components: {
       'cart-counter': cartCounter,
     },
+    data() {
+      return {
+        isLoaded: false,
+      }
+    },
     props: {
       itemData: {
         title: String,
@@ -36,6 +44,11 @@
         price: Number
       },
     },
+    methods: {
+      onLoad() {
+        this.isLoaded = true;
+      }
+    }
   }
 </script>
 
@@ -53,12 +66,27 @@
     }
 
     &__img {
-      display: none;
-      height: 5rem;
-      width: 7rem;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      margin-right: 1.4rem;
-      border-radius: $radius-small;
+      opacity: 0;
+      transition: opacity .2s linear;
+
+      &-wrapper {
+        display: none;
+        height: 5rem;
+        width: 7rem;
+        margin-right: 1.4rem;
+        border-radius: $radius-small;
+        background-image: url('~@/assets/images/placeholder-tiny.png');
+        background-size: cover;
+        background-position: center;
+        overflow: hidden;
+      }
+
+      &.img-loaded {
+        opacity: 1;
+      }
     }
 
     &__info {
@@ -129,7 +157,7 @@
         grid-template-columns: min-content auto 17rem;
       }
 
-      &__img {
+      &__img-wrapper {
         display: block;
       }
 

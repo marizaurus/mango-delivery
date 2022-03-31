@@ -21,6 +21,10 @@
     }
 
     &--product-image {
+      .carousel-cell {
+        margin-right: 1.5rem;
+      }
+
       .flickity {
         &-viewport {
           padding-bottom: 0;

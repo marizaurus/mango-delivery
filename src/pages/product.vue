@@ -317,6 +317,7 @@
         border-radius: $radius-big;
         background-image: url('~@/assets/images/placeholder-big.png');
         background-size: cover;
+        background-position: center;
         overflow: hidden;
       }
 

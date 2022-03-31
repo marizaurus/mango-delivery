@@ -80,6 +80,7 @@
         return visible ? this.$t('buttons.readLess') : this.$t('buttons.readMore');
       },
       calcAssetsHeight() {
+        if (!this.$refs.assets) return;
         return this.$refs.assets.offsetHeight + 'px auto';
       }
     },
@@ -95,7 +96,6 @@
       }
     },
     mounted() {
-
       if (this.isLaptop)
         this.assetsHeight = this.calcAssetsHeight();
 

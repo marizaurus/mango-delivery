@@ -59,9 +59,12 @@
                 <template v-else-if="block.type == 'promo-set'">
                   <div class="grid grid-mobile g-2 gg-2">
                     <div>
-                      <div class="custom-input">
-                        <input type="text">
-                        <label class="custom-input-label">{{ $t('blockTypes.carousel.fields.title') }}<span class="t-red">*</span></label>
+                      <div class="row">
+                        <div class="custom-input">
+                          <input type="text">
+                          <label class="custom-input-label">{{ $t('blockTypes["promo-set"].fields.title') }}<span class="t-red">*</span></label>
+                        </div>
+                        <emoji-picker/>
                       </div>
                       <div class="custom-input">
                         <textarea rows="5"/>
@@ -101,12 +104,14 @@
   import { mapActions, mapGetters } from "vuex";
   import accordion from '@/components/accordion';
   import customSelect from '@/forms/custom-select';
+  import emojiPicker from '@/forms/emoji-picker';
   import _get from 'lodash/get';
 
   export default {
     name: 'page-editor',
     components: {
       'custom-select': customSelect,
+      'emoji-picker': emojiPicker,
       accordion,
     },
     data() {
@@ -233,7 +238,7 @@
       },
       checkFocus(target) {
         return { 'non-empty': this.editor.currentField == target || !!_get(this.$data, target) };
-      }
+      },
     },
     mounted() {
       // hier kommt die spaghetti-code
