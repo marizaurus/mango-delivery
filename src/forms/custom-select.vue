@@ -11,12 +11,14 @@
         <template v-if="selectData.optionType == 'radio'">
           <div class="custom-radio" v-for="(option, i) in selectData.options" :key="i">
             <label>
-              <input type="radio" :name="selectData.code" :value="option.name" v-model="items">
+              <input type="radio" :name="selectData.code" :value="option.code" v-model="items">
               <span class="custom-checkbox-label">{{ option.name }}</span>
             </label>
           </div>
         </template>
         <template v-else>
+          <button class="btn btn-outline custom-select__btn m-auto"
+            @click="clearSelect" v-show="items.length !== 0">{{ $t('forms.clearSelect') }}</button>
           <div class="custom-checkbox" v-for="(option, i) in selectData.options" :key="i">
             <label>
               <input type="checkbox" :name="selectData.code" :value="option.code" v-model="items">
@@ -67,18 +69,17 @@
       }
     },
     methods: {
-      setInitial() {
-        this.selectData.initial.forEach(el => {
-          let item = this.selectData.options.find((i) => i.name == el);
-          if (!item) return;
-          this.items.push(item.code);
-        });
+      clearSelect() {
+        this.items = [];
       }
     },
     watch: {
       'selectData.initial': function() {
-        this.setInitial();
-      }
+        this.items = this.selectData.initial;
+      },
+      'items': function() {
+        this.$emit("selectUpdated", this.items);
+      },
     }
   }
 </script>
@@ -140,6 +141,15 @@
           font-size: 1.2rem;
           top: .4rem;
         }
+      }
+    }
+
+    &__btn.btn-outline {
+      font-size: 1.6rem;
+      margin-bottom: .8rem;
+
+      &:hover {
+        color: $beige-dark;
       }
     }
 

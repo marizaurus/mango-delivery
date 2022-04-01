@@ -1,8 +1,10 @@
 <template>
-  <div class="category-card"
-    :style="{ backgroundImage: `url(${ itemData.image })` }">
-    <div class="category-card__title">{{ itemData.title }}</div>
-    <div class="category-card__description">{{ itemData.description }}</div>
+  <div class="category-card">
+    <div class="category-card__image" ref="image"
+      :style="{ backgroundImage: `url(${ itemData.image })` }">
+      <div class="category-card__title">{{ itemData.title }}</div>
+      <div class="category-card__description">{{ itemData.description }}</div>
+    </div>
   </div>
 </template>
 
@@ -16,33 +18,54 @@ export default {
       image: String
     },
   },
-  methods: {}
+  methods: {
+    onLoad() {
+      // placeholder workaround for background-image
+      let img =  new Image();
+      img.onload = () => this.$refs.image.classList.add('img-loaded');
+      img.src = this.itemData.image;
+    }
+  },
+  mounted() {
+    this.onLoad();
+  }
 }
 </script>
 
 <style lang="scss">
   .category-card {
     border-radius: $radius-medium;
+    background-image: url('~@/assets/images/placeholder-medium.png');
     background-size: cover;
+    background-position: center;
     position: relative;
     width: 100%;
     max-width: 42rem;
     height: 15rem;
+    overflow: hidden;
     cursor: pointer;
 
-    &:not(:last-child) {
-      margin-right: 4rem;
-    }
-
-    &::after {
-      position: absolute;
-      content: "";
+    &__image {
       width: 100%;
       height: 100%;
-      border-radius: $radius-medium;
+      background-size: cover;
+      background-position: center;
       opacity: 0;
-      transition: .2s linear;
-      background-color: $white;
+      transition: opacity .2s linear;
+
+      &::after {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: .2s linear;
+        background-color: $white;
+      }
+
+      &.img-loaded {
+        opacity: 1;
+      }
     }
 
     &__title {
@@ -73,7 +96,7 @@ export default {
       transform: translateX(-50%) translateY(-50%);
     }
 
-    &:hover {
+    &:hover .category-card__image.img-loaded {
       &::after,
       .category-card__description {
         opacity: 1;

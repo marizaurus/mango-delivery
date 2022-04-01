@@ -2,7 +2,7 @@
   <div class="product-stripe grid grid-mobile g-3">
     <div class="product-stripe__img-wrapper">
       <img class="product-stripe__img" :class="{ 'img-loaded': this.isLoaded }"
-        :src="itemData.image" @load="onLoad">
+        :src="itemData.image" alt="product image" @load="onLoad">
     </div>
     <div class="product-stripe__info">
       <div class="product-stripe__info-name row">

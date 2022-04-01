@@ -119,6 +119,20 @@ body {
     }
   }
 
+  &-tab {
+    background-color: transparent;
+    border-bottom: .6rem solid $beige;
+    font-size: 2rem;
+    font-weight: 500;
+    padding: 0 2rem .6rem;
+    transition: border-color .1s linear;
+
+    &:hover,
+    &.active {
+      border-color: $grey-dark;
+    }
+  }
+
   &-icon {
     padding: .5rem 1rem;
     border-radius: $radius-small;

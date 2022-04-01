@@ -1036,5 +1036,23 @@
       "title": "Аллерген в составе",
       "color": "grey"
     }
-  ]
+  ],
+  "order-history": {
+    "searchParams": {
+      "statuses": [
+        {
+          "code": "new",
+          "name": "Новый"
+        },
+        {
+          "code": "inProgress",
+          "name": "Готовится"
+        },
+        {
+          "code": "delivery",
+          "name": "Доставка"
+        }
+      ]
+    }
+  }
 }

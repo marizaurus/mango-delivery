@@ -32,6 +32,11 @@ export const store = createStore({
     editor: {
       info: {},
       blocks: []
+    },
+    orderHistory: {
+      searchParams: {
+        statuses: [],
+      }
     }
   },
   mutations: { // synchronous
@@ -67,7 +72,10 @@ export const store = createStore({
         info: JSON.parse(JSON.stringify(state.restaurantInfo)),
         blocks: JSON.parse(JSON.stringify(state.restaurantBlocks))
       }
-    }
+    },
+    SET_ORDER_HISTORY: (state, orderHistory) => {
+      state.orderHistory = orderHistory;
+    },
   },
   actions: { // asynchronous
     GET_HOME_BLOCKS_API({ commit }) {
@@ -194,7 +202,22 @@ export const store = createStore({
     // create a copy during edit
     GET_RESTAURANT_COPY({commit}) {
       commit('SET_RESTAURANT_COPY');
-    }
+    },
+    GET_ORDER_HISTORY_API({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_TAGS', db['tags']);
+      } else {
+        return axios(process.env.VUE_APP_API_BASE + 'order-history', {
+          method: 'GET',
+        }).then((orderHistory) => {
+          commit('SET_ORDER_HISTORY', orderHistory.data);
+          return orderHistory;
+        }).catch((error) => {
+          console.log(error);
+          return error;
+        });
+      }
+    },
   },
   getters: {
     // cool method-style thingy
@@ -225,6 +248,9 @@ export const store = createStore({
     },
     RESTAURANT_COPY(state) {
       return state.editor;
+    },
+    ORDER_HISTORY(state) {
+      return state.orderHistory;
     }
   },
 });

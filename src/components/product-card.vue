@@ -2,7 +2,7 @@
   <div class="product-card">
     <div class="product-card__image-wrapper">
       <img class="img product-card__image" :class="{ 'img-loaded': this.isLoaded }"
-        :src="itemData.image" @load="onLoad">
+        :src="itemData.image" alt="product image" @load="onLoad">
     </div>
     <div class="product-card__info">
       <div class="product-card__info-row row">
@@ -60,10 +60,6 @@
     background-color: $white;
     border-radius: $radius-medium;
     overflow: hidden;
-
-    &:not(:last-child) {
-      margin-right: 3rem;
-    }
 
     &__image {
       width: 100%;

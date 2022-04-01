@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="page-editor">
     <div class="container container-slim m-resp">
       <h1 class="page-editor__title">{{ $t('pageEditor.title') }}</h1>
@@ -374,4 +374,4 @@
       box-shadow: 0 5px 0 $beige-dark;
     }
   }
-</style>
+</style> -->

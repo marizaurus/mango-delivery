@@ -2,9 +2,6 @@
   <div class="restaurant">
     <div class="container container-slim">
       <div class="restaurant-card m-resp grid grid-tablet g-2">
-        <div class="restaurant-card__image"
-          :style="{ backgroundImage: `url(${ info.image })` }"/>
-
         <div class="restaurant-card__info block-neat"
           :class="[ ('restaurant-card__info--' + info.infoAlignment) ]">
           <h1 class="restaurant-card__info-title">{{ info.title }}</h1>
@@ -16,8 +13,7 @@
             <span>{{ info.cuisines.join(', ') }}</span>  
           </div>
           <div class="restaurant-card__info-tags row">
-            <tag
-              v-for="tag in info.tags" :key="tag.id"
+            <tag v-for="tag in info.tags" :key="tag.id"
               :tag-data="tag"/>
           </div>
           <button class="btn btn-primary btn-orange-light restaurant-btn m-auto">
@@ -25,8 +21,11 @@
             <font-awesome-icon icon="angle-right"/>
           </button>
         </div>
+        <div class="restaurant-card__image-wrapper">
+          <div class="restaurant-card__image" ref="image"
+          :style="{ backgroundImage: `url(${ info.image })` }"/>
+        </div>
       </div>
-
       <button class="btn btn-primary btn-orange-light restaurant-btn m-auto">
         <span>{{ $t('buttons.browseAll') }}</span>
         <font-awesome-icon icon="angle-right"/>
@@ -67,9 +66,14 @@
         'GET_RESTAURANT_INFO_API',
         'GET_RESTAURANT_BLOCKS_API',
       ]),
+      onLoad() {
+      let img =  new Image();
+      img.onload = () => this.$refs.image.classList.add('img-loaded');
+      img.src = this.info.image;
+      },
     },
     mounted() {
-      this.GET_RESTAURANT_INFO_API();
+      this.GET_RESTAURANT_INFO_API().then(() => this.onLoad());
       this.GET_RESTAURANT_BLOCKS_API();
     }
   }
@@ -106,10 +110,24 @@
         }
       }
 
-      &__image {
+      &__image-wrapper {
+        background-image: url('~@/assets/images/placeholder-big.png');
         background-size: cover;
         background-position: center;
         height: 20rem;
+
+        .restaurant-card__image {
+          opacity: 0;
+          background-size: cover;
+          background-position: center;
+          height: 100%;
+          width: 100%;
+          transition: opacity .2s linear;
+
+          &.img-loaded {
+            opacity: 1;
+          }
+        }
       }
 
       .restaurant-btn.btn {
@@ -135,7 +153,7 @@
           }
         }
 
-        &__image {
+        &__image-wrapper {
           height: unset;
         }
 

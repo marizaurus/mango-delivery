@@ -3,13 +3,14 @@
     <div class="v-header__wrapper">
       <div class="container">
         <div class="row">
-          <img :src="require('@/assets/images/logo.svg')" class="v-header__logo"/>
+          <img :src="require('@/assets/images/logo.svg')" class="v-header__logo" alt="logo"/>
           <div class="temp-links">
             <router-link :to="{ name: 'home' }">Главная</router-link>
             <router-link :to="{ name: 'cart' }">Корзина</router-link>
             <router-link :to="{ name: 'restaurant' }">Ресторан</router-link>
             <router-link :to="{ name: 'product' }">Блюдо</router-link>
-            <router-link :to="{ name: 'page-editor' }">Редактор</router-link>
+            <!-- <router-link :to="{ name: 'page-editor' }">Редактор</router-link> -->
+            <router-link :to="{ name: 'order-history' }">История</router-link>
           </div>
         </div>
       </div>

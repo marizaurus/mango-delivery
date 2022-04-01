@@ -76,7 +76,8 @@
     "toCart": "В корзину",
     "remove": "Убрать",
     "favorite": "В любимое",
-    "submit": "Отправить"
+    "submit": "Отправить",
+    "search": "Поиск"
   },
   "forms": {
     "name": "Ваше имя",
@@ -88,7 +89,8 @@
     "ingredients": "Состав блюда",
     "serving": "Необычная подача",
     "singleSelected": "1 выбран", 
-    "multSelected": " выбрано"
+    "multSelected": " выбрано",
+    "clearSelect": "Очистить"
   },
   "cart": {
     "title": "Корзина",
@@ -122,6 +124,28 @@
     },
     "right": {
       "title": "Справа"
+    }
+  },
+  "orderHistory": {
+    "title": "История заказов",
+    "tabs": {
+      "active": "Активные",
+      "completed": "Выполненные"
+    },
+    "orderNum": "Номер",
+    "status": "Статус",
+    "client": "Клиент",
+    "dateTime": "Дата и время",
+    "orderSum": "Сумма",
+    "searchParams": {
+      "title": "Параметры поиска",
+      "search": "Поиск",
+      "bothTabs": "Поиск в обеих вкладках",
+      "statuses": {
+        "new": "Новый",
+        "inProgress": "Готовится",
+        "delivery": "Доставка"
+      }
     }
   }
 }
