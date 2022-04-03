@@ -128,7 +128,7 @@
 
   @include breakpoint(tablet) {
     .product-card {
-      @include shadow-angle($beige);
+      // @include shadow-angle($beige);
     }
   }
 </style>

@@ -4,43 +4,50 @@
       <h1 class="order-history__title">{{ $t('orderHistory.title') }}</h1>
       <div class="grid grid-tablet g-7-3 gg-2">
         <div class="row order-history__tabs">
-          <button class="btn btn-tab active">{{ $t('orderHistory.tabs.active') }}</button>
-          <button class="btn btn-tab">{{ $t('orderHistory.tabs.completed') }}</button>
+          <button class="btn btn-tab" :class="{ 'active': isActive('active') }"
+            @click="setActive('active')">{{ $t('orderHistory.tabs.active') }}</button>
+          <button class="btn btn-tab" :class="{ 'active': isActive('completed') }"
+            @click="setActive('completed')">{{ $t('orderHistory.tabs.completed') }}</button>
         </div>
-        <div></div>
-        <div></div>
-        <div class="order-history__controls block-neat">
-          <h3 class="order-history__controls-title">{{ $t('orderHistory.searchParams.title') }}</h3>
-          <div class="controls block-neat">
-            <div class="custom-input controls-query">
-              <input type="text" v-on="formEvents('searchParams.query')" v-model="searchParams.query">
-              <label class="custom-input-label" :class="checkFocus('searchParams.query')">{{ $t('orderHistory.searchParams.search') }}</label>
-            </div>
-            <custom-select class="select-form controls-status" :selectData="statusesData" @selectUpdated="searchParams.statuses = $event"/>
-            <div class="controls-sum">
-              <div class="row" ref="inputs">
-                <div class="controls-sum__input-wrapper">
-                  <input type="text" class="controls-sum__input" v-model.number="searchParams.orderSum[0]" @input="(e) => handleInput(e, 0)"/>
-                </div>
-                <div class="controls-sum__input-wrapper">
-                  <input type="text" class="controls-sum__input" v-model.number="searchParams.orderSum[1]" @input="(e) => handleInput(e, 1)"/>
-                </div>
+        <span></span>
+        <div>
+          <div v-show="isActive('active')">Active</div>
+          <div v-show="isActive('completed')">Completed</div>
+        </div>
+        <div class="order-history__controls">
+          <div class="block-sticky--tablet block-neat">
+            <h3 class="order-history__controls-title">{{ $t('orderHistory.searchParams.title') }}</h3>
+            <div class="controls block-neat">
+              <div class="custom-input controls-query">
+                <input type="text" v-on="formEvents('searchParams.query')" v-model="searchParams.query">
+                <label class="custom-input-label" :class="checkFocus('searchParams.query')">{{ $t('orderHistory.searchParams.search') }}</label>
               </div>
-              <!-- deal with @error later -->
-              <!-- https://nightcatsama.github.io/vue-slider-component/#/advanced/input -->
-              <vue-slider ref="slider" v-model="searchParams.orderSum" v-bind="sliderOptions"></vue-slider>
+              <custom-select class="select-form controls-status" :selectData="statusesData" @selectUpdated="searchParams.statuses = $event"/>
+              <div class="controls-sum">
+                <div class="row" ref="inputs">
+                  <div class="controls-sum__input-wrapper">
+                    <input type="text" class="controls-sum__input" v-model.number="searchParams.orderSum[0]" @input="(e) => handleInput(e, 0)"/>
+                  </div>
+                  <div class="controls-sum__input-wrapper">
+                    <input type="text" class="controls-sum__input" v-model.number="searchParams.orderSum[1]" @input="(e) => handleInput(e, 1)"/>
+                  </div>
+                </div>
+                <!-- deal with @error later - add red border to input -->
+                <!-- https://nightcatsama.github.io/vue-slider-component/#/advanced/input -->
+                <vue-slider ref="slider" v-model="searchParams.orderSum" v-bind="sliderOptions"></vue-slider>
+              </div>
+              <div class="custom-checkbox">
+                <label>
+                  <input type="checkbox" v-model="searchParams.bothTabs">
+                  <span class="custom-checkbox-label">{{ $t('orderHistory.searchParams.bothTabs') }}</span>
+                </label>
+              </div>
             </div>
-            <div class="custom-checkbox">
-              <label>
-                <input type="checkbox" v-model="searchParams.bothTabs">
-                <span class="custom-checkbox-label">{{ $t('orderHistory.searchParams.bothTabs') }}</span>
-              </label>
-            </div>
+            <button class="btn btn-primary btn-orange-light m-auto">
+              <span>{{ $t('buttons.search') }}</span>
+              <font-awesome-icon icon="angle-right"/>
+            </button>
           </div>
-          <button class="btn btn-primary btn-orange-light m-auto">
-            <span>{{ $t('buttons.search') }}</span>
-            <font-awesome-icon icon="angle-right"/>
-          </button>
         </div>
       </div>
     </div>
@@ -62,6 +69,7 @@
     },
     data() {
       return {
+        activeTab: 'active',
         currentField: '',
         searchParams: {
           query: '',
@@ -99,6 +107,7 @@
       ...mapActions([
         'GET_ORDER_HISTORY_API',
       ]),
+      // form fields
       formEvents(target) {
         return {
           focus: () => this.setField(target),
@@ -117,6 +126,13 @@
       handleInput(e, data) {
         this.searchParams.orderSum.splice(data, 1, +e.target.value || 0);
         this.$refs.slider.setValue(this.searchParams.orderSum);
+      },
+      // tabs
+      isActive(menuItem) {
+        return this.activeTab === menuItem;
+      },
+      setActive(menuItem) {
+        this.activeTab = menuItem;
       },
     },
     // watch: {

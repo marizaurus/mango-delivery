@@ -37,6 +37,13 @@ export const store = createStore({
       searchParams: {
         statuses: [],
       }
+    },
+    catalog: {
+      searchParams: {
+        categories: [],
+        cuisines: [],
+      },
+      items: [],
     }
   },
   mutations: { // synchronous
@@ -75,6 +82,9 @@ export const store = createStore({
     },
     SET_ORDER_HISTORY: (state, orderHistory) => {
       state.orderHistory = orderHistory;
+    },
+    SET_CATALOG: (state, catalog) => {
+      state.catalog = catalog;
     },
   },
   actions: { // asynchronous
@@ -205,13 +215,28 @@ export const store = createStore({
     },
     GET_ORDER_HISTORY_API({ commit }) {
       if (process.env.NODE_ENV === 'production') {
-        commit('SET_TAGS', db['tags']);
+        commit('SET_ORDER_HISTORY', db['order-history']);
       } else {
         return axios(process.env.VUE_APP_API_BASE + 'order-history', {
           method: 'GET',
         }).then((orderHistory) => {
           commit('SET_ORDER_HISTORY', orderHistory.data);
           return orderHistory;
+        }).catch((error) => {
+          console.log(error);
+          return error;
+        });
+      }
+    },
+    GET_CATALOG_API({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_CATALOG', db['catalog']);
+      } else {
+        return axios(process.env.VUE_APP_API_BASE + 'catalog', {
+          method: 'GET',
+        }).then((catalog) => {
+          commit('SET_CATALOG', catalog.data);
+          return catalog;
         }).catch((error) => {
           console.log(error);
           return error;
@@ -251,6 +276,9 @@ export const store = createStore({
     },
     ORDER_HISTORY(state) {
       return state.orderHistory;
+    },
+    CATALOG(state) {
+      return state.catalog;
     }
   },
 });

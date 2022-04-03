@@ -140,12 +140,25 @@
     "searchParams": {
       "title": "Параметры поиска",
       "search": "Поиск",
-      "bothTabs": "Поиск в обеих вкладках",
-      "statuses": {
-        "new": "Новый",
-        "inProgress": "Готовится",
-        "delivery": "Доставка"
-      }
+      "bothTabs": "Поиск в обеих вкладках"
+    }
+  },
+  "catalog": {
+    "title": "Каталог",
+    "itemsFound": "Товаров: ",
+    "sortOptions": "Сортировка",
+    "searchParams": {
+      "search": "Поиск",
+      "categories": "Категории",
+      "cuisines": "Кухни",
+      "productCost": "Стоимость"
+    },
+    "sortParams": {
+      "popular": "Сначала популярные",
+      "cheap": "Сначала дешевле",
+      "expensive": "Сначала дороже",
+      "highlyRated": "Сначала с высоким рейтингом",
+      "onSale": "Сначала со скидкой"
     }
   }
 }

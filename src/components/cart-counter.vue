@@ -1,41 +1,57 @@
 <template>
-  <!-- <button class="btn btn-icon btn-orange-light cart-counter__btn-cart d-none">
-    <font-awesome-icon icon="basket-shopping"/>
-  </button> -->
-  <div class="cart-counter row">
-    <div class="btn-orange-light cart-counter__btn cart-counter__btn-minus">–</div>
-    <div class="cart-counter__value">1</div>
-    <div class="btn-orange-light cart-counter__btn cart-counter__btn-plus">+</div>
+  <div class="cart-counter">
+    <button class="btn btn-icon btn-orange-light cart-counter__btn-cart"
+      v-show="counter < 1" @click="counter = 1">
+      <font-awesome-icon icon="basket-shopping"/>
+    </button>
+    <div class="row" v-show="counter > 0" >
+      <div class="btn-orange-light cart-counter__btn cart-counter__btn-minus" @click="counter--">
+        <font-awesome-icon icon="minus"/>
+      </div>
+      <div class="cart-counter__value">{{ counter }}</div>
+      <div class="btn-orange-light cart-counter__btn cart-counter__btn-plus" @click="counter++">
+        <font-awesome-icon icon="plus"/>
+      </div>
+    </div>
+    
   </div>
 </template>
 
 <script>
   export default {
-    name: "cart-counter"
+    name: "cart-counter",
+    data() {
+      return {
+        counter: 0,
+      }
+    }
   }
 </script>
 
 <style lang="scss">
   .cart-counter {
-    height: 3rem;
     font-weight: 500;
     text-align: center;
-    align-items: stretch !important;
     border-radius: $radius-small;
     overflow: hidden;
     background-color: $white;
 
+    .row {
+      height: 3rem;
+      align-items: stretch;
+    }
+
     &__btn {
       color: $white;
-      font-size: 2.4rem;
+      font-size: 1.8rem;
+      line-height: 3rem;
       width: 2.2rem;
       cursor: pointer;
       transition: background .1s linear;
 
       &-cart {
-        height: 3rem;
-        width: 7.5rem;
-        margin: 0 !important;
+        height: 100%;
+        width: 8rem;
       }
     }
 

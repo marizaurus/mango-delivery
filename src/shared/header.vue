@@ -11,6 +11,7 @@
             <router-link :to="{ name: 'product' }">Блюдо</router-link>
             <!-- <router-link :to="{ name: 'page-editor' }">Редактор</router-link> -->
             <router-link :to="{ name: 'order-history' }">История</router-link>
+            <router-link :to="{ name: 'catalog' }">Каталог</router-link>
           </div>
         </div>
       </div>

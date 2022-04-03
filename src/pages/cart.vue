@@ -24,14 +24,18 @@
           </accordion>
         </div>
 
-        <div class="cart__tab block-neat">
-          <h3 class="cart__tab-title">{{ $t('cart.tab-title') }}</h3>
-          <h3 class="cart__tab-total">{{ $t('cart.total') }}</h3>
-          <h3 class="cart__tab-code">{{ $t('cart.code') }}</h3>
-          <button class="btn btn-primary btn-orange-light m-auto">
-            <span>{{ $t('buttons.order') }}</span>
-            <font-awesome-icon icon="angle-right"/>
-          </button>
+        <div>
+          <div class="block-sticky--laptop">
+            <div class="cart__tab block-neat">
+              <h3 class="cart__tab-title">{{ $t('cart.tab-title') }}</h3>
+              <h3 class="cart__tab-total">{{ $t('cart.total') }}</h3>
+              <h3 class="cart__tab-code">{{ $t('cart.code') }}</h3>
+            </div>
+            <button class="btn btn-primary btn-orange-light m-auto">
+              <span>{{ $t('buttons.order') }}</span>
+              <font-awesome-icon icon="angle-right"/>
+            </button>
+          </div>
         </div>
       </div>
     </div>

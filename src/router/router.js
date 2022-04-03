@@ -6,6 +6,7 @@ import restaurant from '../pages/restaurant';
 import product from '../pages/product';
 // import pageEditor from '../pages/page-editor';
 import orderHistory from '../pages/order-history';
+import catalog from '../pages/catalog';
 
 export default createRouter({
   history: createWebHistory(),
@@ -39,6 +40,11 @@ export default createRouter({
       path: process.env.VUE_APP_PATH + 'order-history',
       name: 'order-history',
       component: orderHistory,
+    },
+    {
+      path: process.env.VUE_APP_PATH + 'catalog',
+      name: 'catalog',
+      component: catalog,
     },
   ]
 });

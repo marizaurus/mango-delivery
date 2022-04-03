@@ -50,6 +50,7 @@ export default {
       height: 100%;
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
       opacity: 0;
       transition: opacity .2s linear;
 

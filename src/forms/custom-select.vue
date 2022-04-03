@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-select-wrapper">
+  <div class="custom-select-wrapper" :class="{ 'wide': selectData.wide, 'content-right': selectData.alignment == 'right' }">
     <accordion class="custom-select" :closeOnBlur="true">
       <template #accordionTrigger>
         <div class="custom-select__initial" :class="{ 'non-empty' :  items.length > 0 }">
@@ -17,8 +17,8 @@
           </div>
         </template>
         <template v-else>
-          <button class="btn btn-outline custom-select__btn m-auto"
-            @click="clearSelect" v-show="items.length !== 0">{{ $t('forms.clearSelect') }}</button>
+          <!-- <button class="btn btn-outline custom-select__btn m-auto"
+            @click="clearSelect" v-show="items.length !== 0">{{ $t('forms.clearSelect') }}</button> -->
           <div class="custom-checkbox" v-for="(option, i) in selectData.options" :key="i">
             <label>
               <input type="checkbox" :name="selectData.code" :value="option.code" v-model="items">
@@ -50,7 +50,9 @@
         title: String,
         optionType: String,
         required: Boolean,
+        wide: Boolean,
         initial: Array,
+        alignment: String,
         options: [
           {
             code: String,
@@ -62,17 +64,17 @@
     computed: {
       selectText() {
         if (this.selectData.optionType == 'radio')
-          return this.items.length > 0 ? this.selectData.options.find((i) => i.code == this.items[0]).name : '';
+          return this.items.length > 0 ? this.selectData.options.find((i) => i.code == this.items).name : '';
 
         return this.items.length > 0 ? this.items.length == 1 ?
           this.$t('forms.singleSelected') : this.items.length + this.$t('forms.multSelected') : '';
       }
     },
-    methods: {
-      clearSelect() {
-        this.items = [];
-      }
-    },
+    // methods: {
+    //   clearSelect() {
+    //     this.items = [];
+    //   }
+    // },
     watch: {
       'selectData.initial': function() {
         this.items = this.selectData.initial;
@@ -117,6 +119,12 @@
           box-shadow: 0 5px 0 $beige;
         }
       }
+
+      &.content-right {
+        .accordion__content {
+          right: 0;
+        }
+      }
     }
 
     &__initial {
@@ -130,7 +138,6 @@
 
       &-label {
         position: absolute;
-        font-weight: 500;
         left: 1rem;
         top: 1.6rem;
         transition: .2s ease;
@@ -141,6 +148,14 @@
           font-size: 1.2rem;
           top: .4rem;
         }
+      }
+
+      &-text {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 14rem;
       }
     }
 
@@ -162,6 +177,9 @@
       padding: 1rem;
       background-color: $white;
       box-sizing: border-box;
+      position: absolute;
+      min-width: 100%;
+      width: max-content;
 
       @extend .block-neat;
     }
@@ -183,10 +201,24 @@
         &:not(:last-child) {
           margin-right: 2.4rem;
         }
+
+        &.wide {
+          width: 100%;
+          margin-right: 0 !important;
+
+          .custom-select,
+          .custom-select__initial {
+            width: 100%;
+          }
+        }
       }
 
       &__initial {
         min-width: 20rem;
+
+        &-text {
+          width: 18rem;
+        }
       }
     }
   }

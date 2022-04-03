@@ -59,15 +59,13 @@
         </div>
       </div>
       <h2 class="product__ingredients-title">{{ $t('blocks.alterIngredients') }}</h2>
-      <!-- <div class="product__ingredients row">
-        this z-index is scary, but works
-        <custom-select class="product__ingredients-option"
-          v-for="(option, i) in productInfo.alterOptions" :key="i"
-          :style="{ 'z-index': productInfo.alterOptions.length - i }"
-          :selectData="option"/>
-      </div> -->
+      <div class="product__ingredients row">
+        <!-- this z-index is scary, but works -->
+        <custom-select class="product__ingredients-option" :style="{ 'z-index': productInfo.alterOptions.length - i }"
+          v-for="(option, i) in productInfo.alterOptions" :key="i" :selectData="getAlterOption(option)"/>
+      </div>
     </div>
-    <!-- <div class="m-resp comments">
+    <div class="m-resp comments">
       <div class="container container-slim">
         <h1 class="comments__title">{{ $t('blocks.ratingComments') }}</h1>
       </div>
@@ -143,22 +141,17 @@
             </div>
           </div>
 
-          <div class="comments__promo block-neat"
-            id="product-offer"
-            v-if="showCard">
+          <div class="comments__promo block-neat" id="product-offer" v-if="showCard">
             <h3 class="comments__promo-title">{{ $t('blocks.tryPromo') }}</h3>
-            <product-card
-              :itemData="focusedItem"
-              class="m-auto"/>
+            <product-card :itemData="focusedItem" class="m-auto"/>
             <button class="comments__promo-btn btn btn-outline m-auto"
-              v-if="showCard"
-              @click="toggleCard">
+              v-if="showCard" @click="toggleCard">
               {{ $t('buttons.hidePromo') }}
             </button>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="container product__blocks">
       <h1>{{ $t('blocks.productOffers') }}</h1>
       <component
@@ -236,7 +229,7 @@
         productInfo: 'PRODUCT_INFO',
         comments: 'COMMENTS',
         blocks: 'CART_BLOCKS',
-      })
+      }),
     },
     methods: {
       ...mapActions([
@@ -265,6 +258,13 @@
       },
       checkFocus(target) {
         return { 'non-empty': this.currentField == target || !!_get(this.$data, target) };
+      },
+      getAlterOption(option) {
+        return {
+          code: option.code,
+          title: option.title,
+          options: option.options,
+        }
       }
     },
     mounted() {
@@ -276,21 +276,21 @@
       // until better times ¯\_(ツ)_/¯
       // this.mainIngredients = this.productInfo.ingredients[0].items.map(el => this.$t('ingredients.' + el)).join(', ');
 
-      // Array.from(this.$el.querySelectorAll('.product-link')).forEach((el) => {
-      //   el.setAttribute('href', '#product-offer');
-      //   let comment = this.comments.find((item) => item.id == el.dataset.comment);
-      //   let reply = comment.replies.find((item) => item.id == el.dataset.reply);
+      Array.from(this.$el.querySelectorAll('.product-link')).forEach((el) => {
+        el.setAttribute('href', '#product-offer');
+        let comment = this.comments.find((item) => item.id == el.dataset.comment);
+        let reply = comment.replies.find((item) => item.id == el.dataset.reply);
 
-      //   // don't scroll the page to featured product on desktop
-      //   el.addEventListener('click', (e) => {
-      //     if (!this.isMobile()) e.preventDefault();
-      //   });
+        // don't scroll the page to featured product on desktop
+        el.addEventListener('click', (e) => {
+          if (!this.isMobile()) e.preventDefault();
+        });
 
-      //   el.addEventListener('focus', () => {
-      //     this.focusedItem = reply.items.find((item) => item.id == el.dataset.id);
-      //     this.showCard = true;
-      //   });
-      // });
+        el.addEventListener('focus', () => {
+          this.focusedItem = reply.items.find((item) => item.id == el.dataset.id);
+          this.showCard = true;
+        });
+      });
     }
   }
 </script>

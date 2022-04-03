@@ -134,8 +134,10 @@ body {
   }
 
   &-icon {
-    padding: .5rem 1rem;
+    padding: .4rem 1rem;
     border-radius: $radius-small;
+    color: $white;
+    font-size: 1.8rem;
   }
 
   &-green-light {
@@ -206,11 +208,21 @@ a {
   .grid.grid-tablet {
     @include grid-layout;
   }
+
+  .block-sticky--tablet {
+    position: sticky;
+    top: 2rem;
+  }
 }
 
 @include breakpoint(laptop) {
   .grid.grid-laptop {
     @include grid-layout;
+  }
+
+  .block-sticky--laptop {
+    position: sticky;
+    top: 2rem;
   }
 
   .mobile {
