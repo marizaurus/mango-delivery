@@ -36,7 +36,8 @@ export const store = createStore({
     orderHistory: {
       searchParams: {
         statuses: [],
-      }
+      },
+      active: [],
     },
     catalog: {
       searchParams: {

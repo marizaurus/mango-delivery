@@ -77,7 +77,8 @@
     "remove": "Убрать",
     "favorite": "В любимое",
     "submit": "Отправить",
-    "search": "Поиск"
+    "search": "Поиск",
+    "clientChat": "Чат с клиентом"
   },
   "forms": {
     "name": "Ваше имя",
@@ -116,7 +117,8 @@
   },
   "units": {
     "kcal": "ккал",
-    "g": "г"
+    "g": "г.",
+    "piece": "шт."
   },
   "alignOptions": {
     "left": {
@@ -132,11 +134,13 @@
       "active": "Активные",
       "completed": "Выполненные"
     },
+    "order": "Заказ",
+    "orderFrom": "от",
     "orderNum": "Номер",
     "status": "Статус",
     "client": "Клиент",
     "dateTime": "Дата и время",
-    "orderSum": "Сумма",
+    "orderSum": "Итого",
     "searchParams": {
       "title": "Параметры поиска",
       "search": "Поиск",

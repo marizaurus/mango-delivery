@@ -4,6 +4,9 @@
       <img class="img product-card__image" :class="{ 'img-loaded': this.isLoaded }"
         :src="itemData.image" alt="product image" @load="onLoad">
     </div>
+    <div class="product-card__like-wrapper" :class="{ 'active': isFavorite }" @click="isFavorite = !isFavorite">
+      <font-awesome-icon :icon="isFavorite ? ['fas', 'heart'] : ['far', 'heart']" class="product-stripe__favorite"/>
+    </div>
     <div class="product-card__info">
       <div class="product-card__info-row row">
         <div class="product-card__info-name">{{ itemData.title }}</div>
@@ -34,6 +37,7 @@
     data() {
       return {
         isLoaded: false,
+        isFavorite: this.itemData.isFavorite,
       }
     },
     props: {
@@ -42,7 +46,8 @@
         rating: Number,
         image: String,
         tags: Array,
-        price: Number
+        price: Number,
+        isFavorite: Boolean,
       }
     },
     methods: {
@@ -60,6 +65,13 @@
     background-color: $white;
     border-radius: $radius-medium;
     overflow: hidden;
+    position: relative;
+
+    &:hover {
+      .product-card__like-wrapper {
+        display: block;
+      }
+    }
 
     &__image {
       width: 100%;
@@ -78,6 +90,29 @@
 
       &.img-loaded {
         opacity: 1;
+      }
+    }
+
+    &__like {
+      &-wrapper {
+        border-radius: 50%;
+        background-color: $white;
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+        height: 4.8rem;
+        width: 4.8rem;
+        text-align: center;
+        padding: .8rem;
+        box-sizing: border-box;
+        color: $red;
+        font-size: 3rem;
+        display: none;
+        cursor: pointer;
+
+        &.active {
+          display: block;
+        }
       }
     }
 

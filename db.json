@@ -1053,7 +1053,51 @@
           "name": "Доставка"
         }
       ]
-    }
+    },
+    "active": [
+      {
+        "orderNum": "00052",
+        "status": "Новый",
+        "client": "Маргарита",
+        "dateTime": "29.01.2022 16.59",
+        "orderSum": 1250
+      },
+      {
+        "orderNum": "00051",
+        "status": "Готовится",
+        "client": "Руслан",
+        "dateTime": "29.01.2022 16.52",
+        "orderSum": 1750
+      },
+      {
+        "orderNum": "00048",
+        "status": "Готовится",
+        "client": "Евгения",
+        "dateTime": "29.01.2022 16.51",
+        "orderSum": 750
+      },
+      {
+        "orderNum": "00042",
+        "status": "Доставка",
+        "client": "Петр",
+        "dateTime": "29.01.2022 16.30",
+        "orderSum": 500
+      },
+      {
+        "orderNum": "00033",
+        "status": "Доставка",
+        "client": "Мария",
+        "dateTime": "29.01.2022 16.25",
+        "orderSum": 1500
+      },
+      {
+        "orderNum": "00032",
+        "status": "Доставка",
+        "client": "Александра",
+        "dateTime": "29.01.2022 16.20",
+        "orderSum": 1500
+      }
+    ]
   },
   "catalog": {
     "searchParams": {
@@ -1105,7 +1149,8 @@
           "Primastoria",
           "Пицца"
         ],
-        "price": 1250
+        "price": 1250,
+        "isFavorite": true
       },
       {
         "id": 2,
@@ -1245,5 +1290,295 @@
         "price": 800
       }
     ]
-  }
+  },
+  "orders": [
+    {
+      "orderNum": "00052",
+      "status": "Новый",
+      "client": "Маргарита",
+      "clientTel": "+7 (111) 222-33-44",
+      "orderDate": "29.01.2022",
+      "orderSum": 5200,
+      "items": [
+        {
+          "id": 1,
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/280/250?random=1",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "number": 2,
+          "price": 800
+        },
+        {
+          "id": 2,
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=2",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 1,
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=3",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 3,
+          "price": 750
+        }
+      ]
+    },
+    {
+      "orderNum": "00051",
+      "status": "Готовится",
+      "client": "Руслан",
+      "clientTel": "+7 (111) 222-33-44",
+      "orderDate": "29.01.2022",
+      "orderSum": 1750,
+      "items": [
+        {
+          "id": 1,
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/280/250?random=1",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "number": 2,
+          "price": 800
+        },
+        {
+          "id": 2,
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=2",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 1,
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=3",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 3,
+          "price": 750
+        }
+      ]
+    },
+    {
+      "orderNum": "00048",
+      "status": "Готовится",
+      "client": "Евгения",
+      "clientTel": "+7 (111) 222-33-44",
+      "orderDate": "29.01.2022",
+      "orderSum": 750,
+      "items": [
+        {
+          "id": 1,
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/280/250?random=1",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "number": 2,
+          "price": 800
+        },
+        {
+          "id": 2,
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=2",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 1,
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=3",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 3,
+          "price": 750
+        }
+      ]
+    },
+    {
+      "orderNum": "00042",
+      "status": "Доставка",
+      "client": "Петр",
+      "clientTel": "+7 (111) 222-33-44",
+      "orderDate": "29.01.2022",
+      "orderSum": 500,
+      "items": [
+        {
+          "id": 1,
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/280/250?random=1",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "number": 2,
+          "price": 800
+        },
+        {
+          "id": 2,
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=2",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 1,
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=3",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 3,
+          "price": 750
+        }
+      ]
+    },
+    {
+      "orderNum": "00033",
+      "status": "Доставка",
+      "client": "Мария",
+      "clientTel": "+7 (111) 222-33-44",
+      "orderDate": "29.01.2022",
+      "orderSum": 1500,
+      "items": [
+        {
+          "id": 1,
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/280/250?random=1",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "number": 2,
+          "price": 800
+        },
+        {
+          "id": 2,
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=2",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 1,
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=3",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 3,
+          "price": 750
+        }
+      ]
+    },
+    {
+      "orderNum": "00032",
+      "status": "Доставка",
+      "client": "Александра",
+      "clientTel": "+7 (111) 222-33-44",
+      "orderDate": "29.01.2022",
+      "orderSum": 1500,
+      "items": [
+        {
+          "id": 1,
+          "title": "Грибная",
+          "rating": 4.8,
+          "image": "https://picsum.photos/280/250?random=1",
+          "tags": [
+            "Primastoria",
+            "Пицца"
+          ],
+          "number": 2,
+          "price": 800
+        },
+        {
+          "id": 2,
+          "title": "Ветчина и грибы",
+          "rating": 4.4,
+          "image": "https://picsum.photos/280/250?random=2",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 1,
+          "price": 1350
+        },
+        {
+          "id": 3,
+          "title": "Пепперони",
+          "rating": 4.9,
+          "image": "https://picsum.photos/280/250?random=3",
+          "tags": [
+            "Primastoria",
+            "Пицца",
+            "Мясная"
+          ],
+          "number": 3,
+          "price": 750
+        }
+      ]
+    }
+  ]
 }

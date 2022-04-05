@@ -1,5 +1,5 @@
 <template>
-  <div class="product-stripe grid grid-mobile g-3">
+  <div class="product-stripe grid grid-mobile g-3" :class="{ 'product-stripe--history': type == 'history' }">
     <div class="product-stripe__img-wrapper">
       <img class="product-stripe__img" :class="{ 'img-loaded': this.isLoaded }"
         :src="itemData.image" alt="product image" @load="onLoad">
@@ -16,8 +16,9 @@
       <div class="product-stripe__info-tags">{{ itemData.tags.join(' · ') }}</div>
     </div>
     <div class="product-stripe__controls row">
-      <cart-counter/>
-      <div class="product-stripe__price">{{ itemData.price }} ₽</div>
+      <span class="product-stripe__units" v-if="type == 'history'">{{ itemData.number }} {{ $t('units.piece') }} x {{ itemData.price }}₽</span>
+      <cart-counter v-else/>
+      <div class="product-stripe__price">{{ itemData.number * itemData.price }} ₽</div>
     </div>
   </div>
 </template>
@@ -43,6 +44,7 @@
         tags: Array,
         price: Number
       },
+      type: String,
     },
     methods: {
       onLoad() {
@@ -55,7 +57,7 @@
 <style lang="scss">
   .product-stripe {
     padding: 1rem 1.2rem;
-    border-radius: $radius-medium;
+    border-radius: $radius-small;
 
     &:nth-child(even) {
       background-color: $white;
@@ -137,7 +139,8 @@
       margin-top: -.4rem;
       
       .cart-counter,
-      .product-stripe__price {
+      .product-stripe__price,
+      .product-stripe__units {
         margin-top: .4rem;
       }
     }
@@ -146,6 +149,22 @@
       font-weight: 700;
       font-size: 2rem;
       margin-left: auto;
+    }
+
+    &--history.product-stripe {
+      padding: .8rem 1.6rem;
+
+      .product-stripe {
+        &__info-rating {
+          .product-stripe__favorite {
+            display: none;
+          }
+
+        }
+        &__price {
+          font-size: 1.6rem;
+        }
+      }
     }
   }
 
