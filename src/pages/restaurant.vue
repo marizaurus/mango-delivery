@@ -115,6 +115,7 @@
         background-size: cover;
         background-position: center;
         height: 20rem;
+        grid-row: 1;
 
         .restaurant-card__image {
           opacity: 0;

@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="page-editor">
     <div class="container container-slim m-resp">
       <h1 class="page-editor__title">{{ $t('pageEditor.title') }}</h1>
@@ -144,13 +144,11 @@
           optionType: 'radio',
           required: true,
           options: [],
-          initial: [],
         },
         categoriesData: {
           code: 'categoriesData',
           title: this.$t('blockTypes.main.fields.categories'),
           options: [],
-          initial: [],
         },
         cuisinesData: {
           code: 'cuisinesData',
@@ -252,14 +250,14 @@
         // this.alignData.options = this.alignOptions.map((el, i) => ({ code: i, name: this.$t('alignOptions.' + el + '.title') })),
         // this.alignData.initial = [this.$t('alignOptions.' + this.editor.info.infoAlignment + '.title')];
         this.categoriesData.options = this.info.db.categories.map((el, i) => ({ code: i, name: el }));
-        this.categoriesData.initial = this.editor.info.categories;
+        // this.categoriesData.initial = this.editor.info.categories;
         this.cuisinesData.options = this.info.db.cuisines.map((el, i) => ({ code: i, name: el }));
-        this.cuisinesData.initial = this.editor.info.cuisines;
+        // this.cuisinesData.initial = this.editor.info.cuisines;
       });
 
       this.GET_TAGS_API().then(() => {
         this.tagsData.options = this.tags.map(el => ({ code: el.id, name: el.title }));
-        this.tagsData.initial = this.editor.info.tags.map(el => el.title);
+        // this.tagsData.initial = this.editor.info.tags.map(el => el.title);
       });
 
       Array.from(this.$el.querySelectorAll('.block')).forEach(el => {
@@ -374,4 +372,4 @@
       box-shadow: 0 5px 0 $beige-dark;
     }
   }
-</style> -->
+</style>

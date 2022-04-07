@@ -48,15 +48,15 @@
       selectData: {
         code: String,
         title: String,
-        optionType: String,
-        required: Boolean,
-        wide: Boolean,
-        initial: Array,
-        alignment: String,
+        optionType: String, // check/radio
+        required: Boolean,  // editor
+        wide: Boolean,      // catalog filters
+        alignment: String,  // catalog sort
         options: [
           {
             code: String,
             name: String,
+            isChecked: Boolean,
           }
         ],
       },
@@ -64,7 +64,7 @@
     computed: {
       selectText() {
         if (this.selectData.optionType == 'radio')
-          return this.items.length > 0 ? this.selectData.options.find((i) => i.code == this.items).name : '';
+          return this.items.length > 0 ? this.selectData.options.find(i => i.code == this.items).name : '';
 
         return this.items.length > 0 ? this.items.length == 1 ?
           this.$t('forms.singleSelected') : this.items.length + this.$t('forms.multSelected') : '';
@@ -76,8 +76,11 @@
     //   }
     // },
     watch: {
-      'selectData.initial': function() {
-        this.items = this.selectData.initial;
+      'selectData.options': function() {
+        this.items = this.selectData.options.filter(el => el.isChecked).map(el => el.code);
+
+        if (this.selectData.optionType == 'radio')
+          this.items = this.items[0];
       },
       'items': function() {
         this.$emit("selectUpdated", this.items);

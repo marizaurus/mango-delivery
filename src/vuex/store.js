@@ -5,7 +5,6 @@ import db from "../../db.json";
 export const store = createStore({
   state: {
     homeBlocks: [],
-    cartItems: [],
     cartBlocks: [],
     restaurantInfo: {
       categories: [],
@@ -51,9 +50,6 @@ export const store = createStore({
     SET_HOME_BLOCKS: (state, homeBlocks) => {
       state.homeBlocks = homeBlocks;
     },
-    SET_CART_ITEMS: (state, cartItems) => {
-      state.cartItems = cartItems;
-    },
     SET_CART_BLOCKS: (state, cartBlocks) => {
       state.cartBlocks = cartBlocks;
     },
@@ -98,22 +94,6 @@ export const store = createStore({
         }).then((home) => {
           commit('SET_HOME_BLOCKS', home.data);
           return home;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
-    GET_CART_ITEMS_API({ commit }) {
-      // i'm serious, my eyes are bleeding looking at this
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_CART_ITEMS', db['cart-items']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'cart-items', {
-          method: 'GET',
-        }).then((cart) => {
-          commit('SET_CART_ITEMS', cart.data);
-          return cart;
         }).catch((error) => {
           console.log(error);
           return error;
@@ -250,9 +230,6 @@ export const store = createStore({
     // https://next.vuex.vuejs.org/guide/getters.html#method-style-access
     HOME_BLOCKS(state) { // (state, getters)
       return state.homeBlocks;
-    },
-    CART_ITEMS(state) {
-      return state.cartItems;
     },
     CART_BLOCKS(state) {
       return state.cartBlocks;

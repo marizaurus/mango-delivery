@@ -5,20 +5,20 @@
       <div class="grid grid-laptop g-7-3 gg-2">
         <div class="cart__items block-neat">
           <accordion class="cart-section"
-            v-for="cartItem in CART_ITEMS" :key="cartItem.id"
+            v-for="(cartItem, i) in cartItems" :key="i"
             :initialVisible="initialVisible">
             <template #accordionTrigger>
               <div class="cart-section__header row">
                 <h3 class="cart-section__header-title">{{ cartItem.title }}</h3>
                 <div class="cart-section__header-items">{{ $t('cart.items') }} {{ cartItem.items.length }}</div>
-                <div class="cart-section__header-total">{{ $t('cart.total') }} {{ cartItem.total }} ₽</div>
+                <div class="cart-section__header-total">{{ $t('cart.total') }} {{ getTotal(i) }} ₽</div>
               </div>
             </template>
             <template #accordionContent>
               <div class="cart-section__items accordion">
                 <product-stripe
-                  v-for="item in cartItem.items" :key="item.id"
-                  :itemData="item"/>
+                  v-for="(item, j) in cartItem.items" :key="j"
+                  :itemData="item" @counterUpdated="cartItems[i].items[j].number = $event"/>
               </div>
             </template>
           </accordion>
@@ -53,6 +53,8 @@
   import productStripe from '../components/product-stripe.vue';
   import carousel from '@/components/carousel';
   import promoSet from '@/components/promo-set'
+  import db from "../../db.json";
+  import axios from 'axios';
 
   export default {
     name: "cart",
@@ -65,23 +67,53 @@
     data() {
       return {
         initialVisible: true,
+        cartItems: [
+          {
+            id: 0,
+            title: '',
+            total: 0,
+            items: [
+              {
+                id: 0,
+                title: '',
+                rating: 0,
+                image: '',
+                number: 1,
+                price: 0,
+                tags: [],
+              }
+            ]
+          }
+        ]
       }
     },
     computed: {
       ...mapGetters([
-        'CART_ITEMS',
         'CART_BLOCKS',
       ]),
     },
     methods: {
       ...mapActions([
-        'GET_CART_ITEMS_API',
         'GET_CART_BLOCKS_API',
       ]),
+      getCart() {
+        if (process.env.NODE_ENV === 'production') {
+          this.cartItems = db['cart-items'];
+        } else {
+          axios.get(process.env.VUE_APP_API_BASE + 'cart-items')
+            .then(response => {
+              this.cartItems = response.data;
+              this.cartItems.forEach(el => el.items.forEach(i => i.number = i.number || 1));
+            });
+        }
+      },
+      getTotal(i) {
+        return this.cartItems[i].items.map(el => el.number * el.price).reduce((el, sum) => sum + el, 0);
+      },
     },
     mounted() {
-      this.GET_CART_ITEMS_API();
       this.GET_CART_BLOCKS_API();
+      this.getCart();
     }
   }
 </script>

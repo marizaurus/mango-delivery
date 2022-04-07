@@ -17,7 +17,7 @@
               <span>{{ $t('orderHistory.status') }}</span>
               <span>{{ $t('orderHistory.client') }}</span>
               <span>{{ $t('orderHistory.dateTime') }}</span>
-              <span>{{ $t('orderHistory.orderSum') }}</span>
+              <span style="text-align: end;">{{ $t('orderHistory.orderSum') }}</span>
             </div>
             <!-- :closeOnBlur="true" -->
             <accordion class="order-history__table-row" :closeOnBlur="true"

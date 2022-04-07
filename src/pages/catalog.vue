@@ -96,7 +96,6 @@
           code: 'sortData',
           title: this.$t('catalog.sortOptions'),
           optionType: 'radio',
-          // initial: [],
           options: [],
           alignment: 'right',
         },
@@ -148,7 +147,8 @@
         this.cuisinesData.options = this.catalog.searchParams.cuisines;
       });
 
-      this.sortData.options = this.sortOptions.map(el => ({ code: el, name: this.$t('catalog.sortParams.' + el) }))
+      this.sortData.options = this.sortOptions.map(el => ({ code: el, name: this.$t('catalog.sortParams.' + el) }));
+      this.sortData.options[0].isChecked = true;
     }
   }
 </script>

@@ -10,15 +10,19 @@
         <div class="product-stripe__info-rating row">
           <font-awesome-icon icon="star"/>
           <div class="product-stripe__info-rating-value">{{ itemData.rating }}</div>
-          <font-awesome-icon :icon="['far', 'heart']" class="product-stripe__favorite"/>
+          <font-awesome-icon :icon="isFavorite ? ['fas', 'heart'] : ['far', 'heart']"
+            class="product-stripe__favorite" @click="isFavorite = !isFavorite"/>
         </div>
       </div>
       <div class="product-stripe__info-tags">{{ itemData.tags.join(' · ') }}</div>
     </div>
     <div class="product-stripe__controls row">
-      <span class="product-stripe__units" v-if="type == 'history'">{{ itemData.number }} {{ $t('units.piece') }} x {{ itemData.price }}₽</span>
-      <cart-counter v-else/>
-      <div class="product-stripe__price">{{ itemData.number * itemData.price }} ₽</div>
+      <span class="product-stripe__units" v-if="type == 'history'">{{ counter }} {{ $t('units.piece') }} x {{ itemData.price }}₽</span>
+      <div class="row" v-else>
+        <cart-counter :number="counter" :type="'cart'" @counterUpdated="counter = $event"/>
+        <span class="product-stripe__units--counter" v-show="counter > 0">x {{ itemData.price }}₽</span>
+      </div>
+      <div class="product-stripe__price">{{ counter * itemData.price }} ₽</div>
     </div>
   </div>
 </template>
@@ -34,6 +38,8 @@
     data() {
       return {
         isLoaded: false,
+        isFavorite: this.itemData.isFavorite,
+        counter: this.itemData.number || 1,
       }
     },
     props: {
@@ -42,14 +48,24 @@
         rating: Number,
         image: String,
         tags: Array,
-        price: Number
+        price: Number,
+        number: Number,
+        isFavorite: Boolean,
       },
       type: String,
     },
     methods: {
       onLoad() {
         this.isLoaded = true;
-      }
+      },
+    },
+    watch: {
+      'counter': function() {
+        this.$emit("counterUpdated", this.counter);
+      },
+      'itemData.number': function() {
+        this.counter = this.itemData.number;
+      },
     }
   }
 </script>
@@ -122,6 +138,7 @@
           margin-left: 1rem;
           font-size: 2rem;
           color: $red;
+          cursor: pointer;
         }
       }
 
@@ -136,9 +153,9 @@
 
     &__controls {
       flex-wrap: wrap;
-      margin-top: -.4rem;
+      margin-top: -0.4rem;
       
-      .cart-counter,
+      .cart-counter-wrapper,
       .product-stripe__price,
       .product-stripe__units {
         margin-top: .4rem;
@@ -149,6 +166,12 @@
       font-weight: 700;
       font-size: 2rem;
       margin-left: auto;
+    }
+
+    &__units--counter {
+      margin-left: .8rem;
+      margin-top: .4rem;
+      display: none;
     }
 
     &--history.product-stripe {
@@ -168,20 +191,38 @@
     }
   }
 
-  @include breakpoint(tablet) {
+  @include breakpoint(mobile) {
     .product-stripe {
-      padding: 1.2rem 2rem;
-
       &.grid.grid-mobile.g-3 {
-        grid-template-columns: min-content auto 17rem;
+        grid-template-columns: min-content auto 8rem;
       }
 
       &__img-wrapper {
         display: block;
       }
+    }
+  }
+
+  @include breakpoint(tablet) {
+    .product-stripe {
+      padding: 1.2rem 2rem;
+
+      &.grid.grid-mobile.g-3 {
+        grid-template-columns: min-content auto 24rem;
+      }
 
       &__controls {
         justify-content: space-between;
+      }
+
+      &--history.product-stripe {
+        &.grid.grid-mobile.g-3 {
+          grid-template-columns: min-content auto 17rem;
+        }
+      }
+
+      &__units--counter {
+        display: block;
       }
     }
   }

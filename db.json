@@ -318,6 +318,7 @@
             "Primastoria",
             "Пицца"
           ],
+          "number": 2,
           "price": 1250
         },
         {
@@ -344,6 +345,7 @@
             "Пицца",
             "Мясная"
           ],
+          "number": 3,
           "price": 750
         },
         {
@@ -361,7 +363,7 @@
     },
     {
       "id": 2,
-      "title": "Primastoria",
+      "title": "Pizza Mia",
       "total": 1250,
       "items": [
         {
@@ -908,7 +910,8 @@
         "options": [
           {
             "code": "tomato",
-            "name": "Томаты"
+            "name": "Томаты",
+            "isChecked": "true"
           },
           {
             "code": "onion",
