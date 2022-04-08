@@ -3,11 +3,27 @@
     <div class="container m-resp">
       <div class="grid grid-tablet g-2-10 gg-2">
         <h1 class="catalog__title m-none">{{ $t('catalog.title') }}</h1>
-        <div class="catalog__sort row">
-          <span class="catalog__sort-total">{{ $t('catalog.itemsFound') + catalog.items.length }}</span>
-          <custom-select class="catalog__sort-options" :style="{ 'z-index': 8 }"
-            :selectData="sortData" @selectUpdated="searchParams.categories = $event"/>
+        <div class="catalog__navigation-wrapper">
+          <div class="catalog__tabs-btns mobile m-auto">
+            <button class="btn btn-tab" :class="{ 'active': isActive('menu') }"
+              @click="setActive('menu')">{{ $t('catalog.tabs.menu') }}</button>
+            <button class="btn btn-tab" :class="{ 'active': isActive('restaurants') }"
+              @click="setActive('restaurants')">{{ $t('catalog.tabs.restaurants') }}</button>
+          </div>
+          <div class="catalog__navigation row">
+            <!-- TODO: fix items counter -->
+            <span class="catalog__navigation-total">{{ $t('catalog.itemsFound') + 0 }}</span>
+            <div class="catalog__tabs-btns laptop">
+              <button class="btn btn-tab" :class="{ 'active': isActive('menu') }"
+                @click="setActive('menu')">{{ $t('catalog.tabs.menu') }}</button>
+              <button class="btn btn-tab" :class="{ 'active': isActive('restaurants') }"
+                @click="setActive('restaurants')">{{ $t('catalog.tabs.restaurants') }}</button>
+            </div>
+            <custom-select class="catalog__sort-options" :style="{ 'z-index': 8 }"
+              :selectData="sortData" @selectUpdated="searchParams.sort = $event"/>
+          </div>
         </div>
+
         <div class="catalog__controls">
           <div class="block-sticky--tablet">
             <div class="controls block-neat">
@@ -35,8 +51,14 @@
             </button>
           </div>
         </div>
-        <div class="catalog__items row">
-          <product-card v-for="(item, i) in catalog.items" :key="i" :itemData="item"/>
+
+        <div class="catalog__content-wrapper">
+          <div class="catalog__content catalog__content--menu row" v-show="isActive('menu')">
+            <product-card v-for="(item, i) in catalog.menu" :key="i" :itemData="item"/>
+          </div>
+          <div class="catalog__content row" v-show="isActive('restaurants')">
+            <restaurant-stripe v-for="(item, i) in catalog.restaurants" :key="i" :itemData="item"/>
+          </div>
         </div>
       </div>
     </div>
@@ -47,7 +69,8 @@
   import { mapActions, mapGetters } from "vuex";
   import customSelect from '@/forms/custom-select';
   import VueSlider from 'vue-slider-component'
-  import productCard from "../components/product-card.vue";
+  import productCard from "../components/product-card";
+  import restaurantStripe from "../components/restaurant-stripe";
   import 'vue-slider-component/theme/material.css'
   import _get from 'lodash/get';
 
@@ -56,15 +79,18 @@
     components: {
       'custom-select': customSelect,
       'product-card': productCard,
+      'restaurant-stripe': restaurantStripe,
       VueSlider,
     },
     data() {
       return {
-        currentField: '',
+        activeField: '',
+        activeTab: 'menu',
         searchParams: {
           categories: [],
           cuisines: [],
           productCost: [0, 3000],
+          sort: '',
         },
         categoriesData: {
           code: 'categoriesData',
@@ -125,17 +151,24 @@
         }
       },
       setField(target) {
-        this.currentField = target; 
+        this.activeField = target; 
       },
       clearFocus() {
-        this.currentField = '';
+        this.activeField = '';
       },
       checkFocus(target) {
-        return { 'non-empty': this.currentField == target || !!_get(this.$data, target) };
+        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
       },
       handleInput(e, data) {
         this.searchParams.orderSum.splice(data, 1, +e.target.value || 0);
         this.$refs.slider.setValue(this.searchParams.orderSum);
+      },
+      // tabs
+      isActive(menuItem) {
+        return this.activeTab === menuItem;
+      },
+      setActive(menuItem) {
+        this.activeTab = menuItem;
       },
     },
     watch: {
@@ -155,8 +188,15 @@
 
 <style lang="scss">
   .catalog {
-    &__sort {
+    &__navigation {
+      &-wrapper {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+      }
+
       &.row {
+        align-self: stretch;
         justify-content: space-between;
         align-items: flex-end;
       }
@@ -165,13 +205,19 @@
         font-weight: 500;
         font-size: 2rem;
       }
+    }
 
-      &-options {
-        margin-bottom: 0;
-      }
+    &__sort-options {
+      margin-bottom: 0;
+    }
+
+    &__tabs-btns.mobile {
+      margin-bottom: 1.2rem;
     }
 
     &__controls {
+      display: none;
+
       .controls {
         background-color: $beige-medium;
         padding: 1.2rem 1.6rem;
@@ -225,7 +271,7 @@
       }
     }
 
-    &__items.row {
+    &__content.row {
       flex-wrap: wrap;
       align-items: flex-start;
       justify-content: center;
@@ -240,8 +286,11 @@
 
   @include breakpoint(mobile) {
     .catalog {
-      &__items.row {
-        margin-right: -1.6rem;
+      &__content.row {
+
+        &.catalog__content--menu {
+          margin-right: -1.6rem;
+        }
 
         .product-card {
           flex-basis: calc(50% - 1.6rem);
@@ -253,7 +302,11 @@
 
   @include breakpoint(tablet) {
     .catalog {
-      &__items.row {
+      &__controls {
+        display: block;
+      }
+
+      &__content.row {
         .product-card {
           flex-basis: calc(50% - 2.5rem);
           margin-right: 2.5rem;
@@ -264,7 +317,7 @@
 
   @include breakpoint(laptop) {
     .catalog {
-      &__items.row {
+      &__content.row {
         .product-card {
           flex-basis: calc(33% - 2rem);
           margin-right: 2rem;
@@ -275,7 +328,7 @@
 
   @include breakpoint(desktop) {
     .catalog {
-      &__items.row {
+      &__content.row {
         .product-card {
           flex-basis: calc(25% - 2rem);
           margin-right: 2rem;

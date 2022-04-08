@@ -78,7 +78,8 @@
     "favorite": "В любимое",
     "submit": "Отправить",
     "search": "Поиск",
-    "clientChat": "Чат с клиентом"
+    "clientChat": "Чат с клиентом",
+    "menu": "Меню"
   },
   "forms": {
     "name": "Ваше имя",
@@ -141,6 +142,7 @@
     "client": "Клиент",
     "dateTime": "Дата и время",
     "orderSum": "Итого",
+    "tableSort": "Сортировка",
     "searchParams": {
       "title": "Параметры поиска",
       "search": "Поиск",
@@ -149,8 +151,12 @@
   },
   "catalog": {
     "title": "Каталог",
-    "itemsFound": "Товаров: ",
+    "itemsFound": "Найдено: ",
     "sortOptions": "Сортировка",
+    "tabs": {
+      "menu": "Меню",
+      "restaurants": "Рестораны"
+    },
     "searchParams": {
       "search": "Поиск",
       "categories": "Категории",
@@ -164,5 +170,10 @@
       "highlyRated": "Сначала с высоким рейтингом",
       "onSale": "Сначала со скидкой"
     }
+  },
+  "favorites": {
+    "title": "Избранное",
+    "localSearch": "Поиск в избранном",
+    "itemsAdded": "Добавлено: "
   }
 }

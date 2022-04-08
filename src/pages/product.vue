@@ -167,6 +167,7 @@
   import productCard from '@/components/product-card';
   import carousel from '@/components/carousel';
   import promoSet from '@/components/promo-set'
+  import comboBlock from '@/components/combo-block';
   import customSelect from '@/forms/custom-select';
   import Flickity from 'vue-flickity';
   import accordion from '../components/accordion.vue';
@@ -180,6 +181,7 @@
       'carousel': carousel,
       'promo-set': promoSet,
       'custom-select': customSelect,
+      'combo-block': comboBlock,
       Flickity,
       accordion,
     },
@@ -214,7 +216,7 @@
         },
         showCard: false,
         focusedItem: null,
-        currentField: '',
+        activeField: '',
         selectItems: [],
         form: {
           name: '',
@@ -251,13 +253,13 @@
         }
       },
       setField(target) {
-        this.currentField = target; 
+        this.activeField = target; 
       },
       clearFocus() {
-        this.currentField = '';
+        this.activeField = '';
       },
       checkFocus(target) {
-        return { 'non-empty': this.currentField == target || !!_get(this.$data, target) };
+        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
       },
       getAlterOption(option) {
         return {

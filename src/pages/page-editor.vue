@@ -162,7 +162,7 @@
         },
         // the doom is upon us
         editor: {
-          currentField: '',
+          activeField: '',
           info: {
             infoAlignment: '',
             description: '',
@@ -229,13 +229,13 @@
         }
       },
       setField(target) {
-        this.editor.currentField = target; 
+        this.editor.activeField = target; 
       },
       clearFocus() {
-        this.editor.currentField = '';
+        this.editor.activeField = '';
       },
       checkFocus(target) {
-        return { 'non-empty': this.editor.currentField == target || !!_get(this.$data, target) };
+        return { 'non-empty': this.editor.activeField == target || !!_get(this.$data, target) };
       },
     },
     mounted() {

@@ -28,6 +28,9 @@
           <div class="block-sticky--laptop">
             <div class="cart__tab block-neat">
               <h3 class="cart__tab-title">{{ $t('cart.tab-title') }}</h3>
+              <!-- <datepicker v-model="searchParams.date"
+                timePicker/> -->
+                <!-- https://vue3datepicker.com/api/props/#modeheight -->
               <h3 class="cart__tab-total">{{ $t('cart.total') }}</h3>
               <h3 class="cart__tab-code">{{ $t('cart.code') }}</h3>
             </div>
@@ -52,7 +55,8 @@
   import accordion from '../components/accordion.vue';
   import productStripe from '../components/product-stripe.vue';
   import carousel from '@/components/carousel';
-  import promoSet from '@/components/promo-set'
+  import promoSet from '@/components/promo-set';
+  import comboBlock from '@/components/combo-block';
   import db from "../../db.json";
   import axios from 'axios';
 
@@ -63,6 +67,7 @@
       'accordion': accordion,
       'carousel': carousel,
       'promo-set': promoSet,
+      'combo-block': comboBlock,
     },
     data() {
       return {

@@ -22,8 +22,7 @@
           </button>
         </div>
         <div class="restaurant-card__image-wrapper">
-          <div class="restaurant-card__image" ref="image"
-          :style="{ backgroundImage: `url(${ info.image })` }"/>
+          <div class="restaurant-card__image" ref="image" :style="{ backgroundImage: `url(${ info.image })` }"/>
         </div>
       </div>
       <button class="btn btn-primary btn-orange-light restaurant-btn m-auto">
@@ -67,9 +66,9 @@
         'GET_RESTAURANT_BLOCKS_API',
       ]),
       onLoad() {
-      let img =  new Image();
-      img.onload = () => this.$refs.image.classList.add('img-loaded');
-      img.src = this.info.image;
+        let img =  new Image();
+        img.onload = () => this.$refs.image.classList.add('img-loaded');
+        img.src = this.info.image;
       },
     },
     mounted() {

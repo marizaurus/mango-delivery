@@ -11,6 +11,7 @@
 <script>
   import carousel from '@/components/carousel';
   import promoSet from '@/components/promo-set'
+  import comboBlock from '@/components/combo-block';
   import { mapActions, mapGetters } from "vuex";
 
   export default {
@@ -18,6 +19,7 @@
     components: {
       'carousel': carousel,
       'promo-set': promoSet,
+      'combo-block': comboBlock,
     },
     computed: {
       ...mapGetters([

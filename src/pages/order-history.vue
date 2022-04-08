@@ -4,32 +4,27 @@
       <h1 class="order-history__title">{{ $t('orderHistory.title') }}</h1>
       <div class="grid grid-tablet g-7-3 gg-2">
         <div class="row order-history__tabs">
-          <button class="btn btn-tab" :class="{ 'active': isActive('active') }"
-            @click="setActive('active')">{{ $t('orderHistory.tabs.active') }}</button>
-          <button class="btn btn-tab" :class="{ 'active': isActive('completed') }"
-            @click="setActive('completed')">{{ $t('orderHistory.tabs.completed') }}</button>
+          <div class="order-history__tabs-btns">
+            <button class="btn btn-tab" :class="{ 'active': isActive('active') }"
+              @click="setActive('active')">{{ $t('orderHistory.tabs.active') }}</button>
+            <button class="btn btn-tab" :class="{ 'active': isActive('completed') }"
+              @click="setActive('completed')">{{ $t('orderHistory.tabs.completed') }}</button>
+          </div>
+          <custom-select class="order-history__tabs-sort" :selectData="tableSort" @selectUpdated="searchParams.sort = $event"/>
         </div>
-        <span></span>
-        <div>
-          <div v-show="isActive('active')">
+        <div class="order-history__content">
+          <div v-show="isActive('active')" class="order-history__table-wrapper">
             <div class="grid grid-mobile g-5 order-history__table-box order-history__table-header">
-              <span>{{ $t('orderHistory.orderNum') }}</span>
-              <span>{{ $t('orderHistory.status') }}</span>
-              <span>{{ $t('orderHistory.client') }}</span>
-              <span>{{ $t('orderHistory.dateTime') }}</span>
+              <span v-for="(col, i) in tableCols.slice(0, -1)" :key="i">{{ $t('orderHistory.' + col) }}</span>
               <span style="text-align: end;">{{ $t('orderHistory.orderSum') }}</span>
             </div>
-            <!-- :closeOnBlur="true" -->
             <accordion class="order-history__table-row" :closeOnBlur="true"
               v-for="(order, i) in orderHistory.active" :key="i" :ref="'accordion-' + i">
               <template #accordionTrigger>
                 <div class="grid grid-mobile g-5 order-history__table-row-info order-history__table-box"
                   @click.stop="getOrder(order.orderNum, 'accordion-' + i)">
                   <!-- delay accordion toggle until data has loaded -->
-                  <span>{{ order.orderNum }}</span>
-                  <span>{{ order.status }}</span>
-                  <span>{{ order.client }}</span>
-                  <span>{{ order.dateTime }}</span>
+                  <span v-for="(col, i) in tableCols.slice(0, -1)" :key="i">{{ order[col] }}</span>
                   <span>{{ order.orderSum }} ₽</span>
                 </div>
               </template>
@@ -55,10 +50,10 @@
                 </div>
               </template>
             </accordion>
-            
           </div>
           <div v-show="isActive('completed')">Completed</div>
         </div>
+
         <div class="order-history__controls">
           <div class="block-sticky--tablet block-neat">
             <h3 class="order-history__controls-title">{{ $t('orderHistory.searchParams.title') }}</h3>
@@ -68,6 +63,12 @@
                 <label class="custom-input-label" :class="checkFocus('searchParams.query')">{{ $t('orderHistory.searchParams.search') }}</label>
               </div>
               <custom-select class="select-form controls-status" :selectData="statusesData" @selectUpdated="searchParams.statuses = $event"/>
+              <datepicker v-model="searchParams.date"
+                range textInput multiCalendars multiCalendarsSolo autoApply
+                v-bind="datePickerOptions"/>
+              <!-- range presets: this week, last month -->
+              <!-- https://vue3datepicker.com/api/props/#presetranges -->
+              <!-- position="right" -->
               <div class="controls-sum">
                 <div class="row" ref="inputs">
                   <div class="controls-sum__input-wrapper">
@@ -104,9 +105,11 @@
   import { mapActions, mapGetters } from "vuex";
   import accordion from '../components/accordion.vue';
   import productStripe from '../components/product-stripe.vue';
-  import VueSlider from 'vue-slider-component'
-  import 'vue-slider-component/theme/material.css'
+  import VueSlider from 'vue-slider-component';
+  import 'vue-slider-component/theme/material.css';
   import _get from 'lodash/get';
+  import Datepicker from '@vuepic/vue-datepicker';
+  import '@vuepic/vue-datepicker/dist/main.css';
   // it's spreading.. the depresssion..
   import db from "../../db.json";
   import axios from 'axios';
@@ -117,15 +120,32 @@
       'custom-select': customSelect,
       'product-stripe': productStripe,
       VueSlider,
+      Datepicker,
       accordion,
     },
     data() {
       return {
         activeTab: 'active',
-        currentField: '',
+        activeField: '',
+        tableSort: {
+          code: 'tableSort',
+          title: this.$t('orderHistory.tableSort'),
+          optionType: 'radio',
+          options: [],
+          alignment: 'right',
+        },
+        tableCols: [
+          'orderNum',
+          'status',
+          'client',
+          'dateTime',
+          'orderSum',
+        ],
         searchParams: {
+          sort: '',
           query: '',
           statuses: [],
+          date: null,
           orderSum: [0, 3000],
           bothTabs: false,
         },
@@ -167,6 +187,11 @@
             }
           ],
         },
+        datePickerOptions: {
+          format: 'dd.MM.yyyy - dd.MM.yyyy',
+          enableTimePicker: false,
+          // hideInputIcon: true,
+        }
       }
     },
     computed: {
@@ -186,13 +211,13 @@
         }
       },
       setField(target) {
-        this.currentField = target; 
+        this.activeField = target; 
       },
       clearFocus() {
-        this.currentField = '';
+        this.activeField = '';
       },
       checkFocus(target) {
-        return { 'non-empty': this.currentField == target || !!_get(this.$data, target) };
+        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
       },
       handleInput(e, data) {
         this.searchParams.orderSum.splice(data, 1, +e.target.value || 0);
@@ -205,6 +230,7 @@
       setActive(menuItem) {
         this.activeTab = menuItem;
       },
+      // retrieve order
       getOrder(id, accordionRef) {
         if (this.activeOrder.orderNum == id) {
           this.$refs[accordionRef][0].toggle();
@@ -222,14 +248,32 @@
     },
     mounted() {
       this.GET_ORDER_HISTORY_API().then(() => { this.statusesData.options = this.orderHistory.searchParams.statuses });
+
+      this.tableSort.options = this.tableCols.map(el => ({ code: el, name: this.$t('orderHistory.' + el) }));
+      this.tableSort.options[0].isChecked = true;
     }
   }
 </script>
 
 <style lang="scss">
+  // ??
+  // @import '@vuepic/vue-datepicker/src/Vue3DatePicker/style/main.scss';
   .order-history {
     &__tabs {
-      justify-content: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: -1.2rem;
+      margin-left: -1.6rem;
+
+      &-btns {
+        flex-shrink: 0;
+        margin-top: 1.2rem;
+        margin-left: 1.6rem;
+      }
+
+      &-sort {
+        margin: 1.2rem 0 0 1.6rem;
+      }
     }
 
     .controls {
@@ -344,6 +388,19 @@
         span:last-child {
           margin-left: 1.6rem;
         }
+      }
+    }
+  }
+
+  @include breakpoint(tablet) {
+    .order-history {
+      &__tabs {
+        flex-wrap: nowrap;
+      }
+
+      &__content,
+      &__controls {
+        grid-row: 2;
       }
     }
   }

@@ -100,13 +100,13 @@
         position: absolute;
         left: 1rem;
         top: 1rem;
-        height: 4.8rem;
-        width: 4.8rem;
+        height: 3.6rem;
+        width: 3.6rem;
         text-align: center;
-        padding: .8rem;
+        padding: .6rem 0;
         box-sizing: border-box;
         color: $red;
-        font-size: 3rem;
+        font-size: 2.4rem;
         display: none;
         cursor: pointer;
 

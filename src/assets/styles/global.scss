@@ -31,6 +31,11 @@ body {
     max-width: 1200px;
     margin: auto;
   }
+
+  &-small {
+    max-width: 720px;
+    margin: auto;
+  }
 }
 
 .container {
@@ -181,6 +186,10 @@ a {
 
 .grid {
   display: grid;
+
+  &.gg-1 {
+    gap: 1.2rem;
+  }
 
   &.gg-2 {
     gap: 2.4rem;
