@@ -5,20 +5,20 @@
       <div class="grid grid-laptop g-7-3 gg-2">
         <div class="cart__items block-neat">
           <accordion class="cart-section"
-            v-for="(cartItem, i) in cartItems" :key="i"
+            v-for="cartItem in cartItems" :key="cartItem.id"
             :initialVisible="initialVisible">
             <template #accordionTrigger>
               <div class="cart-section__header row">
                 <h3 class="cart-section__header-title">{{ cartItem.title }}</h3>
                 <div class="cart-section__header-items">{{ $t('cart.items') }} {{ cartItem.items.length }}</div>
-                <div class="cart-section__header-total">{{ $t('cart.total') }} {{ getTotal(i) }} ₽</div>
+                <div class="cart-section__header-total">{{ $t('cart.total') }} {{ getTotal(cartItem.id) }} ₽</div>
               </div>
             </template>
             <template #accordionContent>
               <div class="cart-section__items accordion">
                 <product-stripe
-                  v-for="(item, j) in cartItem.items" :key="j"
-                  :itemData="item" @counterUpdated="cartItems[i].items[j].number = $event"/>
+                  v-for="item in cartItem.items" :key="item.id"
+                  :itemData="item" @counterUpdated="($event) => counterUpdated($event, cartItem.id, item.id)"/>
               </div>
             </template>
           </accordion>
@@ -113,8 +113,23 @@
         }
       },
       getTotal(i) {
-        return this.cartItems[i].items.map(el => el.number * el.price).reduce((el, sum) => sum + el, 0);
+        return this.cartItems.find(el => el.id == i).items.map(el => el.number * el.price).reduce((el, sum) => sum + el, 0);
       },
+      // i cry
+      counterUpdated($event, i, j) {
+        let cartItem = this.cartItems.find(el => el.id == i);
+        let cartIndex = this.cartItems.indexOf(cartItem);
+        let itemIndex = cartItem.items.indexOf(cartItem.items.find(el => el.id == j));
+
+        if ($event == 0) {
+          this.cartItems[cartIndex].items.splice(itemIndex, 1);
+
+          if (this.cartItems[cartIndex].items.length == 0)
+            this.cartItems.splice(cartIndex, 1);
+          return;
+        }
+        this.cartItems[cartIndex].items[itemIndex].number = $event;
+      }
     },
     mounted() {
       this.GET_CART_BLOCKS_API();

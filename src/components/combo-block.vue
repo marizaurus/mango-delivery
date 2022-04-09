@@ -70,10 +70,6 @@
   .combo-block {
     min-height: 29rem;
 
-    &.grid.grid-tablet.g-2 {
-      grid-template-columns: auto 250px;
-    }
-
     &--3.combo-block {
       min-height: 35rem;
     }
@@ -142,6 +138,14 @@
         position: absolute;
         top: 17rem;
         left: 7rem;
+      }
+    }
+  }
+
+  @include breakpoint(tablet) {
+    .combo-block {
+      &.grid.grid-tablet.g-2 {
+        grid-template-columns: auto 250px;
       }
     }
   }

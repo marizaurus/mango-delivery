@@ -193,6 +193,7 @@
           cellAlign: 'left',
           groupCells: true,
           lazyLoad: true,
+          draggable: false
         },
         options: {
           'read-only': true,

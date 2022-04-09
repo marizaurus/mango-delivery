@@ -9,27 +9,27 @@
 </template>
 
 <script>
-export default {
-  name: "category-card",
-  props: {
-    itemData: {
-      title: String,
-      description: String,
-      image: String
+  export default {
+    name: "category-card",
+    props: {
+      itemData: {
+        title: String,
+        description: String,
+        image: String
+      },
     },
-  },
-  methods: {
-    onLoad() {
-      // placeholder workaround for background-image
-      let img =  new Image();
-      img.onload = () => this.$refs.image.classList.add('img-loaded');
-      img.src = this.itemData.image;
+    methods: {
+      onLoad() {
+        // placeholder workaround for background-image
+        let img =  new Image();
+        img.onload = () => this.$refs.image.classList.add('img-loaded');
+        img.src = this.itemData.image;
+      }
+    },
+    mounted() {
+      this.onLoad();
     }
-  },
-  mounted() {
-    this.onLoad();
   }
-}
 </script>
 
 <style lang="scss">
@@ -73,9 +73,9 @@ export default {
       font-size: 3.6rem;
       font-weight: 800;
       text-transform: uppercase;
+      text-align: center;
       color: $white;
       opacity: 1;
-      transition: .2s linear;
       user-select: none;
     }
 
@@ -85,7 +85,6 @@ export default {
       box-sizing: border-box;
       color: $grey-dark;
       opacity: 0;
-      transition: .2s linear;
       z-index: 1;
     }
 
@@ -95,9 +94,10 @@ export default {
       top: 50%;
       left: 50%;
       transform: translateX(-50%) translateY(-50%);
+      transition: opacity .2s linear;
     }
 
-    &:hover .category-card__image.img-loaded {
+    &:hover .category-card__image {
       &::after,
       .category-card__description {
         opacity: 1;
