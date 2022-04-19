@@ -5,21 +5,32 @@ import router from './router/router';
 
 import i18n from "@/i18n";
 import '@/assets/styles/index.scss';
+import YmapPlugin from 'vue-yandex-maps'
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, faHeart as fasHeart, faAnglesLeft, faAnglesRight }
+import { faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, faHeart as fasHeart, faAnglesLeft, faAnglesRight, faLocationPin }
   from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, fasHeart, faAnglesLeft, faAnglesRight,
+library.add(faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, fasHeart, faAnglesLeft, faAnglesRight, faLocationPin,
   farHeart, faTrashCan);
+
+const settings = {
+  apiKey: '34e6e320-fb70-4df3-9bb3-992aa32a04d4',
+  lang: 'ru_RU',
+  coordorder: 'latlong',
+  enterprise: false,
+  version: '2.1'
+}
 
 const app = createApp(App);
 
 app.use(router);
-app.use(i18n);
 app.use(store);
+
+app.use(i18n);
+app.use(YmapPlugin, settings)
 
 app.component('font-awesome-icon', FontAwesomeIcon);
 

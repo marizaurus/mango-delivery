@@ -1,6 +1,6 @@
 <template>
   <div class="custom-select-wrapper" :class="{ 'wide': selectData.wide, 'content-right': selectData.alignment == 'right' }">
-    <accordion class="custom-select" :closeOnBlur="true">
+    <accordion class="custom-select" :closeOnBlur="true" ref="accordion">
       <template #accordionTrigger>
         <div class="custom-select__initial" :class="{ 'non-empty' :  items.length > 0 }">
           <span class="custom-select__initial-label">{{ selectData.title }}<span class="t-red" v-if="selectData.required">*</span></span>
@@ -84,6 +84,9 @@
       },
       'items': function() {
         this.$emit("selectUpdated", this.items);
+        if (this.selectData.optionType == 'radio' && this.$refs.accordion.visible) {
+          this.$refs.accordion.toggle();
+        }
       },
     }
   }

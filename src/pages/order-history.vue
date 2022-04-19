@@ -2,7 +2,7 @@
   <div class="order-history">
     <div class="container container-slim m-resp">
       <h1 class="order-history__title">{{ $t('orderHistory.title') }}</h1>
-      <div class="grid grid-tablet g-7-3 gg-2">
+      <div class="grid grid-tablet gg-2" :class="activeUser == 'manager' ? 'g-7-3' : 'g-2'">
         <div class="row order-history__tabs">
           <div class="order-history__tabs-btns">
             <button class="btn btn-tab" :class="{ 'active': isActive('active') }"
@@ -10,21 +10,39 @@
             <button class="btn btn-tab" :class="{ 'active': isActive('completed') }"
               @click="setActive('completed')">{{ $t('orderHistory.tabs.completed') }}</button>
           </div>
-          <custom-select class="order-history__tabs-sort" :selectData="tableSort" @selectUpdated="searchParams.sort = $event"/>
+          <custom-select class="order-history__tabs-sort m-none" :selectData="tableSort" @selectUpdated="searchParams.sort = $event"/>
         </div>
+
+        <!-- temp solution for user switch -->
+        <custom-select class="order-history__user-select m-none ml-auto" :style="{ 'z-index': 1 }"
+          :selectData="userData" @selectUpdated="activeUser = $event"/>
+
         <div class="order-history__content">
           <div v-show="isActive('active')" class="order-history__table-wrapper">
-            <div class="grid grid-mobile g-5 order-history__table-box order-history__table-header">
-              <span v-for="(col, i) in tableCols.slice(0, -1)" :key="i">{{ $t('orderHistory.' + col) }}</span>
+            <div class="grid grid-mobile g-5 order-history__table-box order-history__table-header" :class="{ 'order-history__table-box--courier' : activeUser == 'courier' }">
+              <span v-if="activeUser == 'courier'"></span>
+              <span>{{ $t('orderHistory.orderNum') }}</span>
+              <span v-if="activeUser == 'manager'">{{ $t('orderHistory.status') }}</span>
+              <span>{{ $t('orderHistory.client') }}</span>
+              <span>{{ $t('orderHistory.dateTime') }}</span>
               <span style="text-align: end;">{{ $t('orderHistory.orderSum') }}</span>
             </div>
             <accordion class="order-history__table-row" :closeOnBlur="true"
               v-for="(order, i) in orderHistory.active" :key="i" :ref="'accordion-' + i">
               <template #accordionTrigger>
-                <div class="grid grid-mobile g-5 order-history__table-row-info order-history__table-box"
-                  @click.stop="getOrder(order.orderNum, 'accordion-' + i)">
+                <div class="grid grid-mobile g-5 order-history__table-row-info order-history__table-box" :class="{ 'order-history__table-box--courier' : activeUser == 'courier' }"
+                  @click.stop="getOrder(order.orderNum, i)">
                   <!-- delay accordion toggle until data has loaded -->
-                  <span v-for="(col, i) in tableCols.slice(0, -1)" :key="i">{{ order[col] }}</span>
+                  <div v-if="activeUser == 'courier'">
+                    <div class="order-history__pin">
+                      <font-awesome-icon icon="location-pin"/>
+                      <span class="order-history__pin-label order-history__pin-label--list">{{ i + 1 }}</span>
+                    </div>
+                  </div>
+                  <span>{{ order.orderNum }}</span>
+                  <span v-if="activeUser == 'manager'">{{ order.status }}</span>
+                  <span>{{ order.client }}</span>
+                  <span>{{ order.dateTime }}</span>
                   <span>{{ order.orderSum }} ₽</span>
                 </div>
               </template>
@@ -54,7 +72,7 @@
           <div v-show="isActive('completed')">Completed</div>
         </div>
 
-        <div class="order-history__controls">
+        <div class="order-history__controls" v-if="activeUser == 'manager'">
           <div class="block-sticky--tablet block-neat">
             <h3 class="order-history__controls-title">{{ $t('orderHistory.searchParams.title') }}</h3>
             <div class="controls block-neat">
@@ -95,6 +113,14 @@
             </button>
           </div>
         </div>
+
+        <div class="order-history__map" v-else-if="activeUser == 'courier'">
+          <div class="block-sticky--tablet">
+            <yandex-map v-bind="mapSettings" :show-all-markers="true" @map-was-initialized="initMap" ymap-class="order-history__map-content">
+              <ymap-marker v-for="(pin, i) in pins" :key="i" v-bind="pin" :marker-id="i" @click="mapSettings.coords = pin.coords"/>
+            </yandex-map>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -113,6 +139,7 @@
   // it's spreading.. the depresssion..
   import db from "../../db.json";
   import axios from 'axios';
+  import pin from '../assets/icons/location-pin.svg';
 
   export default {
     name: 'order-history',
@@ -141,6 +168,15 @@
           'dateTime',
           'orderSum',
         ],
+        // temp solution for user switch
+        userData: {
+          code: 'userData',
+          title: 'Пользователь',
+          optionType: 'radio',
+          options: [],
+          alignment: 'right',
+        },
+        activeUser: '',
         searchParams: {
           sort: '',
           query: '',
@@ -191,7 +227,14 @@
           format: 'dd.MM.yyyy - dd.MM.yyyy',
           enableTimePicker: false,
           // hideInputIcon: true,
-        }
+        },
+        mapSettings: {
+          coords: [ 59.92694994, 30.33902649 ],
+          zoom: 12,
+          controls: [],
+        },
+        pinsCollection: null,
+        pins: [],
       }
     },
     computed: {
@@ -231,26 +274,63 @@
         this.activeTab = menuItem;
       },
       // retrieve order
-      getOrder(id, accordionRef) {
+      getOrder(id, i) {
+        let acc = 'accordion-' + i;
+        this.mapSettings.coords = this.pins[i].coords;
+
         if (this.activeOrder.orderNum == id) {
-          this.$refs[accordionRef][0].toggle();
+          this.$refs[acc][0].toggle();
         } else if (process.env.NODE_ENV === 'production') {
           this.activeOrder = db.orders.find(el => el.orderNum == id);
-          this.$refs[accordionRef][0].toggle();
+          this.$refs[acc][0].toggle();
         } else {
           axios.get(process.env.VUE_APP_API_BASE + 'orders?orderNum=' + id)
             .then(response => {
               this.activeOrder = response.data[0];
-              this.$refs[accordionRef][0].toggle();
+              this.$refs[acc][0].toggle();
             });
         }
+      },
+      // map
+      initMap(e) {
+        this.map = e;
       }
     },
     mounted() {
-      this.GET_ORDER_HISTORY_API().then(() => { this.statusesData.options = this.orderHistory.searchParams.statuses });
+      this.GET_ORDER_HISTORY_API().then(() => {
+        this.statusesData.options = this.orderHistory.searchParams.statuses;
+        this.orderHistory.active.forEach((el, i) => {
+          this.pins.push({
+            icon: {
+              layout: 'default#imageWithContent',
+              imageHref: pin,
+              imageSize: [36, 36],
+              imageOffset: [-18, -36],
+              content: i + 1,
+              contentOffset: [0, 4],
+              contentLayout: '<span class="order-history__pin-label order-history__pin-label--map">$[properties.iconContent]</span>'
+            },
+            coords: el.coords,
+          });
+        });
+      });
 
       this.tableSort.options = this.tableCols.map(el => ({ code: el, name: this.$t('orderHistory.' + el) }));
       this.tableSort.options[0].isChecked = true;
+
+      // force watcher update in custom-select
+      this.userData.options = [
+        {
+          code: "manager",
+          name: "Менеджер",
+          isChecked: true,
+        },
+        {
+          code: "courier",
+          name: "Курьер"
+        },
+      ];
+
     }
   }
 </script>
@@ -264,6 +344,10 @@
       flex-wrap: wrap;
       margin-top: -1.2rem;
       margin-left: -1.6rem;
+
+      &.row {
+        align-items: flex-end;
+      }
 
       &-btns {
         flex-shrink: 0;
@@ -350,6 +434,8 @@
         }
 
         &-info {
+          align-items: center;
+
           & span {
             &:first-child {
               text-decoration: underline;
@@ -360,11 +446,49 @@
               font-weight: 700;
             }
           }
+
+          &.order-history__table-box--courier {
+            padding: .8rem 1.6rem;
+          }
         }
       }
 
       &-box {
         padding: 1.2rem 1.6rem;
+
+        &--courier.grid.grid-mobile.g-5 {
+          grid-template-columns: 4rem 1fr 1fr 1fr 1fr;
+        }
+      }
+    }
+
+    &__pin {
+      position: relative;
+      display: inline-block;
+
+      svg {
+        font-size: 3.2rem;
+        color: $red;
+      }
+
+      &-label {
+        color: $white;
+
+        &--list {
+          position: absolute;
+          left: 50%;
+          top: .3rem;
+          transform: translateX(-50%);
+        }
+
+        &--map {
+          font-weight: 700;
+          font-size: 1.6rem;
+          font-family: $montserrat;
+          display: inline-block;
+          text-align: center;
+          width: 3.6rem;
+        }
       }
     }
 
@@ -388,6 +512,17 @@
         span:last-child {
           margin-left: 1.6rem;
         }
+      }
+    }
+
+    &__user-select {
+      margin-right: 0 !important;
+    }
+
+    &__map {
+      &-content {
+        width: 100%;
+        height: 35rem;
       }
     }
   }

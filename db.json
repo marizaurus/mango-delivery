@@ -1454,42 +1454,48 @@
         "status": "Новый",
         "client": "Маргарита",
         "dateTime": "29.01.2022 16.59",
-        "orderSum": 1250
+        "orderSum": 1250,
+        "coords": [ 59.92694994, 30.33902649 ]
       },
       {
         "orderNum": "00051",
         "status": "Готовится",
         "client": "Руслан",
         "dateTime": "29.01.2022 16.52",
-        "orderSum": 1750
+        "orderSum": 1750,
+        "coords": [ 59.94271451, 30.29694799 ]
       },
       {
         "orderNum": "00048",
         "status": "Готовится",
         "client": "Евгения",
         "dateTime": "29.01.2022 16.51",
-        "orderSum": 750
+        "orderSum": 750,
+        "coords": [ 59.95723409, 30.30823473 ]
       },
       {
         "orderNum": "00042",
         "status": "Доставка",
         "client": "Петр",
         "dateTime": "29.01.2022 16.30",
-        "orderSum": 500
+        "orderSum": 500,
+        "coords": [ 59.93677137, 30.31719331 ]
       },
       {
         "orderNum": "00033",
         "status": "Доставка",
         "client": "Мария",
         "dateTime": "29.01.2022 16.25",
-        "orderSum": 1500
+        "orderSum": 1500,
+        "coords": [ 59.93677675, 30.33502463 ]
       },
       {
         "orderNum": "00032",
         "status": "Доставка",
         "client": "Александра",
         "dateTime": "29.01.2022 16.20",
-        "orderSum": 1500
+        "orderSum": 1500,
+        "coords": [ 59.93735819, 30.34197692 ]
       }
     ]
   },
