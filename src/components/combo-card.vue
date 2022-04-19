@@ -4,15 +4,15 @@
       :style="{ backgroundImage: `url(${ itemData.comboImage })` }">
       <div class="combo-card__info">
         <div class="combo-card__info-title category-card__title">{{ itemData.title }}</div>
-        <div class="combo-card__info-prices">
-          <h2 class="combo-card__info-price m-none t-orange-light">{{ itemData.newPrice }} ₽</h2>
-          <h2 class="combo-card__info-price product__info-price product__info-price-old m-none">{{ itemData.price }} ₽</h2>
-        </div>
       </div>
       <div class="combo-card__content">
         <div class="combo-card__content-description category-card__description">{{ itemData.description }}</div>
         <div class="combo-card__content-items combo-block__info-items">
           <div class="combo-block__info-item" v-for="(item, i) in itemData.items" :key="i">{{ item.title }}</div>
+        </div>
+        <div class="combo-card__content-prices row">
+          <h2 class="combo-card__content-price m-none t-orange-light">{{ itemData.newPrice }} ₽</h2>
+          <h2 class="combo-card__content-price product__info-price product__info-price-old m-none">{{ itemData.price }} ₽</h2>
         </div>
         <button class="btn btn-primary btn-orange-light m-none m-auto">
           <span>{{ $t('buttons.toCart') }}</span>
@@ -78,18 +78,6 @@
         transform: unset;
         margin-bottom: 2rem;
       }
-
-      &-prices {
-        padding: .2rem 1.2rem;
-        background-color: $white;
-        border-radius: $radius-small;
-        display: inline-block;
-        box-sizing: border-box;
-      }
-
-      &-price.product__info-price-old {
-        margin-left: 0;
-      }
     }
 
     &__content {
@@ -108,14 +96,19 @@
       }
 
       &-description,
-      &-items {
+      &-prices {
         margin-bottom: 1.6rem;
       }
 
-      &-items {
+      &-items.combo-card__content-items {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        margin-bottom: 1rem;
+      }
+
+      &-prices.row {
+        align-items: baseline;
       }
     }
 

@@ -161,7 +161,8 @@
       "search": "Поиск",
       "categories": "Категории",
       "cuisines": "Кухни",
-      "productCost": "Стоимость"
+      "productCost": "Стоимость",
+      "ratingFrom": "Оценка от"
     },
     "sortParams": {
       "popular": "Сначала популярные",

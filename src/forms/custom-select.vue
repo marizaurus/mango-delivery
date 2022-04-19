@@ -100,7 +100,7 @@
       position: relative;
       min-width: 16rem;
       height: 5.1rem;
-      margin-bottom: 0.8rem;
+      margin-bottom: 1rem;
 
       &:not(:last-child) {
         margin-right: 1.8rem;

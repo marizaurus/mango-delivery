@@ -86,6 +86,8 @@
                 number: 1,
                 price: 0,
                 tags: [],
+                stripeType: '',
+                items: [],
               }
             ]
           }

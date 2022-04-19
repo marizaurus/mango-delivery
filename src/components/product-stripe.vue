@@ -5,16 +5,16 @@
         :src="itemData.image" alt="product image" @load="onLoad">
     </div>
     <div class="product-stripe__info">
-      <div class="product-stripe__info-name row">
+      <div class="product-stripe__info-name row" :class="{ 'product-stripe__info-name--combo' : itemData.stripeType == 'combo' }">
         <span>{{ itemData.title }}</span>
-        <div class="product-stripe__info-rating row">
+        <div class="product-stripe__info-rating row" v-if="itemData.stripeType != 'combo'">
           <font-awesome-icon icon="star"/>
           <div class="product-stripe__info-rating-value">{{ itemData.rating }}</div>
           <font-awesome-icon :icon="isFavorite ? ['fas', 'heart'] : ['far', 'heart']"
             class="product-stripe__favorite" @click="isFavorite = !isFavorite"/>
         </div>
       </div>
-      <div class="product-stripe__info-tags">{{ itemData.tags.join(' · ') }}</div>
+      <div class="product-stripe__info-tags">{{ itemData.stripeType == 'combo' ? itemData.items.join(' · ') : itemData.tags.join(' · ') }}</div>
     </div>
     <div class="product-stripe__controls row">
       <span class="product-stripe__units" v-if="type == 'history'">{{ counter }} {{ $t('units.piece') }} x {{ itemData.price }}₽</span>
@@ -51,8 +51,10 @@
         price: Number,
         number: Number,
         isFavorite: Boolean,
+        stripeType: String,   // product/combo
+        items: Array,         // items in combo
       },
-      type: String,
+      type: String,           // cart/history
     },
     methods: {
       onLoad() {
@@ -119,6 +121,10 @@
           overflow: hidden;
           text-overflow: ellipsis;
           width: 15rem;
+        }
+
+        &--combo span {
+          width: 24rem;
         }
       }
 
@@ -199,6 +205,16 @@
 
       &__img-wrapper {
         display: block;
+      }
+
+      &__info-name {
+        span {
+          width: 17rem;
+        }
+
+        &--combo span {
+          width: 26rem;
+        }
       }
     }
   }

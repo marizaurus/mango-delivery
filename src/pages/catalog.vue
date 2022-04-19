@@ -42,7 +42,11 @@
                 </div>
                 <!-- deal with @error later - add red border to input -->
                 <!-- https://nightcatsama.github.io/vue-slider-component/#/advanced/input -->
-                <vue-slider ref="slider" v-model="searchParams.productCost" v-bind="sliderOptions"></vue-slider>
+                <vue-slider class="controls-sum-slider" ref="slider" v-model="searchParams.productCost" v-bind="sliderOptions"></vue-slider>
+              </div>
+              <div class="custom-input controls-rating">
+                <star-rating v-bind="ratingOptions" v-model:rating="searchParams.rating"/>
+                <label class="custom-input-label non-empty">{{ $t('catalog.searchParams.ratingFrom') }}</label>
               </div>
             </div>
             <button class="btn btn-primary btn-orange-light m-auto">
@@ -60,6 +64,8 @@
             <restaurant-stripe v-for="(item, i) in catalog.restaurants" :key="i" :itemData="item"/>
           </div>
         </div>
+
+        <!-- <pagination class="catalog__pagination m-auto"/> -->
       </div>
     </div>
   </div>
@@ -71,6 +77,8 @@
   import VueSlider from 'vue-slider-component'
   import productCard from "../components/product-card";
   import restaurantStripe from "../components/restaurant-stripe";
+  // import pagination from '../components/pagination';
+  import StarRating from 'vue-star-rating'
   import 'vue-slider-component/theme/material.css'
   import _get from 'lodash/get';
 
@@ -80,6 +88,8 @@
       'custom-select': customSelect,
       'product-card': productCard,
       'restaurant-stripe': restaurantStripe,
+      'star-rating': StarRating,
+      // pagination,
       VueSlider,
     },
     data() {
@@ -91,6 +101,7 @@
           cuisines: [],
           productCost: [0, 3000],
           sort: '',
+          rating: 1,
         },
         categoriesData: {
           code: 'categoriesData',
@@ -132,6 +143,16 @@
           'highlyRated',
           'onSale',
         ],
+        ratingOptions: {
+          'show-rating': false,
+          'rounded-corners': true,
+          'border-width': 3,
+          'star-size': 17,
+          'inactive-color': '#ffffff',
+          'active-color': '#ffc93c',
+          'border-color': '#ffffff',
+          'active-border-color': '#ffc93c',
+        },
       }
     },
     computed: {
@@ -260,6 +281,10 @@
             }
           }
 
+          &-slider {
+            margin-bottom: 1rem;
+          }
+
           .vue-slider-dot-handle {
             background-color: $beige-dark;
 
@@ -267,6 +292,25 @@
               background-color: transparent;
             }
           }
+        }
+
+        &-rating.custom-input {
+          height: 4rem;
+
+          label.non-empty {
+            color: $grey-dark;
+            left: 0;
+            top: 0;
+          }
+
+          .vue-star-rating {
+            left: -.2rem;
+            top: 1.7rem;
+          }
+        }
+
+        .vue-star-rating-star {
+          height: 20px;
         }
       }
     }
@@ -311,6 +355,10 @@
           flex-basis: calc(50% - 2.5rem);
           margin-right: 2.5rem;
         }
+      }
+
+      &__pagination {
+        grid-column: 2;
       }
     }
   }
