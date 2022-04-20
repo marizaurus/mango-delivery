@@ -45,8 +45,11 @@
                 <vue-slider class="controls-sum-slider" ref="slider" v-model="searchParams.productCost" v-bind="sliderOptions"></vue-slider>
               </div>
               <div class="custom-input controls-rating">
-                <star-rating v-bind="ratingOptions" v-model:rating="searchParams.rating"/>
                 <label class="custom-input-label non-empty">{{ $t('catalog.searchParams.ratingFrom') }}</label>
+                <star-rating v-bind="ratingOptions" v-model:rating="searchParams.rating"/>
+                <div class="controls-rating-close icon-close" v-show="searchParams.rating > 0" @click="searchParams.rating = 0">
+                  <font-awesome-icon icon="xmark"/>
+                </div>
               </div>
             </div>
             <button class="btn btn-primary btn-orange-light m-auto">
@@ -101,7 +104,7 @@
           cuisines: [],
           productCost: [0, 3000],
           sort: '',
-          rating: 1,
+          rating: 0,
         },
         categoriesData: {
           code: 'categoriesData',
@@ -307,6 +310,11 @@
             left: -.2rem;
             top: 1.7rem;
           }
+        }
+
+        &-rating-close {
+          top: 1.6rem;
+          left: 12.4rem;
         }
 
         .vue-star-rating-star {

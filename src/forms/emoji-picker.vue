@@ -8,7 +8,7 @@
         <Picker v-bind="options" @select="showEmoji"></Picker>
       </div>
     </div>
-    <div class="emoji-picker-close" v-show="nonEmpty" @click="clearEmoji">
+    <div class="emoji-picker-close icon-close" v-show="nonEmpty" @click="clearEmoji">
       <font-awesome-icon icon="xmark"/>
     </div>
   </div>
@@ -62,7 +62,7 @@
 
 <style lang="scss">
   .emoji-picker {
-    margin-bottom: .8rem;
+    margin-bottom: 1rem;
     cursor: pointer;
     position: relative;
 
@@ -102,11 +102,8 @@
     }
 
     &-close {
-      position: absolute;
-      font-size: 2rem;
       right: 0;
       top: 50%;
-      color: $grey;
       transform: translateX(2.4rem) translateY(-50%);
     }
   }

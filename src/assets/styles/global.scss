@@ -170,6 +170,13 @@ body {
   object-fit: cover;
 }
 
+.icon-close {
+  position: absolute;
+  font-size: 2rem;
+  color: $grey;
+  cursor: pointer;
+}
+
 .d-none {
   display: none;
 }
@@ -193,6 +200,10 @@ a {
 
   &.gg-2 {
     gap: 2.4rem;
+  }
+
+  &.gr-none {
+    row-gap: 0;
   }
 
   &-center {

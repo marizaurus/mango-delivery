@@ -8,12 +8,14 @@ import '@/assets/styles/index.scss';
 import YmapPlugin from 'vue-yandex-maps'
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, faHeart as fasHeart, faAnglesLeft, faAnglesRight, faLocationPin }
+import { faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, faHeart as fasHeart,
+  faAnglesLeft, faAnglesRight, faLocationPin, faGripLines }
   from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, fasHeart, faAnglesLeft, faAnglesRight, faLocationPin,
+library.add(faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, fasHeart,
+  faAnglesLeft, faAnglesRight, faLocationPin, faGripLines,
   farHeart, faTrashCan);
 
 const settings = {

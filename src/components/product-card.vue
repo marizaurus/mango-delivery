@@ -66,6 +66,7 @@
     border-radius: $radius-medium;
     overflow: hidden;
     position: relative;
+    box-shadow: 0 0 15px $grey-light;
 
     &:hover {
       .product-card__like-wrapper {

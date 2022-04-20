@@ -1,9 +1,11 @@
 <template>
-  <div class="custom-select-wrapper" :class="{ 'wide': selectData.wide, 'content-right': selectData.alignment == 'right' }">
+  <div class="custom-select-wrapper" :class="{ 'wide': selectData.wide, 'content-right': selectData.alignment == 'right', 'slim': selectData.slim }">
     <accordion class="custom-select" :closeOnBlur="true" ref="accordion">
       <template #accordionTrigger>
         <div class="custom-select__initial" :class="{ 'non-empty' :  items.length > 0 }">
-          <span class="custom-select__initial-label">{{ selectData.title }}<span class="t-red" v-if="selectData.required">*</span></span>
+          <span class="custom-select__initial-label" v-if="!selectData.slim">
+            {{ selectData.title }}<span class="t-red" v-if="selectData.required">*</span>
+          </span>
           <span class="custom-select__initial-text">{{ selectText }}</span>
         </div>
       </template>
@@ -52,6 +54,7 @@
         required: Boolean,  // editor
         wide: Boolean,      // catalog filters
         alignment: String,  // catalog sort
+        slim: Boolean,      // recipe editor, remove label
         options: [
           {
             code: String,
@@ -129,6 +132,15 @@
       &.content-right {
         .accordion__content {
           right: 0;
+        }
+      }
+
+      &.slim {
+        height: 3.6rem;
+
+        .custom-select__initial {
+          padding: .8rem;
+          height: 3.6rem;
         }
       }
     }

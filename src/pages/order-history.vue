@@ -140,6 +140,11 @@
   import db from "../../db.json";
   import axios from 'axios';
   import pin from '../assets/icons/location-pin.svg';
+  // import { loadYmap } from 'vue-yandex-maps';
+  // import settings from '../main';
+
+  // var inputControl = null;
+  // var ymaps = null;
 
   export default {
     name: 'order-history',
@@ -228,10 +233,11 @@
           enableTimePicker: false,
           // hideInputIcon: true,
         },
+        // map
         mapSettings: {
           coords: [ 59.92694994, 30.33902649 ],
           zoom: 12,
-          controls: [],
+          controls: ['geolocationControl', 'searchControl', 'zoomControl'],
         },
         pinsCollection: null,
         pins: [],
@@ -296,7 +302,7 @@
         this.map = e;
       }
     },
-    mounted() {
+    async mounted() {
       this.GET_ORDER_HISTORY_API().then(() => {
         this.statusesData.options = this.orderHistory.searchParams.statuses;
         this.orderHistory.active.forEach((el, i) => {
@@ -331,7 +337,12 @@
         },
       ];
 
-    }
+      // await loadYmap({ ...settings, debug: true });
+      // inputControl = new ymaps.control.SearchControl({
+      //   options: {
+      //   }
+      // });
+    },
   }
 </script>
 

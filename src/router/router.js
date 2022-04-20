@@ -8,6 +8,7 @@ import pageEditor from '../pages/page-editor';
 import orderHistory from '../pages/order-history';
 import catalog from '../pages/catalog';
 import favorites from '../pages/favorites';
+import account from '../pages/account';
 
 export default createRouter({
   history: createWebHistory(),
@@ -51,6 +52,11 @@ export default createRouter({
       path: process.env.VUE_APP_PATH + 'favorites',
       name: 'favorites',
       component: favorites,
+    },
+    {
+      path: process.env.VUE_APP_PATH + 'account',
+      name: 'account',
+      component: account,
     },
   ]
 });

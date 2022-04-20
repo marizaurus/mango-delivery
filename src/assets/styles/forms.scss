@@ -22,6 +22,16 @@
     max-width: 20rem;
   }
 
+  &.wide {
+    display: flex;
+    flex: 1;
+
+    & > input {
+      max-width: 100%;
+      flex: 1;
+    }
+  }
+
   textarea {
     display: block;
     resize: none;

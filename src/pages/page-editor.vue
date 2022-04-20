@@ -45,6 +45,7 @@
             </template>
             <template #accordionContent>
               <div class="block-editor__content block-neat">
+
                 <template v-if="block.type == 'carousel'">
                 <div class="grid grid-mobile g-2 gg-2">
                   <div>
@@ -56,6 +57,7 @@
                   </div>
                 </div>
                 </template>
+
                 <template v-else-if="block.type == 'promo-set'">
                   <div class="grid grid-mobile g-2 gg-2">
                     <div>
@@ -74,25 +76,46 @@
                     </div>
                   </div>
                 </template>
-                <template v-else>
 
+                <template v-else-if="block.type == 'recipe'">
+                  <div class="grid grid-mobile g-2 gg-2 gr-none">
+                    <div>
+                      <div class="row">
+                        <div class="custom-input wide">
+                          <input type="text">
+                          <label class="custom-input-label">{{ $t('blockTypes.recipe.fields.title') }}<span class="t-red">*</span></label>
+                        </div>
+                        <emoji-picker/>
+                      </div>
+                    </div>
+                    <div></div>
+                    <div>
+                      <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.ingredients') }}<span class="t-red">*</span></div>
+                      <div class="block-editor__items-box">
+                        <ingredient v-for="(item, i) in block.ingredients" :key="i" />
+                      </div>
+                    </div>
+                  </div>
                 </template>
               </div>
             </template>
           </accordion>
         </div>
-        <div class="page-editor__blocks block-neat">
-          <h3 class="page-editor__blocks-title">{{ $t('pageEditor.availableBlocks') }}</h3>
-          <div class="page-editor__blocks-info">{{ $t('pageEditor.availableBlocksInfo') }}</div>
-          <div class="custom-checkbox">
-            <label>
-              <input type="checkbox" v-model="showBlockInfo">
-              <span class="custom-checkbox-label">{{ $t('pageEditor.showBlockInfo') }}</span>
-            </label>
-          </div>
-          <div class="block" v-for="(block, i) in blockTypes" :key="i">
-            <div class="block-title">{{ $t('blockTypes.' + blockTypes[i] + '.title') }}</div>
-            <div class="block-info">{{ $t('blockTypes.' + blockTypes[i] + '.info') }}</div>
+
+        <div class="page-editor__blocks">
+          <div class="block-sticky--laptop block-neat">
+            <h3 class="page-editor__blocks-title">{{ $t('pageEditor.availableBlocks') }}</h3>
+            <div class="page-editor__blocks-info">{{ $t('pageEditor.availableBlocksInfo') }}</div>
+            <div class="custom-checkbox">
+              <label>
+                <input type="checkbox" v-model="showBlockInfo">
+                <span class="custom-checkbox-label">{{ $t('pageEditor.showBlockInfo') }}</span>
+              </label>
+            </div>
+            <div class="block" v-for="(block, i) in blockTypes" :key="i">
+              <div class="block-title">{{ $t('blockTypes.' + blockTypes[i] + '.title') }}</div>
+              <div class="block-info">{{ $t('blockTypes.' + blockTypes[i] + '.info') }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -105,6 +128,7 @@
   import accordion from '@/components/accordion';
   import customSelect from '@/forms/custom-select';
   import emojiPicker from '@/forms/emoji-picker';
+  import ingredient from '@/forms/ingredient';
   import _get from 'lodash/get';
 
   export default {
@@ -112,6 +136,7 @@
     components: {
       'custom-select': customSelect,
       'emoji-picker': emojiPicker,
+      ingredient,
       accordion,
     },
     data() {
@@ -127,6 +152,7 @@
           'carousel',
           'promo-set',
           'recipe',
+          'combo',
         ],
         cardTypes: [
           'product-card',
@@ -137,12 +163,11 @@
           'cuisines',
           'tags'
         ],
-        showBlockInfo: true,
+        showBlockInfo: false,
         alignData: {
           code: 'infoAlignment',
           title: this.$t('blockTypes.main.fields.infoAlignment'),
           optionType: 'radio',
-          required: true,
           options: [],
         },
         categoriesData: {

@@ -42,7 +42,7 @@
           accessibility: false,
           cellAlign: 'left',
           groupCells: true,
-          draggable: false,
+          draggable: true,
         }
       }
     },

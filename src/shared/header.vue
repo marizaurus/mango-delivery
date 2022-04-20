@@ -13,6 +13,7 @@
             <router-link :to="{ name: 'order-history' }">История</router-link>
             <router-link :to="{ name: 'catalog' }">Каталог</router-link>
             <router-link :to="{ name: 'favorites' }">Избранное</router-link>
+            <router-link :to="{ name: 'account' }">Аккаунт</router-link>
           </div>
         </div>
       </div>
