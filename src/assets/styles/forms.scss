@@ -11,6 +11,7 @@
     font-size: 1.6rem;
     font-family: $montserrat;
     box-sizing: border-box;
+    width: 100%;
   
     &:active,
     &:focus {
@@ -18,18 +19,22 @@
     }
   }
 
-  & > input {
-    max-width: 20rem;
-  }
+  // & > input {
+  //   max-width: 20rem;
+  // }
 
-  &.wide {
-    display: flex;
-    flex: 1;
+  // &.wide {
+  //   display: flex;
+  //   flex: 1;
 
-    & > input {
-      max-width: 100%;
-      flex: 1;
-    }
+  //   & > input {
+  //     max-width: 100%;
+  //     flex: 1;
+  //   }
+  // }
+
+  &.slim > input {
+    padding: .8rem;
   }
 
   textarea {
@@ -61,7 +66,7 @@
 
 .custom-checkbox,
 .custom-radio {
-  margin-bottom: .8rem;
+  margin-bottom: 1rem;
   position: relative;
 
   label {
@@ -140,5 +145,74 @@
         transform: scale(1);
       }
     }
+  }
+}
+
+.search-controls {
+  background-color: $beige-medium;
+  padding: 1.2rem 1.6rem;
+  border-radius: $radius-medium;
+
+  .controls {
+    &-query input {
+      width: 100%;
+      max-width: unset;
+    }
+  
+    &-status {
+      z-index: 6;
+    }
+  
+    &-sum {
+      margin-bottom: 1rem;
+  
+      & > .row {
+        justify-content: space-between;
+        margin-bottom: .8rem;
+      }
+  
+      &__input {
+        background-color: $white;
+        border-radius: $radius-small;
+        border: none;
+        padding: .8rem;
+        font-size: 1.6rem;
+        font-family: $montserrat;
+        box-sizing: border-box;
+        border-right: 2rem solid $white;
+        width: 10rem;
+      
+        &:active,
+        &:focus {
+          outline: none;
+        }
+  
+        &-wrapper {
+          position: relative;
+  
+          &::after {
+            position: absolute;
+            right: .4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            content: '₽';
+          }
+        }
+      }
+  
+      .vue-slider-dot-handle {
+        background-color: $beige-dark;
+  
+        &::after {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+}
+
+.grid {
+  & > .custom-input {
+    margin-bottom: 0;
   }
 }

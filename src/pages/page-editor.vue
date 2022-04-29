@@ -82,18 +82,32 @@
                     <div>
                       <div class="row">
                         <div class="custom-input wide">
-                          <input type="text">
-                          <label class="custom-input-label">{{ $t('blockTypes.recipe.fields.title') }}<span class="t-red">*</span></label>
+                          <input type="text" v-on="formEvents('editor.blocks[' + i + '].title')" v-model="block.title">
+                          <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].title')">{{ $t('blockTypes.recipe.fields.title') }}<span class="t-red">*</span></label>
                         </div>
                         <emoji-picker/>
                       </div>
                     </div>
                     <div></div>
                     <div>
+                      <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.recipeSteps') }}<span class="t-red">*</span></div>
+                      <div class="block-editor__items-box">
+                        <step v-for="(item, i) in block.steps" :key="i" :itemData="item"/>
+                      </div>
+                    </div>
+                    <div>
                       <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.ingredients') }}<span class="t-red">*</span></div>
                       <div class="block-editor__items-box">
-                        <ingredient v-for="(item, i) in block.ingredients" :key="i" />
+                        <ingredient v-for="(item, i) in block.ingredients" :key="i" :itemData="item" :style="{ '--ingr-index': block.ingredients.length - i }"/>
                       </div>
+                    </div>
+                    <div class="custom-input wide">
+                      <input type="text" v-on="formEvents('editor.blocks[' + i + '].productTitle')" v-model="block.productTitle">
+                      <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].productTitle')">{{ $t('blockTypes.recipe.fields.productTitle') }}</label>
+                    </div>
+                    <div class="custom-input wide">
+                      <input type="text" v-on="formEvents('editor.blocks[' + i + '].product')" v-model="block.product">
+                      <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].product')">{{ $t('blockTypes.recipe.fields.product') }}<span class="t-red">*</span></label>
                     </div>
                   </div>
                 </template>
@@ -113,8 +127,8 @@
               </label>
             </div>
             <div class="block" v-for="(block, i) in blockTypes" :key="i">
-              <div class="block-title">{{ $t('blockTypes.' + blockTypes[i] + '.title') }}</div>
-              <div class="block-info">{{ $t('blockTypes.' + blockTypes[i] + '.info') }}</div>
+              <div class="block-title">{{ $t('blockTypes.' + block + '.title') }}</div>
+              <div class="block-info">{{ $t('blockTypes.' + block + '.info') }}</div>
             </div>
           </div>
         </div>
@@ -129,6 +143,7 @@
   import customSelect from '@/forms/custom-select';
   import emojiPicker from '@/forms/emoji-picker';
   import ingredient from '@/forms/ingredient';
+  import step from '@/forms/step';
   import _get from 'lodash/get';
 
   export default {
@@ -137,6 +152,7 @@
       'custom-select': customSelect,
       'emoji-picker': emojiPicker,
       ingredient,
+      step,
       accordion,
     },
     data() {
@@ -210,7 +226,8 @@
               items: [],
               steps: [],
               ingredients: [],
-              item: {},
+              productTitle: '',
+              product: '',      // TODO: convert to object once product picker is done
             }
           ],
         },
@@ -260,6 +277,7 @@
         this.editor.activeField = '';
       },
       checkFocus(target) {
+        console.log(this.$data);
         return { 'non-empty': this.editor.activeField == target || !!_get(this.$data, target) };
       },
     },
@@ -272,17 +290,12 @@
         this.GET_RESTAURANT_COPY();
       }).then(() => {
         this.editor = this.editorData;
-        // this.alignData.options = this.alignOptions.map((el, i) => ({ code: i, name: this.$t('alignOptions.' + el + '.title') })),
-        // this.alignData.initial = [this.$t('alignOptions.' + this.editor.info.infoAlignment + '.title')];
         this.categoriesData.options = this.info.db.categories.map((el, i) => ({ code: i, name: el }));
-        // this.categoriesData.initial = this.editor.info.categories;
         this.cuisinesData.options = this.info.db.cuisines.map((el, i) => ({ code: i, name: el }));
-        // this.cuisinesData.initial = this.editor.info.cuisines;
       });
 
       this.GET_TAGS_API().then(() => {
         this.tagsData.options = this.tags.map(el => ({ code: el.id, name: el.title }));
-        // this.tagsData.initial = this.editor.info.tags.map(el => el.title);
       });
 
       Array.from(this.$el.querySelectorAll('.block')).forEach(el => {
@@ -373,15 +386,21 @@
       // if padding is set on acc_content, height:0 doesn't work
       padding: 1.6rem;
 
-      .row > *:not(:last-child) {
-        margin-right: 2rem;
-      }
+      // .row > *:not(:last-child) {
+      //   margin-right: 2rem;
+      // }
 
       &-title {
         font-size: 2rem;
         font-weight: 500;
         margin: .4rem 0 1.2rem;
       }
+    }
+
+    &__items-box {
+      padding: 1.2rem;
+      background-color: $white;
+      border-radius: $radius-small;
     }
 
     & > .accordion__content {

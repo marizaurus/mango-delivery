@@ -27,9 +27,9 @@
         <div class="catalog__controls">
           <div class="block-sticky--tablet">
             <div class="controls block-neat">
-              <custom-select class="select-form controls-status" :style="{ 'z-index': 7 }"
+              <custom-select class="select-form controls-status wide" :style="{ 'z-index': 7 }"
                 :selectData="categoriesData" @selectUpdated="searchParams.categories = $event"/>
-              <custom-select class="select-form controls-status" :style="{ 'z-index': 6 }"
+              <custom-select class="select-form controls-status wide" :style="{ 'z-index': 6 }"
                 :selectData="cuisinesData" @selectUpdated="searchParams.cuisines = $event"/>
               <div class="controls-sum">
                 <div class="row" ref="inputs">
@@ -108,13 +108,11 @@
         },
         categoriesData: {
           code: 'categoriesData',
-          wide: true,
           title: this.$t('catalog.searchParams.categories'),
           options: [],
         },
         cuisinesData: {
           code: 'cuisinesData',
-          wide: true,
           title: this.$t('catalog.searchParams.cuisines'),
           options: [],
         },

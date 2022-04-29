@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-select-wrapper" :class="{ 'wide': selectData.wide, 'content-right': selectData.alignment == 'right', 'slim': selectData.slim }">
+  <div class="custom-select-wrapper" :class="{ 'content-right': selectData.alignment == 'right' }">
     <accordion class="custom-select" :closeOnBlur="true" ref="accordion">
       <template #accordionTrigger>
         <div class="custom-select__initial" :class="{ 'non-empty' :  items.length > 0 }">
@@ -52,13 +52,14 @@
         title: String,
         optionType: String, // check/radio
         required: Boolean,  // editor
-        wide: Boolean,      // catalog filters
         alignment: String,  // catalog sort
         slim: Boolean,      // recipe editor, remove label
+        shortLabel: Boolean,// short ingredient unit
         options: [
           {
             code: String,
             name: String,
+            shortName: String,
             isChecked: Boolean,
           }
         ],
@@ -67,7 +68,8 @@
     computed: {
       selectText() {
         if (this.selectData.optionType == 'radio')
-          return this.items.length > 0 ? this.selectData.options.find(i => i.code == this.items).name : '';
+          return this.items.length > 0 ? this.selectData.options
+            .find(i => i.code == this.items)[this.selectData.shortLabel ? 'shortName' : 'name'] : '';
 
         return this.items.length > 0 ? this.items.length == 1 ?
           this.$t('forms.singleSelected') : this.items.length + this.$t('forms.multSelected') : '';
@@ -81,7 +83,6 @@
     watch: {
       'selectData.options': function() {
         this.items = this.selectData.options.filter(el => el.isChecked).map(el => el.code);
-
         if (this.selectData.optionType == 'radio')
           this.items = this.items[0];
       },
@@ -99,22 +100,11 @@
   .custom-select {
     position: absolute;
     user-select: none;
-    min-width: 16rem;
-    width: max-content;
 
     &-wrapper {
       position: relative;
-      min-width: 16rem;
-      height: 5.1rem;
-      margin-bottom: 1rem;
-
-      &:not(:last-child) {
-        margin-right: 1.8rem;
-      }
 
       &.select-form .custom-select {
-        min-width: 20rem;
-
         &__initial {
           background-color: $white;
           @include shadow-bottom($beige);
@@ -136,11 +126,14 @@
       }
 
       &.slim {
-        height: 3.6rem;
-
         .custom-select__initial {
           padding: .8rem;
-          height: 3.6rem;
+        }
+      }
+
+      &.wide {
+        .custom-select {
+          width: 100%;
         }
       }
     }
@@ -150,8 +143,7 @@
       border-radius: $radius-small;
       padding: 1.6rem 1rem;
       box-sizing: border-box;
-      min-width: 16rem;
-      height: 5.1rem;
+      width: 100%;
       @include shadow-bottom($beige-dark);
 
       &-label {
@@ -173,21 +165,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 14rem;
       }
-    }
-
-    &__btn.btn-outline {
-      font-size: 1.6rem;
-      margin-bottom: .8rem;
-
-      &:hover {
-        color: $beige-dark;
-      }
-    }
-
-    .accordion__trigger {
-      width: 20px;
     }
 
     .accordion__content {
@@ -205,39 +183,6 @@
     .accordion__trigger--active .custom-select__initial {
       top: -5px;
       box-shadow: 0 5px 0 $beige-dark;
-    }
-  }
-
-  @include breakpoint(tablet) {
-    .custom-select {
-      min-width: 20rem;
-
-      &-wrapper {
-        min-width: 20rem;
-        height: 5.1rem;
-
-        &:not(:last-child) {
-          margin-right: 2.4rem;
-        }
-
-        &.wide {
-          width: 100%;
-          margin-right: 0 !important;
-
-          .custom-select,
-          .custom-select__initial {
-            width: 100%;
-          }
-        }
-      }
-
-      &__initial {
-        min-width: 20rem;
-
-        &-text {
-          width: 18rem;
-        }
-      }
     }
   }
 </style>

@@ -62,7 +62,7 @@
           accessibility: false,
           cellAlign: 'left',
           groupCells: true,
-          draggable: false
+          draggable: true,
         },
         count: 0,
         side: ''

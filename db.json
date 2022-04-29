@@ -1202,49 +1202,47 @@
         {
           "id": 1,
           "name": "Ванильный сахар",
-          "amount": "1 ч.л."
+          "number": "1",
+          "unit": "teaSpoon"
         },
         {
           "id": 2,
           "name": "Сахарная пудра со вкусом ванили",
-          "amount": "2 ч.л."
+          "number": "2",
+          "unit": "teaSpoon"
         },
         {
           "id": 3,
           "name": "Разрыхлитель теста",
-          "amount": "1 ч.л."
+          "number": "1",
+          "unit": "teaSpoon"
         },
         {
           "id": 4,
           "name": "Яйцо",
-          "amount": "4 шт."
+          "number": "4",
+          "unit": "units"
         },
         {
           "id": 5,
           "name": "Сахар",
-          "amount": "100 г."
+          "number": "100",
+          "unit": "g"
         },
         {
           "id": 6,
           "name": "Мука",
-          "amount": "100 г."
+          "number": "100",
+          "unit": "g"
         },
         {
           "id": 7,
           "name": "Яблоки",
-          "amount": "4 шт."
+          "number": "4",
+          "unit": "units"
         }
       ],
-      "item": {
-        "title": "Шарлотка",
-        "rating": 4.9,
-        "image": "https://picsum.photos/280/250?random=9",
-        "tags": [
-          "Primastoria",
-          "Выпечка"
-        ],
-        "price": 550
-      }
+      "product": "Шарлотка"
     }
   ],
   "product-info": {
@@ -2127,5 +2125,100 @@
         }
       ]
     }
-  ]
+  ],
+  "account": {
+    "main": {
+      "name": "Мария",
+      "birthday": "27 июля 2000",
+      "sex": "f",
+      "phone": "+7 111 111-11-11",
+      "email": "mail@gmail.com"
+    },
+    "mailOptions": {
+      "emailAds": true,
+      "smsAds": false,
+      "emailBills": true,
+      "smsBills": false
+    },
+    "addresses": [
+      {
+        "id": 1,
+        "name": "Адрес 1",
+        "fullAddress": "Большая Конюшенная, 16",
+        "apartment": "65",
+        "intercom": "1",
+        "entrance": "2",
+        "floor": "4",
+        "comment": "",
+        "main": true,
+        "coords": [ 59.92694994, 30.33902649 ]
+      },
+      {
+        "id": 2,
+        "name": "Родители",
+        "fullAddress": "Большая Конюшенная, 16",
+        "apartment": "65",
+        "intercom": "1",
+        "entrance": "2",
+        "floor": "4",
+        "comment": "",
+        "coords": [ 59.94271451, 30.29694799 ]
+      },
+      {
+        "id": 3,
+        "name": "Общага",
+        "fullAddress": "Большая Конюшенная, 16",
+        "apartment": "65",
+        "intercom": "1",
+        "entrance": "2",
+        "floor": "4",
+        "comment": "Берегите голову на входе",
+        "coords": [ 59.95723409, 30.30823473 ]
+      }
+    ],
+    "orders": [
+      {
+        "orderNum": "00052",
+        "status": "Новый",
+        "restaurant": "Primastoria",
+        "dateTime": "29.01.2022 16.59",
+        "orderSum": 1250
+      },
+      {
+        "orderNum": "00051",
+        "status": "Готовится",
+        "restaurant": "Primastoria",
+        "dateTime": "29.01.2022 16.52",
+        "orderSum": 1750
+      },
+      {
+        "orderNum": "00048",
+        "status": "Готовится",
+        "restaurant": "Pizza Mia",
+        "dateTime": "29.01.2022 16.51",
+        "orderSum": 750
+      },
+      {
+        "orderNum": "00042",
+        "status": "Доставка",
+        "restaurant": "Dodo Pizza",
+        "dateTime": "29.01.2022 16.30",
+        "orderSum": 500
+      },
+      {
+        "orderNum": "00033",
+        "status": "Доставка",
+        "restaurant": "Dodo Pizza",
+        "dateTime": "29.01.2022 16.25",
+        "orderSum": 1500
+      },
+      {
+        "orderNum": "00032",
+        "status": "Доставка",
+        "restaurant": "Dodo Pizza",
+        "dateTime": "29.01.2022 16.20",
+        "orderSum": 1500
+      }
+    ]
+  }
 }

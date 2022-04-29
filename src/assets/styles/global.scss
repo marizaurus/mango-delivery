@@ -90,6 +90,7 @@ body {
   border: none;
   user-select: none;
   white-space: nowrap;
+  padding: 0;
 
   &-primary {
     display: flex;
@@ -116,7 +117,6 @@ body {
     text-decoration: underline;
     font-size: 2rem;
     color: $grey-dark;
-    padding: 0;
     transition: color .1s linear;
     
     &:hover {
@@ -125,6 +125,20 @@ body {
 
     svg {
       margin-right: 4px;
+    }
+
+    &-icon {
+      font-size: 1.6rem;
+      position: relative;
+      padding-left: 3rem;
+      background-color: transparent;
+      color: $grey-dark;
+
+      svg {
+        font-size: 2rem;
+        position: absolute;
+        left: 3px;
+      }
     }
   }
 
@@ -202,6 +216,10 @@ a {
     gap: 2.4rem;
   }
 
+  &.gv-1 {
+    row-gap: 1rem;
+  }
+
   &.gr-none {
     row-gap: 0;
   }
@@ -221,6 +239,62 @@ a {
 
 .laptop {
   display: none;
+}
+
+.table {
+  &__header {
+    font-weight: 500;
+    background-color: $beige;
+    border-radius: $radius-small;
+  }
+
+  &__row {
+    padding: 1.2rem 1.6rem;
+    align-items: center;
+
+    &-wrapper:nth-child(odd) .table__row {
+      background-color: $white;
+      border-radius: $radius-small;
+    }
+  }
+
+  &--slim {
+    .table__row:not(.table__header) {
+      padding: .8rem 1.6rem;
+    }
+  }
+}
+
+// maps
+
+.pin {
+  position: relative;
+  display: inline-block;
+
+  svg {
+    font-size: 3.2rem;
+    color: $red;
+  }
+
+  &-label {
+    color: $white;
+    font-weight: 700;
+
+    &--list {
+      position: absolute;
+      left: 50%;
+      top: .3rem;
+      transform: translateX(-50%);
+    }
+
+    &--map {
+      font-size: 1.6rem;
+      font-family: $montserrat;
+      display: inline-block;
+      text-align: center;
+      width: 3.6rem;
+    }
+  }
 }
 
 @include breakpoint(tablet) {

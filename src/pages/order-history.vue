@@ -18,8 +18,8 @@
           :selectData="userData" @selectUpdated="activeUser = $event"/>
 
         <div class="order-history__content">
-          <div v-show="isActive('active')" class="order-history__table-wrapper">
-            <div class="grid grid-mobile g-5 order-history__table-box order-history__table-header" :class="{ 'order-history__table-box--courier' : activeUser == 'courier' }">
+          <div v-show="isActive('active')" class="table-wrapper order-history__table" :class="{ 'order-history__table--courier table--slim' : activeUser == 'courier' }">
+            <div class="grid grid-mobile g-5 table__header table__row">
               <span v-if="activeUser == 'courier'"></span>
               <span>{{ $t('orderHistory.orderNum') }}</span>
               <span v-if="activeUser == 'manager'">{{ $t('orderHistory.status') }}</span>
@@ -27,16 +27,16 @@
               <span>{{ $t('orderHistory.dateTime') }}</span>
               <span style="text-align: end;">{{ $t('orderHistory.orderSum') }}</span>
             </div>
-            <accordion class="order-history__table-row" :closeOnBlur="true"
+            <accordion class="table__row-wrapper" :closeOnBlur="true"
               v-for="(order, i) in orderHistory.active" :key="i" :ref="'accordion-' + i">
               <template #accordionTrigger>
-                <div class="grid grid-mobile g-5 order-history__table-row-info order-history__table-box" :class="{ 'order-history__table-box--courier' : activeUser == 'courier' }"
+                <div class="grid grid-mobile g-5 table__row"
                   @click.stop="getOrder(order.orderNum, i)">
                   <!-- delay accordion toggle until data has loaded -->
-                  <div v-if="activeUser == 'courier'">
-                    <div class="order-history__pin">
+                  <div class="pin-wrapper" v-if="activeUser == 'courier'">
+                    <div class="pin">
                       <font-awesome-icon icon="location-pin"/>
-                      <span class="order-history__pin-label order-history__pin-label--list">{{ i + 1 }}</span>
+                      <span class="pin-label pin-label--list">{{ i + 1 }}</span>
                     </div>
                   </div>
                   <span>{{ order.orderNum }}</span>
@@ -75,7 +75,7 @@
         <div class="order-history__controls" v-if="activeUser == 'manager'">
           <div class="block-sticky--tablet block-neat">
             <h3 class="order-history__controls-title">{{ $t('orderHistory.searchParams.title') }}</h3>
-            <div class="controls block-neat">
+            <div class="search-controls block-neat">
               <div class="custom-input controls-query">
                 <input type="text" v-on="formEvents('searchParams.query')" v-model="searchParams.query">
                 <label class="custom-input-label" :class="checkFocus('searchParams.query')">{{ $t('orderHistory.searchParams.search') }}</label>
@@ -129,8 +129,8 @@
 <script>
   import customSelect from '@/forms/custom-select';
   import { mapActions, mapGetters } from "vuex";
-  import accordion from '../components/accordion.vue';
-  import productStripe from '../components/product-stripe.vue';
+  import accordion from '../components/accordion';
+  import productStripe from '../components/product-stripe';
   import VueSlider from 'vue-slider-component';
   import 'vue-slider-component/theme/material.css';
   import _get from 'lodash/get';
@@ -314,7 +314,7 @@
               imageOffset: [-18, -36],
               content: i + 1,
               contentOffset: [0, 4],
-              contentLayout: '<span class="order-history__pin-label order-history__pin-label--map">$[properties.iconContent]</span>'
+              contentLayout: '<span class="pin-label pin-label--map">$[properties.iconContent]</span>'
             },
             coords: el.coords,
           });
@@ -371,134 +371,23 @@
       }
     }
 
-    .controls {
-      background-color: $beige-medium;
-      padding: 1.2rem 1.6rem;
-      border-radius: $radius-medium;
-
-      &-query input {
-        width: 100%;
-        max-width: unset;
-      }
-
-      &-status {
-        z-index: 6;
-      }
-
-      &-sum {
-        margin-bottom: 1rem;
-
-        & > .row {
-          justify-content: space-between;
-          margin-bottom: .8rem;
-        }
-
-        &__input {
-          background-color: $white;
-          border-radius: $radius-small;
-          border: none;
-          padding: .8rem;
-          font-size: 1.6rem;
-          font-family: $montserrat;
-          box-sizing: border-box;
-          border-right: 2rem solid $white;
-          width: 10rem;
-        
-          &:active,
-          &:focus {
-            outline: none;
-          }
-
-          &-wrapper {
-            position: relative;
-
-            &::after {
-              position: absolute;
-              right: .4rem;
-              top: 50%;
-              transform: translateY(-50%);
-              content: '₽';
-            }
-          }
-        }
-
-        .vue-slider-dot-handle {
-          background-color: $beige-dark;
-
-          &::after {
-            background-color: transparent;
-          }
-        }
-      }
-    }
-
     &__table {
-      &-header {
-        font-weight: 500;
-        background-color: $beige;
-      }
-
-      &-row {
-        &:nth-child(odd) .order-history__table-box {
-          background-color: $white;
-          border-radius: $radius-small;
-        }
-
-        &-info {
-          align-items: center;
-
-          & span {
-            &:first-child {
-              text-decoration: underline;
-            }
-
-            &:last-child {
-              text-align: end;
-              font-weight: 700;
-            }
+      .table__row {
+        &:not(.table__header) > span {
+          &:first-child {
+            text-decoration: underline;
           }
 
-          &.order-history__table-box--courier {
-            padding: .8rem 1.6rem;
+          &:last-child {
+            text-align: end;
+            font-weight: 700;
           }
         }
       }
 
-      &-box {
-        padding: 1.2rem 1.6rem;
-
-        &--courier.grid.grid-mobile.g-5 {
+      &--courier {
+        .table__row.grid.grid-mobile.g-5 {
           grid-template-columns: 4rem 1fr 1fr 1fr 1fr;
-        }
-      }
-    }
-
-    &__pin {
-      position: relative;
-      display: inline-block;
-
-      svg {
-        font-size: 3.2rem;
-        color: $red;
-      }
-
-      &-label {
-        color: $white;
-
-        &--list {
-          position: absolute;
-          left: 50%;
-          top: .3rem;
-          transform: translateX(-50%);
-        }
-
-        &--map {
-          font-weight: 700;
-          font-size: 1.6rem;
-          font-family: $montserrat;
-          display: inline-block;
-          text-align: center;
-          width: 3.6rem;
         }
       }
     }

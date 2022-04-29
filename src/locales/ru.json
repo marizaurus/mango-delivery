@@ -52,7 +52,11 @@
         "ingredient": "Ингредиент",
         "ingredients": "Ингредиенты",
         "number": "Кол-во",
-        "units": "Мера"
+        "units": "Мера",
+        "step": "Описание шага",
+        "recipeSteps": "Шаги рецепта",
+        "productTitle": "Заголовок товара",
+        "product": "Блюдо"
       },
       "ingredientUnits": {
         "teaSpoon": "Чайная ложка",
@@ -63,6 +67,16 @@
         "ml": "Миллилитр",
         "l": "Литр",
         "glass": "Стакан"
+      },
+      "ingredientUnitsShort": {
+        "teaSpoon": "ч.л.",
+        "tableSpoon": "ст.л.",
+        "units": "шт.",
+        "g": "г.",
+        "kg": "кг.",
+        "ml": "мл.",
+        "l": "л.",
+        "glass": "ст."
       }
     },
     "combo": {
@@ -95,13 +109,17 @@
     "readMore": "Читать дальше",
     "readLess": "Свернуть",
     "order": "Заказать",
+    "add": "Добавить",
     "toCart": "В корзину",
     "remove": "Убрать",
+    "delete": "Удалить",
     "favorite": "В любимое",
     "submit": "Отправить",
     "search": "Поиск",
     "clientChat": "Чат с клиентом",
-    "menu": "Меню"
+    "menu": "Меню",
+    "edit": "Редактировать",
+    "save": "Сохранить"
   },
   "forms": {
     "name": "Ваше имя",
@@ -162,6 +180,7 @@
     "orderNum": "Номер",
     "status": "Статус",
     "client": "Клиент",
+    "restaurant": "Ресторан",
     "dateTime": "Дата и время",
     "orderSum": "Итого",
     "tableSort": "Сортировка",
@@ -169,6 +188,11 @@
       "title": "Параметры поиска",
       "search": "Поиск",
       "bothTabs": "Поиск в обеих вкладках"
+    },
+    "statusesOptions": {
+      "new": "Новый",
+      "inProgress": "Готовится",
+      "delivery": "Доставка"
     }
   },
   "catalog": {
@@ -202,9 +226,37 @@
   "account": {
     "title": "Личный кабинет",
     "tabs": {
-      "account": "Мои данные",
-      "adresses": "Мои адреса",
+      "main": "Мои данные",
+      "addresses": "Мои адреса",
       "orders": "История заказов"
+    },
+    "main": {
+      "name": "Ваше имя",
+      "birthday": "Дата рождения",
+      "sex": "Пол",
+      "phone": "Телефон",
+      "email": "Электронная почта"
+    },
+    "mailOptions": {
+      "adsOptions": "Рекламные предложения и акции",
+      "billOptions": "Чеки и статусы заказов",
+      "sendSms": "SMS-сообщение на телефон",
+      "sendEmail": "Электронное письмо на почту"
+    },
+    "sexOptions": {
+      "m": "Мужской",
+      "f": "Женский"
+    },
+    "addresses": {
+      "name": "Название",
+      "shortName": "Краткое название",
+      "fullAddress": "Полный адрес",
+      "markMain": "Сделать основным",
+      "entrance": "Подъезд",
+      "floor": "Этаж",
+      "apartment": "Квартира",
+      "intercom": "Домофон",
+      "courierComment": "Комментарий для курьера"
     }
   }
 }

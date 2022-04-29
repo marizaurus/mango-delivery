@@ -15,8 +15,8 @@
         </div>
       </div>
     </div>
-    <font-awesome-icon :icon="['far', 'trash-can']" class="cart-counter__trash"
-      v-show="counter < 1 && type == 'cart'"/>
+    <!-- <font-awesome-icon :icon="['far', 'trash-can']" class="cart-counter__trash"
+      v-show="counter < 1 && type == 'cart'"/> -->
   </div>
 </template>
 
@@ -25,7 +25,7 @@
     name: "cart-counter",
     data() {
       return {
-        counter: this.number || 1,
+        counter: this.number || 0,
       }
     },
     props: {
