@@ -69,6 +69,8 @@
 
     &__content {
       overflow: hidden;
+
+      @extend .block--sticky-x;
     }
 
     &-enter-active,

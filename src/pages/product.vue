@@ -61,7 +61,7 @@
       <h2 class="product__ingredients-title">{{ $t('blocks.alterIngredients') }}</h2>
       <div class="product__ingredients row">
         <!-- this z-index is scary, but works -->
-        <custom-select class="product__ingredients-option" :style="{ 'z-index': productInfo.alterOptions.length - i }"
+        <custom-select class="product__ingredients-option block" :style="{ 'z-index': productInfo.alterOptions.length - i }"
           v-for="(option, i) in productInfo.alterOptions" :key="i" :selectData="getAlterOption(option)"/>
       </div>
     </div>

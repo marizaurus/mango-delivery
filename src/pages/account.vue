@@ -2,20 +2,18 @@
   <div class="account m-resp">
     <div class="container container-slim">
       <h1 class="account__title">{{ $t('account.title') }}</h1>
-      <div class="row order-history__tabs">
-        <div class="order-history__tabs-btns">
-          <button class="btn btn-tab" :class="{ 'active': isActive('main') }"
-            @click="setActive('main')">{{ $t('account.tabs.main') }}</button>
-          <button class="btn btn-tab" :class="{ 'active': isActive('addresses') }"
-            @click="setActive('addresses')">{{ $t('account.tabs.addresses') }}</button>
-          <button class="btn btn-tab" :class="{ 'active': isActive('orders') }"
-            @click="setActive('orders')">{{ $t('account.tabs.orders') }}</button>
-        </div>
+      <div class="tabs">
+        <button class="btn btn-tab tab" :class="{ 'active': isActive('main') }"
+          @click="setActive('main')">{{ $t('account.tabs.main') }}</button>
+        <button class="btn btn-tab tab" :class="{ 'active': isActive('addresses') }"
+          @click="setActive('addresses')">{{ $t('account.tabs.addresses') }}</button>
+        <button class="btn btn-tab tab" :class="{ 'active': isActive('orders') }"
+          @click="setActive('orders')">{{ $t('account.tabs.orders') }}</button>
       </div>
     </div>
     <div class="account__content">
       <div v-show="isActive('main')">
-        <div class="container container-slim" v-if="!editMode">
+        <div class="container container-slim" v-show="!editMode">
           <div class="grid grid-tablet g-2 gg-2">
             <div>
               <div class="row">
@@ -24,14 +22,14 @@
               </div>
               <div class="grid grid-mobile account__main-grid">
                 <span class="t-medium">{{ $t('account.main.birthday') }}:</span><span>{{account.main.birthday}}</span>
-                <span class="t-medium">{{ $t('account.main.sex') }}:</span><span>{{$t('account.sexOptions.f')}}</span>
+                <span class="t-medium">{{ $t('account.main.sex') }}:</span><span>{{account.main.sex ? $t('account.sexOptions.' + account.main.sex) : ''}}</span>
                 <span class="t-medium">{{ $t('account.main.phone') }}:</span><span>{{account.main.phone}}</span>
-                <span class="t-medium">{{ $t('account.main.email') }}:</span><span>{{account.main.email}}</span>
+                <span class="t-medium">{{ $t('account.main.email') }}:</span><span class="t-cut">{{account.main.email}}</span>
               </div>
             </div>
           </div>
         </div>
-        <div class="m-resp account__main-edit block-neat" v-else>
+        <div class="m-resp account__main-edit block-neat" v-show="editMode">
           <div class="container container-slim">
             <div class="grid grid-tablet g-2 gg-2">
               <div class="account__main-edit-grid grid grid-tablet g-2 gg-2">
@@ -44,6 +42,7 @@
                   <input type="text" v-on="formEvents('account.main.birthday')" v-model="account.main.birthday">
                   <label class="custom-input-label" :class="checkFocus('account.main.birthday')">{{ $t('account.main.birthday') }}</label>
                 </div>
+                <!-- watcher for options doesn’t trigger within v-if! -->
                 <custom-select class="select-form wide" :style="{ 'z-index': 1 }" :selectData="sexData" @selectUpdated="account.main.sex = $event"/>
                 <div class="custom-input">
                   <input type="text" v-on="formEvents('account.main.phone')" v-model="account.main.phone">
@@ -166,9 +165,9 @@
                 </template>
               </accordion>
             </div>
-            <div>
+            <div class="map">
               <div class="block-sticky--tablet">
-                <yandex-map v-bind="mapSettings" ymap-class="order-history__map-content">
+                <yandex-map v-bind="mapSettings" ymap-class="map-content">
                   <ymap-marker v-for="(pin, i) in pins" :key="i" v-bind="pin" :marker-id="i" @click="mapSettings.coords = pin.coords"/>
                 </yandex-map>
               </div>
@@ -315,7 +314,7 @@
           "f"
         ],
         sexData: {
-          code: 'sortData',
+          code: 'sexData',
           title: this.$t('account.main.sex'),
           optionType: 'radio',
           options: [],
@@ -465,14 +464,14 @@
           .then(response => {
             this.account = response.data;
             this.setPins();
+            this.sexData.options = this.sexOptions.map(el => ({
+              code: el,
+              name: this.$t('account.sexOptions.' + el),
+              isChecked: this.account.main.sex == el,
+            }));
           });
       }
 
-      this.sexData.options = this.sexOptions.map(el => ({
-        code: el,
-        name: this.$t('account.sexOptions.' + el),
-        isChecked: this.account.main.sex == el,
-      }));
       this.statusesData.options = this.statusesOptions.map(el => ({
         code: el,
         name: this.$t('orderHistory.statusesOptions.' + el),
@@ -489,8 +488,8 @@
 
     &__main {
       &-grid {
-        grid-template-columns: 17rem auto;
-        grid-gap: .8rem 4rem;
+        grid-template-columns: 17rem 16rem;
+        grid-gap: .8rem 2rem;
       }
 
       &-edit {
@@ -533,6 +532,10 @@
             text-align: end;
             font-weight: 700;
           }
+        }
+
+        &.grid.grid-mobile.g-5 {
+          grid-template-columns: minmax(70px, 1fr) minmax(90px, 1fr) minmax(120px, 1fr) minmax(130px, 1fr) minmax(70px, 1fr);
         }
       }
     }

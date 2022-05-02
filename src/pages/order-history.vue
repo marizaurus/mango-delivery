@@ -114,9 +114,9 @@
           </div>
         </div>
 
-        <div class="order-history__map" v-else-if="activeUser == 'courier'">
+        <div class="map" v-else-if="activeUser == 'courier'">
           <div class="block-sticky--tablet">
-            <yandex-map v-bind="mapSettings" :show-all-markers="true" @map-was-initialized="initMap" ymap-class="order-history__map-content">
+            <yandex-map v-bind="mapSettings" :show-all-markers="true" @map-was-initialized="initMap" ymap-class="map-content">
               <ymap-marker v-for="(pin, i) in pins" :key="i" v-bind="pin" :marker-id="i" @click="mapSettings.coords = pin.coords"/>
             </yandex-map>
           </div>
@@ -352,9 +352,9 @@
   .order-history {
     &__tabs {
       justify-content: space-between;
-      flex-wrap: wrap;
-      margin-top: -1.2rem;
-      margin-left: -1.6rem;
+      // flex-wrap: wrap;
+      // margin-top: -1.2rem;
+      // margin-left: -1.6rem;
 
       &.row {
         align-items: flex-end;
@@ -362,8 +362,9 @@
 
       &-btns {
         flex-shrink: 0;
-        margin-top: 1.2rem;
-        margin-left: 1.6rem;
+        // margin-top: 1.2rem;
+        // margin-left: 1.6rem;
+        overflow-x: scroll;
       }
 
       &-sort {
@@ -417,13 +418,6 @@
 
     &__user-select {
       margin-right: 0 !important;
-    }
-
-    &__map {
-      &-content {
-        width: 100%;
-        height: 35rem;
-      }
     }
   }
 

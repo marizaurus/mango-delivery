@@ -82,7 +82,7 @@
     }
 
     &.grid.grid-mobile.g-3 {
-      grid-template-columns: auto 8rem 0;
+      grid-template-columns: auto 9rem 0;
     }
 
     &__img {
@@ -117,10 +117,9 @@
         span {
           font-weight: 700;
           font-size: 2rem;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
           width: 15rem;
+
+          @extend .t-cut;
         }
 
         &--combo span {
@@ -150,16 +149,16 @@
 
       &-tags {
         font-size: 1.2rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         width: 24rem;
+
+        @extend .t-cut;
       }
     }
 
     &__controls {
       flex-wrap: wrap;
       margin-top: -0.4rem;
+      justify-content: flex-end;
       
       .cart-counter-wrapper,
       .product-stripe__price,

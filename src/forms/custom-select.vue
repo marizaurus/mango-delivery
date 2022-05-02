@@ -2,7 +2,7 @@
   <div class="custom-select-wrapper" :class="{ 'content-right': selectData.alignment == 'right' }">
     <accordion class="custom-select" :closeOnBlur="true" ref="accordion">
       <template #accordionTrigger>
-        <div class="custom-select__initial" :class="{ 'non-empty' :  items.length > 0 }">
+        <div class="custom-select__initial" :class="{ 'non-empty' : items && items.length > 0 }">
           <span class="custom-select__initial-label" v-if="!selectData.slim">
             {{ selectData.title }}<span class="t-red" v-if="selectData.required">*</span>
           </span>
@@ -103,6 +103,7 @@
 
     &-wrapper {
       position: relative;
+      height: 5.1rem;
 
       &.select-form .custom-select {
         &__initial {
@@ -126,14 +127,30 @@
       }
 
       &.slim {
+        height: 3.6rem;
+
         .custom-select__initial {
           padding: .8rem;
+          height: 3.6rem;
         }
       }
 
       &.wide {
         .custom-select {
           width: 100%;
+        }
+      }
+
+      &.block {
+        min-width: 16rem;
+
+        &:not(:last-child) {
+          margin-right: 1.8rem;
+        }
+
+        .custom-select {
+          min-width: 16rem;
+          width: max-content;
         }
       }
     }
@@ -144,6 +161,7 @@
       padding: 1.6rem 1rem;
       box-sizing: border-box;
       width: 100%;
+      height: 5.1rem;
       @include shadow-bottom($beige-dark);
 
       &-label {
@@ -162,9 +180,8 @@
 
       &-text {
         display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+
+        @extend .t-cut;
       }
     }
 
@@ -183,6 +200,28 @@
     .accordion__trigger--active .custom-select__initial {
       top: -5px;
       box-shadow: 0 5px 0 $beige-dark;
+    }
+  }
+
+  @include breakpoint(tablet) {
+    .custom-select {
+      &-wrapper.block {
+        min-width: 20rem;
+
+        &:not(:last-child) {
+          margin-right: 2.4rem;
+        }
+
+        .custom-select {
+          &__initial {
+            min-width: 20rem;
+
+            &-text {
+              width: 18rem;
+            }
+          }
+        }
+      }
     }
   }
 </style>

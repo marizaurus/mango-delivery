@@ -24,6 +24,12 @@ h3 {
   font-weight: 500;
 }
 
+.t-cut {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @include breakpoint(tablet) {
   h1 {
     font-size: 4.2rem;
