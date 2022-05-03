@@ -187,6 +187,7 @@
     "searchParams": {
       "title": "Параметры поиска",
       "search": "Поиск",
+      "dates": "Даты",
       "bothTabs": "Поиск в обеих вкладках"
     },
     "statusesOptions": {
@@ -250,8 +251,8 @@
     "addresses": {
       "name": "Название",
       "shortName": "Краткое название",
-      "fullAddress": "Полный адрес",
-      "markMain": "Сделать основным",
+      "fullAddress": "Aдрес",
+      "markMain": "Основной адрес",
       "entrance": "Подъезд",
       "floor": "Этаж",
       "apartment": "Квартира",

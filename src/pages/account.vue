@@ -32,25 +32,28 @@
         <div class="m-resp account__main-edit block-neat" v-show="editMode">
           <div class="container container-slim">
             <div class="grid grid-tablet g-2 gg-2">
-              <div class="account__main-edit-grid grid grid-tablet g-2 gg-2">
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('account.main.name')" v-model="account.main.name">
-                  <label class="custom-input-label" :class="checkFocus('account.main.name')">{{ $t('account.main.name') }}<span class="t-red">*</span></label>
+              <div class="grid gv-1 grid-top">
+                <div class="account__main-edit-grid grid grid-tablet g-2 gg-2">
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('account.main.name')" v-model="account.main.name">
+                    <label class="custom-input-label" :class="checkFocus('account.main.name')">{{ $t('account.main.name') }}<span class="t-red">*</span></label>
+                  </div>
                 </div>
-                <span></span>
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('account.main.birthday')" v-model="account.main.birthday">
-                  <label class="custom-input-label" :class="checkFocus('account.main.birthday')">{{ $t('account.main.birthday') }}</label>
-                </div>
-                <!-- watcher for options doesn’t trigger within v-if! -->
-                <custom-select class="select-form wide" :style="{ 'z-index': 1 }" :selectData="sexData" @selectUpdated="account.main.sex = $event"/>
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('account.main.phone')" v-model="account.main.phone">
-                  <label class="custom-input-label" :class="checkFocus('account.main.phone')">{{ $t('account.main.phone') }}<span class="t-red">*</span></label>
-                </div>
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('account.main.email')" v-model="account.main.email">
-                  <label class="custom-input-label" :class="checkFocus('account.main.email')">{{ $t('account.main.email') }}</label>
+                <div class="account__main-edit-grid grid grid-tablet g-2 gg-2">
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('account.main.birthday')" v-model="account.main.birthday">
+                    <label class="custom-input-label" :class="checkFocus('account.main.birthday')">{{ $t('account.main.birthday') }}</label>
+                  </div>
+                  <!-- watcher for options doesn’t trigger within v-if! -->
+                  <custom-select class="select-form wide" :style="{ 'z-index': 1 }" :selectData="sexData" @selectUpdated="account.main.sex = $event"/>
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('account.main.phone')" v-model="account.main.phone">
+                    <label class="custom-input-label" :class="checkFocus('account.main.phone')">{{ $t('account.main.phone') }}<span class="t-red">*</span></label>
+                  </div>
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('account.main.email')" v-model="account.main.email">
+                    <label class="custom-input-label" :class="checkFocus('account.main.email')">{{ $t('account.main.email') }}</label>
+                  </div>
                 </div>
               </div>
               <div class="block-neat">
@@ -99,7 +102,7 @@
                 <span></span>
                 <span>{{ $t('account.addresses.name') }}</span>
                 <span>{{ $t('account.addresses.fullAddress') }}</span>
-                <button class="btn btn-outline-icon" @click="addAddress">
+                <button class="btn btn-outline-icon small" @click="addAddress">
                   <font-awesome-icon icon="plus"/>
                   <span class="t-medium">{{ $t('buttons.add') }}</span>
                 </button>
@@ -115,7 +118,7 @@
                       </div>
                     </div>
                     <span>{{ address.name }}</span>
-                    <span>{{ address.fullAddress }}</span>
+                    <span class="t-cut">{{ address.fullAddress }}</span>
                   </div>
                 </template>
                 <template #accordionContent>
@@ -139,7 +142,7 @@
                       </div>
                     </div>
                     <div class="account__address-full">{{ address.fullAddress }}</div>
-                    <div class="grid grid-mobile g-4 gg-1">
+                    <div class="grid grid-mobile g-2 gg-1 account__address-fields">
                       <div class="custom-input">
                         <input type="text" v-on="formEvents('account.addresses[' + i + '].apartment')" v-model="address.apartment">
                         <label class="custom-input-label" :class="checkFocus('account.addresses[' + i + '].apartment')">{{ $t('account.addresses.apartment') }}<span class="t-red">*</span></label>
@@ -165,13 +168,13 @@
                 </template>
               </accordion>
             </div>
-            <div class="map">
+            <!-- <div class="map">
               <div class="block-sticky--tablet">
                 <yandex-map v-bind="mapSettings" ymap-class="map-content">
                   <ymap-marker v-for="(pin, i) in pins" :key="i" v-bind="pin" :marker-id="i" @click="mapSettings.coords = pin.coords"/>
                 </yandex-map>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -217,18 +220,24 @@
                 </template>
               </accordion>
             </div>
+
             <div class="account__orders-controls">
               <div class="block-sticky--tablet block-neat">
                 <h3 class="account__orders-controls-title">{{ $t('orderHistory.searchParams.title') }}</h3>
-                <div class="search-controls block-neat">
+                <div class="search-controls block-neat grid gv-1">
                   <div class="custom-input controls-query">
                     <input type="text" v-on="formEvents('searchParams.query')" v-model="searchParams.query">
                     <label class="custom-input-label" :class="checkFocus('searchParams.query')">{{ $t('orderHistory.searchParams.search') }}</label>
                   </div>
-                  <custom-select class="select-form controls-status" :selectData="statusesData" @selectUpdated="searchParams.statuses = $event"/>
-                  <datepicker v-model="searchParams.date"
-                    range textInput multiCalendars multiCalendarsSolo autoApply
-                    v-bind="datePickerOptions"/>
+                  <custom-select class="select-form controls-status wide" :selectData="statusesData" @selectUpdated="searchParams.statuses = $event"/>
+                  <datepicker v-model="searchParams.date" range textInput multiCalendars multiCalendarsSolo autoApply v-bind="datePickerOptions">
+                      <!-- eslint-disable-next-line vue/no-unused-vars -->
+                      <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
+                        <div class="custom-input controls-dates">
+                          <input type="text" :value="value" :placeholder="$t('orderHistory.searchParams.dates')">
+                        </div>
+                      </template>
+                  </datepicker>
                   <div class="controls-sum">
                     <div class="row" ref="inputs">
                       <div class="controls-sum__input-wrapper">
@@ -239,12 +248,6 @@
                       </div>
                     </div>
                     <vue-slider ref="slider" v-model="searchParams.orderSum" v-bind="sliderOptions"></vue-slider>
-                  </div>
-                  <div class="custom-checkbox">
-                    <label>
-                      <input type="checkbox" v-model="searchParams.bothTabs">
-                      <span class="custom-checkbox-label">{{ $t('orderHistory.searchParams.bothTabs') }}</span>
-                    </label>
                   </div>
                 </div>
                 <button class="btn btn-primary btn-orange-light m-auto">
@@ -359,7 +362,7 @@
           },
         },
         datePickerOptions: {
-          format: 'dd.MM.yyyy - dd.MM.yyyy',
+          format: 'dd.MM.yyyy',
           enableTimePicker: false,
           // hideInputIcon: true,
         },
@@ -506,11 +509,11 @@
     &__adresses-table {
       .table__row {
         &.grid.grid-mobile.g-3 {
-          grid-template-columns: 4rem 12rem auto;
+          grid-template-columns: 3.5rem 12rem auto;
         }
 
         &.grid.grid-mobile.g-4 {
-          grid-template-columns: 4rem 12rem auto 11rem;
+          grid-template-columns: 3.5rem 12rem auto 2rem;
         }
       }
     }
@@ -518,7 +521,7 @@
     &__address {
       background-color: $beige-medium;
       border-radius: $radius-small;
-      padding: 1rem 1.6rem;
+      padding: 1rem 1.2rem;
     }
 
     &__orders-table {
@@ -537,6 +540,26 @@
         &.grid.grid-mobile.g-5 {
           grid-template-columns: minmax(70px, 1fr) minmax(90px, 1fr) minmax(120px, 1fr) minmax(130px, 1fr) minmax(70px, 1fr);
         }
+      }
+    }
+  }
+
+  @include breakpoint(mobile) {
+    .account {
+      &__adresses-table {
+        .table__row {
+          &.grid.grid-mobile.g-3 {
+            grid-template-columns: 4rem 12rem auto;
+          }
+
+          &.grid.grid-mobile.g-4 {
+            grid-template-columns: 4rem 12rem auto 11rem;
+          }
+        }
+      }
+
+      &__address-fields.grid.grid-mobile.g-2 {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
   }

@@ -5,6 +5,9 @@
 
 // https://coolors.co/3f72af-6e8943-95b366-ffc93c-ffa63c-ff711f-a61e11
 
+
+@import '@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss';
+
 //colors
 
 // based beige palette
@@ -92,3 +95,7 @@ $radius-big: 10px;
 
 $input-border: .3rem solid $beige-dark;
 $input-border-active: .3rem solid $white;
+
+// datepicker
+
+$dp__font_size: 1.4rem;

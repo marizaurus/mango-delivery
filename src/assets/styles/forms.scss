@@ -71,7 +71,7 @@
 
   label {
     cursor: pointer;
-    padding-left: 3rem;
+    padding-left: 2.8rem;
     position: relative;
 
     input {
@@ -154,18 +154,11 @@
   border-radius: $radius-medium;
 
   .controls {
-    &-query input {
-      width: 100%;
-      max-width: unset;
-    }
-  
     &-status {
       z-index: 6;
     }
   
     &-sum {
-      margin-bottom: 1rem;
-  
       & > .row {
         justify-content: space-between;
         margin-bottom: .8rem;
@@ -199,10 +192,10 @@
           }
         }
       }
-  
+
       .vue-slider-dot-handle {
         background-color: $beige-dark;
-  
+
         &::after {
           background-color: transparent;
         }
