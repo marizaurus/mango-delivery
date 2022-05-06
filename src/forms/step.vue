@@ -1,6 +1,6 @@
 <template>
   <div class="step row">
-    <font-awesome-icon icon="grip-lines"/>
+    <font-awesome-icon icon="grip-lines" class="handle"/>
     <div class="custom-input step-content slim">
       <input type="text" :placeholder="$t('blockTypes.recipe.fields.step')" v-model="stepData.content">
     </div>
@@ -42,10 +42,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
-    }
-
-    &:not(:last-child) {
-      margin-bottom: .8rem;
     }
   }
 </style>

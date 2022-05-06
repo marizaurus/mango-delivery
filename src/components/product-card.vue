@@ -15,9 +15,12 @@
           <div class="product-card__info-rating-value">{{ itemData.rating }}</div>
         </div>
       </div>
-      <div class="product-card__info-tags product-card__info-row row">{{ itemData.tags.join(' · ') }}</div>
+      <div class="product-card__info-tags product-card__info-row">{{ itemData.tags.join(' · ') }}</div>
       <div class="product-card__info-row row">
-        <div class="product-card__cart-price">{{ itemData.price }} ₽</div>
+        <div class="product-card__info-prices">
+          <div class="product-card__cart-price" v-if="itemData.newPrice">{{ itemData.newPrice }} ₽</div>
+          <div class="product-card__cart-price" :class="{ 'product-card__cart-price-old': itemData.newPrice }">{{ itemData.price }} ₽</div>
+        </div>
         <div class="product-card__cart-controls row">
           <cart-counter/>
         </div>
@@ -47,6 +50,7 @@
         image: String,
         tags: Array,
         price: Number,
+        newPrice: Number,
         isFavorite: Boolean,
       }
     },
@@ -66,7 +70,6 @@
     border-radius: $radius-medium;
     overflow: hidden;
     position: relative;
-    // box-shadow: 0 0 15px $grey-light;
 
     &:hover {
       .product-card__like-wrapper {
@@ -83,7 +86,7 @@
 
       &-wrapper {
         width: 100%;
-        height: 16rem;
+        height: 12rem;
         background-image: url('~@/assets/images/placeholder-small.png');
         background-size: cover;
         background-position: center;
@@ -118,14 +121,14 @@
     }
 
     &__info {
-      padding: 1.2rem 1.2rem 1.4rem;
+      padding: .8rem;
 
       &-row:not(:last-child) {
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.4rem;
       }
 
       &-name {
-        font-size: 2rem;
+        font-size: 1.6rem;
         font-weight: 700;
         margin: 0;
       }
@@ -134,11 +137,12 @@
         margin-left: auto;
         color: $yellow;
         align-self: flex-start;
-        line-height: 2.4rem;
+        line-height: 2rem;
+        font-size: 1.4rem;
 
         &-value {
-          margin-left: 4px;
-          font-size: 1.8rem;
+          margin-left: 2px;
+          font-size: 1.6rem;
           font-weight: 700;
         }
       }
@@ -146,6 +150,7 @@
       &-tags {
         color: $grey-dark;
         font-size: 1.2rem;
+        @extend .t-cut;
       }
     }
 
@@ -153,7 +158,13 @@
       &-price {
         color: $orange-light;
         font-weight: 700;
-        font-size: 2rem;
+        font-size: 1.8rem;
+
+        &-old {
+          text-decoration: line-through;
+          color: $grey-medium;
+          font-size: 1.4rem;
+        }
       }
 
       &-controls {
@@ -162,9 +173,47 @@
     }
   }
 
+  // and i reached my sanity breakpoint
   @include breakpoint(tablet) {
     .product-card {
-      // @include shadow-angle($beige);
+      &__image-wrapper {
+        height: 16rem;
+      }
+
+      &__info {
+        padding: 1.2rem 1.2rem 1.4rem;
+
+        &-row:not(:last-child) {
+          margin-bottom: 0.8rem;
+        }
+
+        &-name {
+          font-size: 2rem;
+        }
+
+        &-rating {
+          line-height: 2.4rem;
+
+          &-value {
+            margin-left: 4px;
+            font-size: 1.8rem;
+          }
+        }
+
+        &-prices {
+          display: flex;
+          align-items: baseline;
+
+          .product-card__cart-price {
+            font-size: 2rem;
+
+            &-old {
+              margin-left: .8rem;
+              font-size: 1.6rem;
+            }
+          }
+        }
+      }
     }
   }
 </style>

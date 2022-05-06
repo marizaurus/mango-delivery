@@ -1,27 +1,7 @@
 <template>
   <div class="recipe block-slim grid grid-laptop g-7-3 gg-2 m-resp"
     :style="{ gridTemplateRows: assetsHeight }">
-    <div class="recipe-info block-neat">
-      <h2 class="recipe-info__title" v-if="isLaptop">{{ blockData.title }}</h2>
-      <div class="recipe-step row"
-        v-for="(step, index) in visibleSteps" :key="index">
-        <div class="recipe-step__number">{{ zeroPad(index + 1, 2) }}</div>
-        <div class="recipe-step__description">{{ step }}</div>
-      </div>
-      <accordion
-        v-if="blockData.steps.length > limit">
-        <template #accordionContent>
-          <div class="recipe-step row"
-            v-for="(step, index) in hiddenSteps" :key="index">
-            <div class="recipe-step__number">{{ zeroPad(index + limit + 1, 2) }}</div>
-            <div class="recipe-step__description">{{ step }}</div>
-          </div>
-        </template>
-        <template #accordionTrigger="accProps" ref="trigger">
-          <button ref="collapseBtn" class="recipe-info__btn btn btn-outline">{{ btnValue(accProps.visible) }}</button>
-        </template>
-      </accordion>
-    </div>
+    <numbered-list :blockData="recipeSteps"/>
 
     <div class="recipe-assets block-neat">
       <h2 class="recipe-assets__title" v-if="!isLaptop">{{ blockData.title }}</h2>
@@ -30,7 +10,7 @@
         <div class="recipe-ingredient row"
           v-for="ingredient in blockData.ingredients" :key="ingredient.id">
           <div>{{ ingredient.name }}</div>
-          <div class="recipe-ingredient__amount">{{ ingredient.amount }}</div>
+          <div class="recipe-ingredient__amount">{{ ingredient.number }}</div>
         </div>
       </div>
     </div>
@@ -44,13 +24,13 @@
 
 <script>
   import productCard from '@/components/product-card';
-  import accordion from '@/components/accordion';
+  import numberedList from '@/components/numbered-list';
 
   export default {
     name: "recipe",
     components: {
       'product-card': productCard,
-      accordion,
+      'numbered-list': numberedList,
     },
     data() {
       const laptopQuery = window.matchMedia('(min-width: 1024px)');
@@ -60,6 +40,10 @@
         assetsHeight: null,
         laptopViewQuery: laptopQuery,
         isLaptop: laptopQuery.matches,
+        recipeSteps: {
+          title: '',
+          items: [],
+        },
       }
     },
     props: {
@@ -71,28 +55,9 @@
       }
     },
     methods: {
-      // add fancy zeros
-      zeroPad(num, places) {
-        return String(num).padStart(places, '0');
-      },
-      btnValue(visible) {
-        this.actualVisible = visible;
-        return visible ? this.$t('buttons.readLess') : this.$t('buttons.readMore');
-      },
       calcAssetsHeight() {
         if (!this.$refs.assets) return;
         return this.$refs.assets.offsetHeight + 'px auto';
-      }
-    },
-    computed: {
-      stepsLimit() {
-        return this.isLaptop ? 5 : 3;
-      },
-      visibleSteps() {
-        return this.blockData.steps.slice(0, Math.min(this.limit, this.blockData.steps.length));
-      },
-      hiddenSteps() {
-        return this.blockData.steps.slice(this.limit);
       }
     },
     mounted() {
@@ -101,15 +66,20 @@
 
       this.laptopViewQuery.addEventListener('change', () => {
         this.isLaptop = this.laptopViewQuery.matches;
-        this.limit = this.stepsLimit;
         this.$nextTick(() => {
           this.assetsHeight = this.isLaptop ? this.calcAssetsHeight() : 'auto';
-          if (this.actualVisible) {
-            this.$refs.collapseBtn.click();
-          }
         });
       });
+
+      this.recipeSteps = {
+        title: this.blockData.title,
+        items: this.blockData.steps.map((el) => ({ content: el })),
+      }
     },
+    watch: {
+      'blockData.steps': function() {
+      }
+    }
   }
 </script>
 

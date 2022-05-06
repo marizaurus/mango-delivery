@@ -1,7 +1,7 @@
 <template>
   <div class="catalog">
     <div class="container m-resp">
-      <div class="grid grid-tablet g-2-10 gg-2">
+      <div class="grid grid-laptop g-2-10 gg-2">
         <h1 class="catalog__title m-none">{{ $t('catalog.title') }}</h1>
         <div class="catalog__navigation-wrapper">
           <div class="catalog__tabs-btns mobile m-auto">
@@ -19,14 +19,14 @@
               <button class="btn btn-tab" :class="{ 'active': isActive('restaurants') }"
                 @click="setActive('restaurants')">{{ $t('catalog.tabs.restaurants') }}</button>
             </div>
-            <custom-select class="catalog__sort-options" :style="{ 'z-index': 8 }"
+            <custom-select class="catalog__sort-options block" :style="{ 'z-index': 8 }"
               :selectData="sortData" @selectUpdated="searchParams.sort = $event"/>
           </div>
         </div>
 
         <div class="catalog__controls">
           <div class="block-sticky--tablet">
-            <div class="controls block-neat">
+            <div class="controls block-neat grid gv-1">
               <custom-select class="select-form controls-status wide" :style="{ 'z-index': 7 }"
                 :selectData="categoriesData" @selectUpdated="searchParams.categories = $event"/>
               <custom-select class="select-form controls-status wide" :style="{ 'z-index': 6 }"
@@ -238,16 +238,12 @@
     }
 
     &__controls {
-      display: none;
-
       .controls {
         background-color: $beige-medium;
         padding: 1.2rem 1.6rem;
         border-radius: $radius-medium;
 
         &-sum {
-          margin-bottom: 1rem;
-
           & > .row {
             justify-content: space-between;
             margin-bottom: .8rem;
@@ -280,10 +276,6 @@
                 content: '₽';
               }
             }
-          }
-
-          &-slider {
-            margin-bottom: 1rem;
           }
 
           .vue-slider-dot-handle {
@@ -327,9 +319,14 @@
       justify-content: center;
       margin-bottom: -4rem;
 
+      &.catalog__content--menu {
+        margin-right: -1.6rem;
+      }
+
       .product-card {
-        flex-basis: 100%;
+        flex-basis: calc(50% - 1.6rem);
         margin-bottom: 4rem;
+        margin-right: 1.6rem;
       }
     }
   }
@@ -338,13 +335,9 @@
     .catalog {
       &__content.row {
 
-        &.catalog__content--menu {
-          margin-right: -1.6rem;
-        }
-
         .product-card {
-          flex-basis: calc(50% - 1.6rem);
-          margin-right: 1.6rem;
+          flex-basis: calc(50% - 2.5rem);
+          margin-right: 2.5rem;
         }
       }
     }
@@ -352,30 +345,15 @@
 
   @include breakpoint(tablet) {
     .catalog {
-      &__controls {
-        display: block;
-      }
-
-      &__content.row {
-        .product-card {
-          flex-basis: calc(50% - 2.5rem);
-          margin-right: 2.5rem;
-        }
-      }
-
-      &__pagination {
-        grid-column: 2;
-      }
-    }
-  }
-
-  @include breakpoint(laptop) {
-    .catalog {
       &__content.row {
         .product-card {
           flex-basis: calc(33% - 2rem);
           margin-right: 2rem;
         }
+      }
+
+      &__pagination {
+        grid-column: 2;
       }
     }
   }

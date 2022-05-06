@@ -78,28 +78,42 @@
                 </template>
 
                 <template v-else-if="block.type == 'recipe'">
-                  <div class="grid grid-mobile g-2 gg-2 gr-none">
-                    <div>
-                      <div class="row">
-                        <div class="custom-input wide">
-                          <input type="text" v-on="formEvents('editor.blocks[' + i + '].title')" v-model="block.title">
-                          <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].title')">{{ $t('blockTypes.recipe.fields.title') }}<span class="t-red">*</span></label>
-                        </div>
-                        <emoji-picker/>
+                  <div class="grid grid-mobile g-2 gg-2 gv-1">
+                    <div class="grid grid-mobile g-3-1 gg-1">
+                      <div class="custom-input wide">
+                        <input type="text" v-on="formEvents('editor.blocks[' + i + '].title')" v-model="block.title">
+                        <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].title')">{{ $t('blockTypes.recipe.fields.title') }}<span class="t-red">*</span></label>
                       </div>
+                      <emoji-picker/>
                     </div>
                     <div></div>
-                    <div>
-                      <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.recipeSteps') }}<span class="t-red">*</span></div>
-                      <div class="block-editor__items-box">
-                        <step v-for="(item, i) in block.steps" :key="i" :itemData="item"/>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.ingredients') }}<span class="t-red">*</span></div>
-                      <div class="block-editor__items-box">
-                        <ingredient v-for="(item, i) in block.ingredients" :key="i" :itemData="item" :style="{ '--ingr-index': block.ingredients.length - i }"/>
-                      </div>
+                    <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.recipeSteps') }}<span class="t-red">*</span></div>
+                    <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.ingredients') }}<span class="t-red">*</span></div>
+                    <!-- <div class="list-group block-editor__items-box grid grid-start"> -->
+                    <draggable
+                      class="list-group block-editor__items-box grid grid-start" tag="transition-group"
+                      :list="draggableList(block.steps, block.draggableSteps)" v-bind="dragOptions"
+                      @start="block.drag = true" @end="block.drag = false"
+                      item-key="order" handle=".handle"
+                      :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
+                      <template #item="{ element }">
+                        <step class="list-group-item" :itemData="element.item"/>
+                      </template>
+                    </draggable>
+                    <!-- </div> -->
+                    
+                    <!-- <draggable
+                      tag="div"
+                      :list="draggableList(block.steps, block.draggableSteps)"
+                      class="block-editor__items-box grid grid-start list-group"
+                      handle=".handle"
+                      item-key="order">
+                      <template #item="{ element }">
+                        <step class="list-group-item" :itemData="element.item"/>
+                      </template>
+                    </draggable> -->
+                    <div class="block-editor__items-box grid grid-start">
+                      <ingredient v-for="(item, i) in block.ingredients" :key="i" :itemData="item" :style="{ '--ingr-index': block.ingredients.length - i }"/>
                     </div>
                     <div class="custom-input wide">
                       <input type="text" v-on="formEvents('editor.blocks[' + i + '].productTitle')" v-model="block.productTitle">
@@ -145,6 +159,7 @@
   import ingredient from '@/forms/ingredient';
   import step from '@/forms/step';
   import _get from 'lodash/get';
+  import draggable from 'vuedraggable'
 
   export default {
     name: 'page-editor',
@@ -154,6 +169,7 @@
       ingredient,
       step,
       accordion,
+      draggable,
     },
     data() {
       const laptopQuery = window.matchMedia('(min-width: 1024px)');
@@ -169,6 +185,7 @@
           'promo-set',
           'recipe',
           'combo',
+          'numbered-list'
         ],
         cardTypes: [
           'product-card',
@@ -212,6 +229,7 @@
             cuisines: [],
             tags: []
           },
+          // not used, dumbass
           blocks: [
             {
               id: 0,
@@ -225,9 +243,12 @@
               tags: [],
               items: [],
               steps: [],
+              draggableSteps: [],
               ingredients: [],
               productTitle: '',
               product: '',      // TODO: convert to object once product picker is done
+              // draggableList: [],
+              drag: false,
             }
           ],
         },
@@ -256,6 +277,14 @@
           options: this.categoryTypes.map((el) => ({ code: el, name: this.$t('categoryTypes.' + el + '.title') })),
         }
       },
+      dragOptions() {
+        return {
+          animation: 200,
+          group: "items",
+          disabled: false,
+          ghostClass: "ghost"
+        };
+      },
     },
     methods: {
       ...mapActions([
@@ -277,9 +306,14 @@
         this.editor.activeField = '';
       },
       checkFocus(target) {
-        console.log(this.$data);
         return { 'non-empty': this.editor.activeField == target || !!_get(this.$data, target) };
       },
+      draggableList(list, newList) {
+        if (!list) return [];
+
+        newList = list.map((el, i) => ({ order: i + 1, item: el }));
+        return newList;
+      }
     },
     mounted() {
       // hier kommt die spaghetti-code
@@ -393,7 +427,6 @@
       &-title {
         font-size: 2rem;
         font-weight: 500;
-        margin: .4rem 0 1.2rem;
       }
     }
 
@@ -401,6 +434,7 @@
       padding: 1.2rem;
       background-color: $white;
       border-radius: $radius-small;
+      row-gap: .8rem;
     }
 
     & > .accordion__content {

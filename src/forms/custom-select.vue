@@ -113,6 +113,10 @@
           &-label {
             font-weight: 400;
           }
+
+          &.non-empty .custom-select__initial-label {
+            color: $grey-medium;
+          }
         }
 
         .accordion__trigger--active .custom-select__initial {
@@ -123,6 +127,7 @@
       &.content-right {
         .accordion__content {
           right: 0;
+          left: unset;
         }
       }
 
@@ -180,6 +185,7 @@
 
       &-text {
         display: inline-block;
+        width: 14rem;
 
         @extend .t-cut;
       }

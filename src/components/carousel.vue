@@ -62,6 +62,14 @@
         display: flex;
         justify-content: center;
       }
+
+      // bring back top padding if necessary for shadow
+      // padding: .5rem 1.5rem 0;
+      &--product-card .carousel-cell,
+      &--promo-set .carousel-cell {
+        padding: 0 .6rem;
+        width: 50%;
+      }
     
       &--category-card .carousel-cell {
         padding: 0 2rem;
@@ -69,11 +77,6 @@
       
       &--combo-card .carousel-cell {
         padding: 0 1rem;
-      }
-    
-      &--product-card .carousel-cell,
-      &--promo-set .carousel-cell {
-        padding: .5rem 1.5rem 0;
       }
 
       &--product-image {
@@ -162,8 +165,6 @@
 
   @include breakpoint(mobile) {
     .flickity-slider {
-      &--product-card .carousel-cell,
-      &--promo-set .carousel-cell,
       &--combo-card .carousel-cell {
         width: 50%;
       }

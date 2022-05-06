@@ -75,6 +75,10 @@ body {
   &-base {
     align-items: baseline;
   }
+
+  &-center {
+    justify-content: center;
+  }
 }
 
 .a-start {
@@ -257,7 +261,7 @@ a {
   }
 
   &.gv-1 {
-    row-gap: 1rem;
+    row-gap: 1.2rem;
   }
 
   &.gr-none {
@@ -268,7 +272,7 @@ a {
     align-self: center;
   }
 
-  &-top {
+  &-start {
     align-self: flex-start
   }
 
@@ -355,6 +359,24 @@ a {
     width: 100%;
     height: 35rem;
   }
+}
+
+// draggable
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+
+.no-move {
+  transition: transform 0s;
+}
+
+.ghost {
+  opacity: 0.5;
+}
+
+.list-group-item .handle {
+  cursor: move;
 }
 
 @include breakpoint(mobile) {

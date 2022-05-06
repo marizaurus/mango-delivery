@@ -21,7 +21,7 @@
                 <button class="btn btn-outline ml-auto" @click="editMode = true">{{ $t('buttons.edit') }}</button>
               </div>
               <div class="grid grid-mobile account__main-grid">
-                <span class="t-medium">{{ $t('account.main.birthday') }}:</span><span>{{account.main.birthday}}</span>
+                <span class="t-medium">{{ $t('account.main.birthday') }}:</span><span>{{ getBday() }}</span>
                 <span class="t-medium">{{ $t('account.main.sex') }}:</span><span>{{account.main.sex ? $t('account.sexOptions.' + account.main.sex) : ''}}</span>
                 <span class="t-medium">{{ $t('account.main.phone') }}:</span><span>{{account.main.phone}}</span>
                 <span class="t-medium">{{ $t('account.main.email') }}:</span><span class="t-cut">{{account.main.email}}</span>
@@ -32,27 +32,32 @@
         <div class="m-resp account__main-edit block-neat" v-show="editMode">
           <div class="container container-slim">
             <div class="grid grid-tablet g-2 gg-2">
-              <div class="grid gv-1 grid-top">
+              <div class="grid gv-1 grid-start">
                 <div class="account__main-edit-grid grid grid-tablet g-2 gg-2">
                   <div class="custom-input">
-                    <input type="text" v-on="formEvents('account.main.name')" v-model="account.main.name">
-                    <label class="custom-input-label" :class="checkFocus('account.main.name')">{{ $t('account.main.name') }}<span class="t-red">*</span></label>
+                    <input type="text" v-on="formEvents('accCopy.main.name')" v-model="accCopy.main.name">
+                    <label class="custom-input-label" :class="checkFocus('accCopy.main.name')">{{ $t('account.main.name') }}<span class="t-red">*</span></label>
                   </div>
                 </div>
                 <div class="account__main-edit-grid grid grid-tablet g-2 gg-2">
-                  <div class="custom-input">
-                    <input type="text" v-on="formEvents('account.main.birthday')" v-model="account.main.birthday">
-                    <label class="custom-input-label" :class="checkFocus('account.main.birthday')">{{ $t('account.main.birthday') }}</label>
-                  </div>
+                  <datepicker v-model="accCopy.main.birthday" :format-locale="language" textInput autoApply v-bind="datePickerOptions">
+                    <!-- eslint-disable-next-line vue/no-unused-vars -->
+                    <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
+                      <div class="custom-input m-none">
+                        <input type="text" :value="value">
+                        <label class="custom-input-label" :class="{ 'non-empty': value }">{{ $t('account.main.birthday') }}</label>
+                      </div>
+                    </template>
+                  </datepicker>
                   <!-- watcher for options doesn’t trigger within v-if! -->
-                  <custom-select class="select-form wide" :style="{ 'z-index': 1 }" :selectData="sexData" @selectUpdated="account.main.sex = $event"/>
+                  <custom-select class="select-form wide" :style="{ 'z-index': 1 }" :selectData="sexData" @selectUpdated="accCopy.main.sex = $event"/>
                   <div class="custom-input">
-                    <input type="text" v-on="formEvents('account.main.phone')" v-model="account.main.phone">
-                    <label class="custom-input-label" :class="checkFocus('account.main.phone')">{{ $t('account.main.phone') }}<span class="t-red">*</span></label>
+                    <input type="text" v-on="formEvents('accCopy.main.phone')" v-model="accCopy.main.phone">
+                    <label class="custom-input-label" :class="checkFocus('accCopy.main.phone')">{{ $t('account.main.phone') }}<span class="t-red">*</span></label>
                   </div>
                   <div class="custom-input">
-                    <input type="text" v-on="formEvents('account.main.email')" v-model="account.main.email">
-                    <label class="custom-input-label" :class="checkFocus('account.main.email')">{{ $t('account.main.email') }}</label>
+                    <input type="text" v-on="formEvents('accCopy.main.email')" v-model="accCopy.main.email">
+                    <label class="custom-input-label" :class="checkFocus('accCopy.main.email')">{{ $t('account.main.email') }}</label>
                   </div>
                 </div>
               </div>
@@ -61,13 +66,13 @@
                 <div class="comments__features-card block-neat">
                   <div class="custom-checkbox">
                     <label>
-                      <input type="checkbox" v-model="account.mailOptions.emailAds">
+                      <input type="checkbox" v-model="accCopy.mailOptions.emailAds">
                       <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendEmail') }}</span>
                     </label>
                   </div>
                   <div class="custom-checkbox">
                     <label>
-                      <input type="checkbox" v-model="account.mailOptions.smsAds">
+                      <input type="checkbox" v-model="accCopy.mailOptions.smsAds">
                       <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendSms') }}</span>
                     </label>
                   </div>
@@ -76,21 +81,24 @@
                 <div class="comments__features-card block-neat">
                   <div class="custom-checkbox">
                     <label>
-                      <input type="checkbox" v-model="account.mailOptions.emailBills">
+                      <input type="checkbox" v-model="accCopy.mailOptions.emailBills">
                       <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendEmail') }}</span>
                     </label>
                   </div>
                   <div class="custom-checkbox">
                     <label>
-                      <input type="checkbox" v-model="account.mailOptions.smsBills">
+                      <input type="checkbox" v-model="accCopy.mailOptions.smsBills">
                       <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendSms') }}</span>
                     </label>
                   </div>
                 </div>
               </div>
+              <button class="btn btn-outline ml-auto grid-center" @click="cancelMain">{{ $t('buttons.cancel') }}</button>
+              <div>
+                <button class="btn btn-primary btn-green-light m-none" @click="saveMain">{{ $t('buttons.save') }}</button>
+              </div>
             </div>
           </div>
-          <button class="btn btn-primary btn-orange-light m-auto" @click="editMode = false">{{ $t('buttons.save') }}</button>
         </div>
       </div>
 
@@ -230,13 +238,14 @@
                     <label class="custom-input-label" :class="checkFocus('searchParams.query')">{{ $t('orderHistory.searchParams.search') }}</label>
                   </div>
                   <custom-select class="select-form controls-status wide" :selectData="statusesData" @selectUpdated="searchParams.statuses = $event"/>
-                  <datepicker v-model="searchParams.date" range textInput multiCalendars multiCalendarsSolo autoApply v-bind="datePickerOptions">
-                      <!-- eslint-disable-next-line vue/no-unused-vars -->
-                      <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
-                        <div class="custom-input controls-dates">
-                          <input type="text" :value="value" :placeholder="$t('orderHistory.searchParams.dates')">
-                        </div>
-                      </template>
+                  <datepicker v-model="searchParams.date" :format-locale="language" range textInput multiCalendars multiCalendarsSolo autoApply v-bind="datePickerOptions">
+                    <!-- eslint-disable-next-line vue/no-unused-vars -->
+                    <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
+                      <div class="custom-input controls-dates m-none">
+                        <input type="text" :value="value">
+                        <label class="custom-input-label" :class="{ 'non-empty': value }">{{ $t('orderHistory.searchParams.dates') }}</label>
+                      </div>
+                    </template>
                   </datepicker>
                   <div class="controls-sum">
                     <div class="row" ref="inputs">
@@ -274,6 +283,7 @@
   import _get from 'lodash/get';
   import db from '../../db.json'
   import axios from 'axios';
+  import { ru } from 'date-fns/locale'
  
   export default {
     name: 'account',
@@ -312,6 +322,11 @@
           mailOptions: {},
           addresses: [],
         },
+        accCopy: {
+          main: {},
+          mailOptions: {}
+        },
+        language: ru,
         sexOptions: [
           "m",
           "f"
@@ -362,9 +377,9 @@
           },
         },
         datePickerOptions: {
-          format: 'dd.MM.yyyy',
+          format: 'dd MMMM yyyy',
           enableTimePicker: false,
-          // hideInputIcon: true,
+          locale: 'ru',
         },
       }
     },
@@ -388,6 +403,20 @@
       handleInput(e, data) {
         this.searchParams.orderSum.splice(data, 1, +e.target.value || 0);
         this.$refs.slider.setValue(this.searchParams.orderSum);
+      },
+      getBday() {
+        let msec = Date.parse(this.account.main.birthday);
+        return new Date(msec).toLocaleDateString('ru', { year: "numeric", month: "long", day: "numeric" });
+      },
+      saveMain() {
+        this.account.main = Object.assign({}, this.accCopy.main);
+        this.account.mailOptions = Object.assign({}, this.accCopy.mailOptions);
+        this.editMode = false;
+      },
+      cancelMain() {
+        this.accCopy.main = Object.assign({}, this.account.main);
+        this.accCopy.mailOptions = Object.assign({}, this.account.mailOptions);
+        this.editMode = false;
       },
       // tabs
       isActive(menuItem) {
@@ -424,9 +453,7 @@
         // this.updatePins();
       },
       addAddress() {
-        console.log(this.account.addresses.slice(-1));
-        // let id = +this.account.addresses.slice(-1).id++;
-        let id = 2;
+        let id = +this.account.addresses.slice(-1)[0].id++;
         this.account.addresses.push({
           id: id,
           name: 'Новый адрес',
@@ -466,6 +493,8 @@
         axios.get(process.env.VUE_APP_API_BASE + 'account')
           .then(response => {
             this.account = response.data;
+            this.accCopy.main = Object.assign({}, this.account.main);
+            this.accCopy.mailOptions = Object.assign({}, this.account.mailOptions);
             this.setPins();
             this.sexData.options = this.sexOptions.map(el => ({
               code: el,
@@ -502,6 +531,14 @@
         &-grid.grid.grid-tablet.g-2.gg-2 {
           row-gap: 1rem;
           align-self: flex-start;
+        }
+
+        &-buttons {
+          margin-top: 1.5rem;
+
+          button:first-child {
+            margin-right: 2.4rem;
+          }
         }
       }
     }

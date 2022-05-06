@@ -62,7 +62,6 @@
 
 <style lang="scss">
   .emoji-picker {
-    margin-bottom: 1rem;
     cursor: pointer;
     position: relative;
 

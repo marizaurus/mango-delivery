@@ -12,6 +12,7 @@
   import carousel from '@/components/carousel';
   import promoSet from '@/components/promo-set'
   import comboBlock from '@/components/combo-block';
+  import numberedList from '@/components/numbered-list';
   import { mapActions, mapGetters } from "vuex";
 
   export default {
@@ -20,6 +21,7 @@
       'carousel': carousel,
       'promo-set': promoSet,
       'combo-block': comboBlock,
+      'numbered-list': numberedList,
     },
     computed: {
       ...mapGetters([

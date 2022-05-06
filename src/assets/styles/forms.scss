@@ -19,20 +19,6 @@
     }
   }
 
-  // & > input {
-  //   max-width: 20rem;
-  // }
-
-  // &.wide {
-  //   display: flex;
-  //   flex: 1;
-
-  //   & > input {
-  //     max-width: 100%;
-  //     flex: 1;
-  //   }
-  // }
-
   &.slim > input {
     padding: .8rem;
   }
@@ -49,6 +35,7 @@
     top: 1.6rem;
     transition: .2s ease;
     user-select: none;
+    font-family: $montserrat;
 
     &.non-empty {
       top: .4rem;

@@ -102,9 +102,5 @@
     &-number.custom-input > input {
       width: 7.5rem;
     }
-
-    &:not(:last-child) {
-      margin-bottom: .8rem;
-    }
   }
 </style>
