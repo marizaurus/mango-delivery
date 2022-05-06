@@ -68,7 +68,7 @@
     computed: {
       selectText() {
         if (this.selectData.optionType == 'radio')
-          return this.items.length > 0 ? this.selectData.options
+          return this.items && this.items.length > 0 ? this.selectData.options
             .find(i => i.code == this.items)[this.selectData.shortLabel ? 'shortName' : 'name'] : '';
 
         return this.items.length > 0 ? this.items.length == 1 ?

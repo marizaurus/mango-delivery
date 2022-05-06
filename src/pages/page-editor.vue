@@ -6,22 +6,22 @@
       <div class="grid grid-laptop g-7-3 gg-2" v-if="this.isLaptop">
         <div class="page-editor__content block-neat">
           <accordion class="block-editor" :initialVisible="true"
-            :style="{ '--index': blocks.length + 1 }">
+            :style="{ '--index': editor.blocks.length + 1 }">
             <template #accordionTrigger>
               <div class="block-editor__header non-empty">
                 <span class="block-editor__header-label">{{ $t('blockTypes.main.title') }}</span>
-                <h3 class="block-editor__header-title m-none">{{ info.title }}</h3>
+                <h3 class="block-editor__header-title m-none">{{ editor.main.title }}</h3>
               </div>
             </template>
             <template #accordionContent>
               <div class="block-editor__content block-neat">
                 <div class="custom-input">
-                  <textarea rows="5" v-on="formEvents('editor.info.description')" v-model="editor.info.description"/>
+                  <textarea rows="5" v-on="formEvents('editor.info.description')" v-model="editor.main.description"/>
                   <label class="custom-input-label" :class="checkFocus('editor.info.description')">{{ $t('blockTypes.main.fields.description') }}</label>
                 </div>
                 <div class="row">
                   <div class="custom-input">
-                    <input type="text" v-on="formEvents('editor.info.orderSum')" v-model="editor.info.orderSum">
+                    <input type="text" v-on="formEvents('editor.info.orderSum')" v-model="editor.main.orderSum">
                     <label class="custom-input-label" :class="checkFocus('editor.info.orderSum')">{{ $t('blockTypes.main.fields.orderMin') }}<span class="t-red">*</span></label>
                   </div>
                   <custom-select class="select-form" :selectData="alignData" :style="{ 'z-index': 3 }"/>
@@ -35,8 +35,7 @@
               </div>
             </template>
           </accordion>
-          <accordion class="block-editor" v-for="(block, i) in blocks" :key="block.id"
-            :style="{ '--index': blocks.length - i }">
+          <accordion class="block-editor" v-for="(block, i) in editor.blocks" :key="block.id" :style="{ '--index': editor.blocks.length - i }">
             <template #accordionTrigger>
               <div class="block-editor__header" :class="{ 'non-empty' :  block.title }">
                 <span class="block-editor__header-label">{{ $t('blockTypes.' + block.type + '.title') }}</span>
@@ -45,7 +44,6 @@
             </template>
             <template #accordionContent>
               <div class="block-editor__content block-neat">
-
                 <template v-if="block.type == 'carousel'">
                 <div class="grid grid-mobile g-2 gg-2">
                   <div>
@@ -89,31 +87,41 @@
                     <div></div>
                     <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.recipeSteps') }}<span class="t-red">*</span></div>
                     <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.ingredients') }}<span class="t-red">*</span></div>
-                    <!-- <div class="list-group block-editor__items-box grid grid-start"> -->
-                    <draggable
-                      class="list-group block-editor__items-box grid grid-start" tag="transition-group"
-                      :list="draggableList(block.steps, block.draggableSteps)" v-bind="dragOptions"
-                      @start="block.drag = true" @end="block.drag = false"
-                      item-key="order" handle=".handle"
-                      :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
-                      <template #item="{ element }">
-                        <step class="list-group-item" :itemData="element.item"/>
-                      </template>
-                    </draggable>
-                    <!-- </div> -->
-                    
-                    <!-- <draggable
-                      tag="div"
-                      :list="draggableList(block.steps, block.draggableSteps)"
-                      class="block-editor__items-box grid grid-start list-group"
-                      handle=".handle"
-                      item-key="order">
-                      <template #item="{ element }">
-                        <step class="list-group-item" :itemData="element.item"/>
-                      </template>
-                    </draggable> -->
-                    <div class="block-editor__items-box grid grid-start">
-                      <ingredient v-for="(item, i) in block.ingredients" :key="i" :itemData="item" :style="{ '--ingr-index': block.ingredients.length - i }"/>
+                    <!-- V-IF DELAYS RENDER TILL DATA IS RECEIVED #2 (also element, not item) -->
+                    <!-- also this comment breaks shit when placed inside draggable. do not comment, kids -->
+                    <div class="block-editor__items-box grid-start">
+                      <draggable
+                        class="list-group grid" tag="transition-group"
+                        :list="block.steps" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" item-key="order" handle=".handle"
+                        :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
+                        <template #item="{ element, index }">
+                          <div class="row list-group-item">
+                            <step :itemData="element" v-if="element"/>
+                            <font-awesome-icon icon="xmark" class="icon-close" @click="removeDraggableAt(block.steps, index)"/>
+                          </div>
+                        </template>
+                      </draggable>
+                      <button class="btn bg-white block-editor__btn-add" @click="() => addDraggable(block.steps)">
+                        <font-awesome-icon icon="plus"/>
+                        <span>{{ $t('buttons.pressToAddElement') }}</span>
+                      </button>
+                    </div>
+                    <div class="block-editor__items-box grid-start">
+                      <draggable
+                        class="list-group grid" tag="transition-group"
+                        :list="block.ingredients" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" item-key="order" handle=".handle"
+                        :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
+                        <template #item="{ element, index }">
+                        <div class="row list-group-item">
+                          <ingredient :itemData="element" :style="{ '--ingr-index': block.ingredients.length - index }" v-if="element"/>
+                          <font-awesome-icon icon="xmark" class="icon-close" @click="removeDraggableAt(block.ingredients, index)"/>
+                        </div>
+                        </template>
+                      </draggable>
+                      <button class="btn bg-white block-editor__btn-add" @click="() => addDraggable(block.ingredients)">
+                        <font-awesome-icon icon="plus"/>
+                        <span>{{ $t('buttons.pressToAddElement') }}</span>
+                      </button>
                     </div>
                     <div class="custom-input wide">
                       <input type="text" v-on="formEvents('editor.blocks[' + i + '].productTitle')" v-model="block.productTitle">
@@ -152,7 +160,6 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from "vuex";
   import accordion from '@/components/accordion';
   import customSelect from '@/forms/custom-select';
   import emojiPicker from '@/forms/emoji-picker';
@@ -221,46 +228,39 @@
         // the doom is upon us
         editor: {
           activeField: '',
-          info: {
+          main: {
             infoAlignment: '',
+            image: '',
+            title: '',
             description: '',
             orderSum: 0,
             categories: [],
             cuisines: [],
             tags: []
           },
-          // not used, dumbass
           blocks: [
-            {
-              id: 0,
-              type: '',
-              title: '',
-              description: '',
-              infoAlignment: '',
-              tagType: '',
-              categories: [],
-              cuisines: [],
-              tags: [],
-              items: [],
-              steps: [],
-              draggableSteps: [],
-              ingredients: [],
-              productTitle: '',
-              product: '',      // TODO: convert to object once product picker is done
-              // draggableList: [],
-              drag: false,
-            }
+            // {
+            //   id: 0,
+            //   type: '',
+            //   title: '',
+            //   description: '',
+            //   infoAlignment: '',
+            //   tagType: '',
+            //   categories: [],
+            //   cuisines: [],
+            //   tags: [],
+            //   items: [],
+            //   steps: [],
+            //   ingredients: [],
+            //   productTitle: '',
+            //   product: '',              // TODO: convert to object once product picker is done
+            //   drag: false,
+            // }
           ],
         },
       }
     },
     computed: {
-      ...mapGetters({
-        info: 'RESTAURANT_INFO',
-        blocks: 'RESTAURANT_BLOCKS',
-        tags: 'TAGS',
-        editorData: 'RESTAURANT_COPY',
-      }),
       getCardData() {
         return {
           code: 'cardData',
@@ -287,12 +287,7 @@
       },
     },
     methods: {
-      ...mapActions([
-        'GET_RESTAURANT_INFO_API',
-        'GET_RESTAURANT_BLOCKS_API',
-        'GET_TAGS_API',
-        'GET_RESTAURANT_COPY'
-      ]),
+      // forms
       formEvents(target) {
         return {
           focus: () => this.setField(target),
@@ -308,29 +303,30 @@
       checkFocus(target) {
         return { 'non-empty': this.editor.activeField == target || !!_get(this.$data, target) };
       },
-      draggableList(list, newList) {
-        if (!list) return [];
-
-        newList = list.map((el, i) => ({ order: i + 1, item: el }));
-        return newList;
+      removeDraggableAt(list, i) {
+        list.splice(i, 1);
+      },
+      addDraggable(list) {
+        list.push({ order: list.length + 2 });
       }
     },
     mounted() {
-      // hier kommt die spaghetti-code
-      this.GET_RESTAURANT_INFO_API().then(() => {
-      }).then(() => {
-        this.GET_RESTAURANT_BLOCKS_API();
-      }).then(() => {
-        this.GET_RESTAURANT_COPY();
-      }).then(() => {
-        this.editor = this.editorData;
-        this.categoriesData.options = this.info.db.categories.map((el, i) => ({ code: i, name: el }));
-        this.cuisinesData.options = this.info.db.cuisines.map((el, i) => ({ code: i, name: el }));
-      });
+      this.$load(async () => {
+        this.editor = (await this.$api.editor.getRestaurant()).data;
+        this.editor.blocks.forEach((block) => {
+          if (block.type != 'recipe') return;
 
-      this.GET_TAGS_API().then(() => {
-        this.tagsData.options = this.tags.map(el => ({ code: el.id, name: el.title }));
-      });
+          block.steps.forEach((el, i) => el.order = i + 1);
+          block.ingredients.forEach((el, i) => el.order = i + 1);
+        })
+      })
+
+      // this.categoriesData.options = this.info.db.categories.map((el, i) => ({ code: i, name: el }));
+      // this.cuisinesData.options = this.info.db.cuisines.map((el, i) => ({ code: i, name: el }));
+
+      // this.GET_TAGS_API().then(() => {
+      //   this.tagsData.options = this.tags.map(el => ({ code: el.id, name: el.title }));
+      // });
 
       Array.from(this.$el.querySelectorAll('.block')).forEach(el => {
         let info = el.querySelector('.block-info');
@@ -434,7 +430,25 @@
       padding: 1.2rem;
       background-color: $white;
       border-radius: $radius-small;
-      row-gap: .8rem;
+
+      & > .grid {
+        row-gap: .8rem;
+      }
+    }
+
+    &__btn-add {
+      padding: .8rem 0;
+      color: $grey-medium;
+      font-size: 1.2rem;
+      width: 100%;
+      align-items: center;
+      display: flex;
+      margin-top: .8rem;
+
+      svg {
+        font-size: 2.4rem;
+        margin-right: 1.2rem;
+      }
     }
 
     & > .accordion__content {

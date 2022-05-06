@@ -1,13 +1,14 @@
 <template>
   <div class="ingredient row">
-    <font-awesome-icon icon="grip-lines"/>
+    <font-awesome-icon icon="grip-lines" class="handle"/>
     <div class="custom-input ingredient-name slim">
       <input type="text" :placeholder="$t('blockTypes.recipe.fields.ingredient')" v-model="ingredientData.name">
     </div>
     <div class="custom-input ingredient-number slim">
       <input type="text" :placeholder="$t('blockTypes.recipe.fields.number')" v-model="ingredientData.number">
     </div>
-    <custom-select class="select-form slim ingredient-units" :selectData="ingredientUnitsData" :style="{ 'z-index': 'var(--ingr-index)' }"/>
+    <custom-select class="select-form slim ingredient-units" :style="{ 'z-index': 'var(--ingr-index)' }"
+      :selectData="ingredientUnitsData" @selectUpdated="ingredientData.unit = $event"/>
   </div>
 </template>
 
@@ -39,15 +40,12 @@
           options: [],
           shortLabel: true,
         },
-        ingredientData: {
-          name: this.itemData.name,
-          number: this.itemData.number,
-          unit: this.itemData.unit,
-        }
+        ingredientData: this.itemData,
       }
     },
     props: {
       itemData: {
+        order: Number,
         name: String,
         number: Number,
         unit: String
@@ -69,6 +67,7 @@
     padding: .8rem;
     background-color: $beige-medium;
     border-radius: $radius-small;
+    flex: 1;
 
     &.row > *:not(:last-child) {
       margin-right: .8rem;
@@ -96,6 +95,10 @@
       .custom-select__initial {
         width: 4.5rem;
         min-width: unset;
+
+        &-text {
+          width: 100%;
+        }
       }
     }
     

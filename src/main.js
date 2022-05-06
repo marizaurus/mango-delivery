@@ -7,6 +7,10 @@ import i18n from "@/i18n";
 import '@/assets/styles/index.scss';
 import YmapPlugin from 'vue-yandex-maps'
 
+// custom plugins
+import ApiPlugin from './plugins/api'
+import LoadPlugin from './plugins/load'
+
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, faHeart as fasHeart,
   faAnglesLeft, faAnglesRight, faLocationPin, faGripLines }
@@ -33,6 +37,9 @@ app.use(store);
 
 app.use(i18n);
 app.use(YmapPlugin, settings)
+
+app.use(ApiPlugin);
+app.use(LoadPlugin);
 
 app.component('font-awesome-icon', FontAwesomeIcon);
 

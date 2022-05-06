@@ -12,14 +12,14 @@
     name: 'step',
     data() {
       return {
-        stepData: {
-          content: this.itemData,
-        }
+        stepData: this.itemData,
       }
     },
     props: {
-      itemData: String,
-    }
+      itemData: {
+        content: String
+      },
+    },
   }
 </script>
 
@@ -28,6 +28,7 @@
     padding: .8rem;
     background-color: $beige-medium;
     border-radius: $radius-small;
+    flex-grow: 1;
 
     &.row > *:not(:last-child) {
       margin-right: .8rem;

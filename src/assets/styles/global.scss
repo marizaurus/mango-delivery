@@ -375,8 +375,27 @@ a {
   opacity: 0.5;
 }
 
-.list-group-item .handle {
-  cursor: move;
+.list-group-item {
+  .handle {
+    cursor: move;
+  }
+
+  // bad idea, moves with the element
+  // &-number {
+  //   font-size: 2rem;
+  //   line-height: 1;
+  //   font-weight: 800;
+  //   color: $grey-light;
+  //   margin-right: .4rem;
+  //   user-select: none;
+  //   flex-shrink: 0;
+  //   width: 3rem;
+  // }
+
+  .icon-close {
+    position: static;
+    margin-left: .8rem;
+  }
 }
 
 @include breakpoint(mobile) {
