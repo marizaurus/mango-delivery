@@ -2,7 +2,7 @@
   <div class="custom-select-wrapper" :class="{ 'content-right': selectData.alignment == 'right' }">
     <accordion class="custom-select" :closeOnBlur="true" ref="accordion">
       <template #accordionTrigger>
-        <div class="custom-select__initial" :class="{ 'non-empty' : items && items.length > 0 }">
+        <div class="custom-select__initial" :class="{ 'non-empty' : items.length > 0 }">
           <span class="custom-select__initial-label" v-if="!selectData.slim">
             {{ selectData.title }}<span class="t-red" v-if="selectData.required">*</span>
           </span>
@@ -19,8 +19,6 @@
           </div>
         </template>
         <template v-else>
-          <!-- <button class="btn btn-outline custom-select__btn m-auto"
-            @click="clearSelect" v-show="items.length !== 0">{{ $t('forms.clearSelect') }}</button> -->
           <div class="custom-checkbox" v-for="(option, i) in selectData.options" :key="i">
             <label>
               <input type="checkbox" :name="selectData.code" :value="option.code" v-model="items">
@@ -43,7 +41,7 @@
     },
     data() {
       return {
-        items: [],
+        items: this.getItems(),
       }
     },
     props: {
@@ -68,24 +66,37 @@
     computed: {
       selectText() {
         if (this.selectData.optionType == 'radio')
-          return this.items && this.items.length > 0 ? this.selectData.options
+          return this.items.length > 0 ? this.selectData.options
             .find(i => i.code == this.items)[this.selectData.shortLabel ? 'shortName' : 'name'] : '';
 
         return this.items.length > 0 ? this.items.length == 1 ?
           this.$t('forms.singleSelected') : this.items.length + this.$t('forms.multSelected') : '';
       }
     },
-    // methods: {
-    //   clearSelect() {
-    //     this.items = [];
-    //   }
-    // },
+    methods: {
+      getItems() {
+        let items = this.selectData.options.filter(el => el.isChecked).map(el => el.code);
+
+        if (this.selectData.optionType == 'radio') {
+          if (!items.length)
+            items = this.selectData.options[0].code;
+          else
+            items = items[0]
+        }
+        
+        return items;
+      }
+    },
     watch: {
-      'selectData.options': function() {
-        this.items = this.selectData.options.filter(el => el.isChecked).map(el => el.code);
-        if (this.selectData.optionType == 'radio')
-          this.items = this.items[0];
-      },
+      // 'selectData.options': function() {
+      //   this.items = this.selectData.options.filter(el => el.isChecked).map(el => el.code);
+      //   if (this.selectData.optionType == 'radio') {
+      //     if (!this.items.length)
+      //       this.items = this.selectData.options[0].code;
+      //     else
+      //       this.items = this.items[0]
+      //   }
+      // },
       'items': function() {
         this.$emit("selectUpdated", this.items);
         if (this.selectData.optionType == 'radio' && this.$refs.accordion.visible) {

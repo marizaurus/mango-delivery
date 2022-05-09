@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import axios from "axios";
+import instance from '../api/instance';
 import db from "../../db.json";
 
 export const store = createStore({
@@ -27,7 +28,6 @@ export const store = createStore({
       alterOptions: [],
     },
     comments: [],
-    tags: [],
     editor: {
       info: {},
       blocks: []
@@ -44,7 +44,11 @@ export const store = createStore({
         cuisines: [],
       },
       items: [],
-    }
+    },
+
+    categories: [],
+    cuisines: [],
+    tags: [],
   },
   mutations: { // synchronous
     SET_HOME_BLOCKS: (state, homeBlocks) => {
@@ -66,22 +70,21 @@ export const store = createStore({
       // hehe, dormammu, I've come with the same 3 comments
       state.comments = comments;
     },
-    SET_TAGS: (state, tags) => {
-      state.tags = tags;
-    },
-    SET_RESTAURANT_COPY: (state) => {
-      // if (Object.keys(state.editor) !== 0)
-      //   return;
-      state.editor = {
-        info: JSON.parse(JSON.stringify(state.restaurantInfo)),
-        blocks: JSON.parse(JSON.stringify(state.restaurantBlocks))
-      }
-    },
     SET_ORDER_HISTORY: (state, orderHistory) => {
       state.orderHistory = orderHistory;
     },
     SET_CATALOG: (state, catalog) => {
       state.catalog = catalog;
+    },
+
+    SET_CATEGORIES: (state, payload) => {
+      state.categories = payload;
+    },
+    SET_CUISINES: (state, payload) => {
+      state.cuisines = payload;
+    },
+    SET_TAGS: (state, payload) => {
+      state.tags = payload;
     },
   },
   actions: { // asynchronous
@@ -190,10 +193,6 @@ export const store = createStore({
         });
       }
     },
-    // create a copy during edit
-    GET_RESTAURANT_COPY({commit}) {
-      commit('SET_RESTAURANT_COPY');
-    },
     GET_ORDER_HISTORY_API({ commit }) {
       if (process.env.NODE_ENV === 'production') {
         commit('SET_ORDER_HISTORY', db['order-history']);
@@ -224,6 +223,40 @@ export const store = createStore({
         });
       }
     },
+
+    loadCategories({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_CATEGORIES', db['categories']);
+      } else {
+        return instance.get('categories').then((payload) => {
+          commit('SET_CATEGORIES', payload.data);
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+    },
+    loadCuisines({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_CUISINES', db['cuisines']);
+      } else {
+        return instance.get('cuisines').then((payload) => {
+          commit('SET_CUISINES', payload.data);
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+    },
+    loadTags({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_TAGS', db['tags']);
+      } else {
+        return instance.get('tags').then((payload) => {
+          commit('SET_TAGS', payload.data);
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+    }
   },
   getters: {
     // cool method-style thingy
@@ -249,14 +282,21 @@ export const store = createStore({
     TAGS(state) {
       return state.tags;
     },
-    RESTAURANT_COPY(state) {
-      return state.editor;
-    },
     ORDER_HISTORY(state) {
       return state.orderHistory;
     },
     CATALOG(state) {
       return state.catalog;
+    },
+
+    getCategories(state) {
+      return state.categories;
+    },
+    getCuisines(state) {
+      return state.cuisines;
+    },
+    getTags(state) {
+      return state.tags;
     }
   },
 });

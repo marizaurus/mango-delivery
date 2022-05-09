@@ -4,7 +4,7 @@
       <img class="img product-card__image" :class="{ 'img-loaded': this.isLoaded }"
         :src="itemData.image" alt="product image" @load="onLoad">
     </div>
-    <div class="product-card__like-wrapper" :class="{ 'active': isFavorite }" @click="isFavorite = !isFavorite">
+    <div class="product-card__like-wrapper" :class="{ 'active': isFavorite, 'd-none': hideFavorite }" @click="isFavorite = !isFavorite">
       <font-awesome-icon :icon="isFavorite ? ['fas', 'heart'] : ['far', 'heart']" class="product-stripe__favorite"/>
     </div>
     <div class="product-card__info">
@@ -52,7 +52,8 @@
         price: Number,
         newPrice: Number,
         isFavorite: Boolean,
-      }
+      },
+      hideFavorite: Boolean,
     },
     methods: {
       onLoad() {
@@ -116,6 +117,10 @@
 
         &.active {
           display: block;
+
+          &.d-none {
+            display: none;
+          }
         }
       }
     }

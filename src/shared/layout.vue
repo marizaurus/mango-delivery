@@ -7,16 +7,26 @@
 </template>
 
 <script>
-import vHeader from '@/shared/header.vue';
-import vFooter from '@/shared/footer.vue';
+  import vHeader from '@/shared/header.vue';
+  import vFooter from '@/shared/footer.vue';
 
-export default {
-  name: "Layout",
-  components: {
-    'v-header': vHeader,
-    'v-footer': vFooter,
+  import { mapActions } from 'vuex';
+
+  export default {
+    name: "Layout",
+    components: {
+      'v-header': vHeader,
+      'v-footer': vFooter,
+    },
+    methods: {
+      ...mapActions(['loadCategories', 'loadCuisines', 'loadTags']),
+    },
+    mounted() {
+      this.loadCategories();
+      this.loadCuisines();
+      this.loadTags();
+    }
   }
-}
 </script>
 
 <style lang="scss">

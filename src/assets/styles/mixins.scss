@@ -76,6 +76,10 @@
     grid-template-columns: 1fr 2fr;
   }
 
+  &.g-1-3 {
+    grid-template-columns: 1fr 3fr;
+  }
+
   &.g-2-1 {
     grid-template-columns: 2fr 1fr;
   }

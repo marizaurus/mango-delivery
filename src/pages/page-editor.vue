@@ -14,63 +14,126 @@
               </div>
             </template>
             <template #accordionContent>
-              <div class="block-editor__content block-neat">
+              <div class="block-editor__content block-neat grid gv-1">
                 <div class="custom-input">
-                  <textarea rows="5" v-on="formEvents('editor.info.description')" v-model="editor.main.description"/>
-                  <label class="custom-input-label" :class="checkFocus('editor.info.description')">{{ $t('blockTypes.main.fields.description') }}</label>
+                  <textarea rows="5" v-on="formEvents('editor.main.description')" v-model="editor.main.description"/>
+                  <label class="custom-input-label" :class="checkFocus('editor.main.description')">{{ $t('blockTypes.main.fields.description') }}</label>
                 </div>
-                <div class="row">
+                <div class="grid grid-mobile g-4 gg-1">
                   <div class="custom-input">
-                    <input type="text" v-on="formEvents('editor.info.orderSum')" v-model="editor.main.orderSum">
-                    <label class="custom-input-label" :class="checkFocus('editor.info.orderSum')">{{ $t('blockTypes.main.fields.orderMin') }}<span class="t-red">*</span></label>
+                    <input type="text" v-on="formEvents('editor.main.orderSum')" v-model="editor.main.orderSum">
+                    <label class="custom-input-label" :class="checkFocus('editor.main.orderSum')">{{ $t('blockTypes.main.fields.orderMin') }}<span class="t-red">*</span></label>
                   </div>
-                  <custom-select class="select-form" :selectData="alignData" :style="{ 'z-index': 3 }"/>
+                  <custom-select class="select-form wide" :selectData="editor.main.alignData" v-if="editor.main.alignData" :style="{ 'z-index': 3 }" @selectUpdated="editor.main.infoAlignment = $event"/>
                 </div>
                 <div class="block-editor__content-title">{{ $t('blockTypes.main.fields.сategoriesTitle') }}</div>
-                <div class="row">
-                  <custom-select class="select-form" :selectData="categoriesData"/>
-                  <custom-select class="select-form" :selectData="cuisinesData"/>
-                  <custom-select class="select-form" :selectData="tagsData"/>
+                <div class="grid grid-mobile g-4 gg-1">
+                  <custom-select class="select-form wide" :selectData="editor.main.categoriesData" v-if="editor.main.categoriesData" @selectUpdated="editor.main.categories = $event"/>
+                  <custom-select class="select-form wide" :selectData="editor.main.cuisinesData" v-if="editor.main.cuisinesData" @selectUpdated="editor.main.cuisines = $event"/>
+                  <custom-select class="select-form wide" :selectData="editor.main.tagsData" v-if="editor.main.tagsData" @selectUpdated="editor.main.tags = $event"/>
                 </div>
               </div>
             </template>
           </accordion>
+
           <accordion class="block-editor" v-for="(block, i) in editor.blocks" :key="block.id" :style="{ '--index': editor.blocks.length - i }">
             <template #accordionTrigger>
-              <div class="block-editor__header" :class="{ 'non-empty' :  block.title }">
+              <div class="block-editor__header non-empty">
                 <span class="block-editor__header-label">{{ $t('blockTypes.' + block.type + '.title') }}</span>
-                <h3 class="block-editor__header-title m-none" v-if="block.title">{{ block.title }}</h3>
+                <h3 class="block-editor__header-title m-none">{{ block.title || $t('blockTypes.' + block.type + '.title') }}</h3>
               </div>
             </template>
             <template #accordionContent>
               <div class="block-editor__content block-neat">
+
                 <template v-if="block.type == 'carousel'">
-                <div class="grid grid-mobile g-2 gg-2">
-                  <div>
-                    <div class="custom-input">
-                      <input type="text">
-                      <label class="custom-input-label">{{ $t('blockTypes.carousel.fields.title') }}<span class="t-red">*</span></label>
+                <div class="grid grid-mobile g-1-2 gg-2">
+                  <div class="grid gv-1 grid-start">
+                    <div class="custom-input wide">
+                      <input type="text" class="t-cut" v-on="formEvents('editor.blocks[' + i + '].title')" v-model="block.title">
+                      <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].title')">{{ $t('blockTypes.recipe.fields.title') }}<span class="t-red">*</span></label>
                     </div>
-                    <custom-select class="select-form" :selectData="getCardData"/>
+                    <custom-select class="select-form wide" :selectData="block.fullTagData" v-if="block.fullTagData" :style="{ 'z-index': 3 }" @selectUpdated="block.tagType = $event; block.items = []"/>
+                    <custom-select class="select-form wide" :selectData="block.categoriesData" v-if="block.categoriesData" v-show="block.tagType == 'categories'" @selectUpdated="($event) => updateCategories($event, block.items)"/>
+                    <custom-select class="select-form wide" :selectData="block.cuisinesData" v-if="block.cuisinesData" v-show="block.tagType == 'cuisines'" @selectUpdated="($event) => updateCuisines($event, block.items)"/>
+                    <custom-select class="select-form wide" :selectData="block.tagsData" v-if="block.tagsData" v-show="block.tagType == 'tags'" @selectUpdated="($event) => updateTags($event, block.items)"/>
+                  </div>
+                  <div class="grid gv-1 grid-start">
+                    <div class="block-editor__content-title">{{ $t('blockTypes.carousel.fields.cardsData') }}<span class="t-red">*</span></div>
+                    <div class="block-editor__items-box grid-start row">
+                      <div class="list-group-wrapper">
+                        <draggable
+                          class="list-group grid" tag="transition-group"
+                          :list="block.items" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" :itemKey="(el) => el" handle=".handle"
+                          :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
+                          <template #item="{ element, index }">
+                            <div class="row list-group-item">
+                              <tag-card v-if="block.tagType != 'products' && element" :itemData="element"/>
+                              <product v-else-if="element" :itemData="element" :showHandle="true"/>
+                              <font-awesome-icon icon="xmark" class="icon-close" @click="removeDraggableAt(block.items, index)"/>
+                            </div>
+                          </template>
+                        </draggable>
+                        <button class="btn bg-white block-editor__btn-add" :class="{ 'gap': block.items.length > 0 }" @click="() => openModal(block.items)" v-if="block.tagType == 'products'">
+                          <font-awesome-icon icon="plus"/>
+                          <span>{{ $t('buttons.pressToAddProduct') }}</span>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 </template>
 
                 <template v-else-if="block.type == 'promo-set'">
                   <div class="grid grid-mobile g-2 gg-2">
-                    <div>
-                      <div class="row">
-                        <div class="custom-input">
-                          <input type="text">
-                          <label class="custom-input-label">{{ $t('blockTypes["promo-set"].fields.title') }}<span class="t-red">*</span></label>
+                    <div class="grid gv-1 grid-start">
+                      <div class="grid grid-mobile g-3-1 gg-1">
+                        <div class="custom-input wide">
+                          <input type="text" v-on="formEvents('editor.blocks[' + i + '].title')" v-model="block.title">
+                          <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].title')">{{ $t('blockTypes.recipe.fields.title') }}<span class="t-red">*</span></label>
                         </div>
                         <emoji-picker/>
                       </div>
                       <div class="custom-input">
-                        <textarea rows="5"/>
-                        <label class="custom-input-label">{{ $t('blockTypes["promo-set"].fields.description') }}<span class="t-red">*</span></label>
+                        <textarea rows="5" v-on="formEvents('editor.blocks[' + i + '].description')" v-model="block.description"/>
+                        <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].description')">{{ $t('blockTypes["promo-set"].fields.description') }}<span class="t-red">*</span></label>
                       </div>
-                      <custom-select class="select-form" :selectData="getCategoryData"/>
+                      <div class="grid grid-mobile g-2 gg-1">
+                        <custom-select class="select-form wide" :selectData="block.tagData" v-if="block.tagData" :style="{ 'z-index': 3 }" @selectUpdated="block.tagType = $event; block.tags = []"/>
+                        <custom-select class="select-form wide" :selectData="block.categoriesData" v-if="block.categoriesData" v-show="block.tagType == 'categories'" @selectUpdated="block.tags = $event"/>
+                        <custom-select class="select-form wide" :selectData="block.cuisinesData" v-if="block.cuisinesData" v-show="block.tagType == 'cuisines'" @selectUpdated="block.tags = $event"/>
+                        <custom-select class="select-form wide" :selectData="block.tagsData" v-if="block.tagsData" v-show="block.tagType == 'tags'" @selectUpdated="block.tags = $event"/>
+                        <custom-select class="select-form wide" :selectData="block.alignData" v-if="block.alignData" @selectUpdated="block.infoAlignment = $event"/>
+                         <!-- && block.tagsData.options.length -->
+                      </div>
+                    </div>
+                    <div class="grid gv-1 grid-start">
+                      <div class="block-editor__content-title">{{ $t('blockTypes["promo-set"].fields.setItems') }}<span class="t-red">*</span></div>
+                      <div class="block-editor__items-box grid-start row">
+                        <div class="list-group-wrapper">
+                          <div class="custom-checkbox">
+                            <label>
+                              <input type="checkbox" v-model="block.showAllBtn">
+                              <span class="custom-checkbox-label">{{ $t('blockTypes["promo-set"].fields.showAllBtn') }}</span>
+                            </label>
+                          </div>
+                          <draggable
+                            class="list-group grid" tag="transition-group"
+                            :list="block.items" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" :itemKey="(el) => el" handle=".handle"
+                            :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
+                            <template #item="{ element, index }">
+                              <div class="row list-group-item">
+                                <product :itemData="element" :showHandle="true" v-if="element"/>
+                                <font-awesome-icon icon="xmark" class="icon-close" @click="removeDraggableAt(block.items, index)"/>
+                              </div>
+                            </template>
+                          </draggable>
+                          <button class="btn bg-white block-editor__btn-add" :class="{ 'gap': block.items.length > 0 }" @click="() => openModal(block.items)">
+                            <font-awesome-icon icon="plus"/>
+                            <span>{{ $t('buttons.pressToAddProduct') }}</span>
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </template>
@@ -89,27 +152,32 @@
                     <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.ingredients') }}<span class="t-red">*</span></div>
                     <!-- V-IF DELAYS RENDER TILL DATA IS RECEIVED #2 (also element, not item) -->
                     <!-- also this comment breaks shit when placed inside draggable. do not comment, kids -->
-                    <div class="block-editor__items-box grid-start">
-                      <draggable
-                        class="list-group grid" tag="transition-group"
-                        :list="block.steps" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" item-key="order" handle=".handle"
-                        :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
-                        <template #item="{ element, index }">
-                          <div class="row list-group-item">
-                            <step :itemData="element" v-if="element"/>
-                            <font-awesome-icon icon="xmark" class="icon-close" @click="removeDraggableAt(block.steps, index)"/>
-                          </div>
-                        </template>
-                      </draggable>
-                      <button class="btn bg-white block-editor__btn-add" @click="() => addDraggable(block.steps)">
-                        <font-awesome-icon icon="plus"/>
-                        <span>{{ $t('buttons.pressToAddElement') }}</span>
-                      </button>
+                    <div class="block-editor__items-box grid-start row">
+                      <div class="grid">
+                        <div class="list-group-item-number" v-for="(item, i) in block.steps" :key="i">{{ zeroPad(i + 1, 2) }}</div>
+                      </div>
+                      <div class="list-group-wrapper">
+                        <draggable
+                          class="list-group grid" tag="transition-group"
+                          :list="block.steps" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" :itemKey="(el) => el" handle=".handle"
+                          :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
+                          <template #item="{ element, index }">
+                            <div class="row list-group-item">
+                              <step :itemData="element" :stepType="'recipe'" v-if="element"/>
+                              <font-awesome-icon icon="xmark" class="icon-close" @click="removeDraggableAt(block.steps, index)"/>
+                            </div>
+                          </template>
+                        </draggable>
+                        <button class="btn bg-white block-editor__btn-add" :class="{ 'gap': block.steps.length > 0 }" @click="() => addDraggable(block.steps)">
+                          <font-awesome-icon icon="plus"/>
+                          <span>{{ $t('buttons.pressToAddElement') }}</span>
+                        </button>
+                      </div>
                     </div>
                     <div class="block-editor__items-box grid-start">
-                      <draggable
+                      <!-- <draggable
                         class="list-group grid" tag="transition-group"
-                        :list="block.ingredients" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" item-key="order" handle=".handle"
+                        :list="block.ingredients" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" :itemKey="(el) => el" handle=".handle"
                         :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
                         <template #item="{ element, index }">
                         <div class="row list-group-item">
@@ -117,8 +185,8 @@
                           <font-awesome-icon icon="xmark" class="icon-close" @click="removeDraggableAt(block.ingredients, index)"/>
                         </div>
                         </template>
-                      </draggable>
-                      <button class="btn bg-white block-editor__btn-add" @click="() => addDraggable(block.ingredients)">
+                      </draggable> -->
+                      <button class="btn bg-white block-editor__btn-add" :class="{ 'gap': block.ingredients.length > 0 }" @click="() => addDraggable(block.ingredients)">
                         <font-awesome-icon icon="plus"/>
                         <span>{{ $t('buttons.pressToAddElement') }}</span>
                       </button>
@@ -128,10 +196,45 @@
                       <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].productTitle')">{{ $t('blockTypes.recipe.fields.productTitle') }}</label>
                     </div>
                     <div class="custom-input wide">
-                      <input type="text" v-on="formEvents('editor.blocks[' + i + '].product')" v-model="block.product">
-                      <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].product')">{{ $t('blockTypes.recipe.fields.product') }}<span class="t-red">*</span></label>
+                      <input type="text" v-on="formEvents('editor.blocks[' + i + ']..item.title')" v-model="block.item.title">
+                      <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].item.title')">{{ $t('blockTypes.recipe.fields.product') }}<span class="t-red">*</span></label>
                     </div>
                   </div>
+                </template>
+
+                <template v-else-if="block.type == 'numbered-list'">
+                  <div class="grid gv-1">
+                    <div class="grid grid-mobile g-2 gg-2">
+                      <div class="custom-input wide">
+                        <input type="text" v-on="formEvents('editor.blocks[' + i + '].title')" v-model="block.title">
+                        <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].title')">{{ $t('blockTypes["numbered-list"].fields.title') }}<span class="t-red">*</span></label>
+                      </div>
+                    </div>
+                    <div class="block-editor__content-title">{{ $t('blockTypes["numbered-list"].fields.listItems') }}<span class="t-red">*</span></div>
+                    <div class="block-editor__items-box grid-start row">
+                      <div class="grid">
+                        <div class="list-group-item-number" v-for="(item, i) in block.items" :key="i">{{ zeroPad(i + 1, 2) }}</div>
+                      </div>
+                      <div class="list-group-wrapper">
+                        <draggable
+                          class="list-group grid" tag="transition-group"
+                          :list="block.items" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" :itemKey="(el) => el" handle=".handle"
+                          :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
+                          <template #item="{ element, index }">
+                            <div class="row list-group-item">
+                              <step :itemData="element" v-if="element"/>
+                              <font-awesome-icon icon="xmark" class="icon-close" @click="removeDraggableAt(block.items, index)"/>
+                            </div>
+                          </template>
+                        </draggable>
+                        <button class="btn bg-white block-editor__btn-add" :class="{ 'gap': block.items.length > 0 }" @click="() => addDraggable(block.items)">
+                          <font-awesome-icon icon="plus"/>
+                          <span>{{ $t('buttons.pressToAddElement') }}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  
                 </template>
               </div>
             </template>
@@ -156,6 +259,41 @@
         </div>
       </div>
     </div>
+    <modal v-show="modalActive" @close="closeModal">
+      <template #header>
+        <h2 class="m-none">{{ $t('modal.productChoice') }}</h2>
+      </template>
+    
+      <template #body>
+        <div class="block-editor__product-modal grid grid-mobile g-2 gg-2 gv-1">
+          <div class="grid gv-1 grid-start">
+            <div class="block-editor__content-title">{{ $t('modal.availableProducts') }}</div>
+            <div class="custom-input">
+              <input type="text" v-on="formEvents('searchParams.query')" v-model="searchParams.query">
+              <label class="custom-input-label" :class="checkFocus('searchParams.query')">{{ $t('forms.search') }}</label>
+            </div>
+            <div class="block-editor__items-box block-editor__items-box--short grid-start">
+              <div class="grid">
+                <product v-for="product in products" :itemData="product" :active="checkActive(product)" :invalid="checkInvalid(product)" class="c-pointer" :key="product.id" @click="() => setActiveProduct(product)"/>
+              </div>
+            </div>
+          </div>
+          <div class="grid gv-1 grid-start">
+            <div class="block-editor__content-title">{{ $t('modal.chosenProduct') }}</div>
+            <product-card :itemData="activeProduct" :hideFavorite="true" v-if="activeProduct"/>
+          </div>
+        </div>
+      </template>
+
+      <template #footer>
+        <div class="grid grid-mobile g-2 gg-2">
+          <button class="btn btn-outline ml-auto grid-center" @click="closeModal">{{ $t('buttons.cancel') }}</button>
+          <div>
+            <button class="btn btn-primary btn-green-light m-none" @click="() => addDraggable(activeList, activeProduct)">{{ $t('buttons.choose') }}</button>
+          </div>
+        </div>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -163,18 +301,27 @@
   import accordion from '@/components/accordion';
   import customSelect from '@/forms/custom-select';
   import emojiPicker from '@/forms/emoji-picker';
-  import ingredient from '@/forms/ingredient';
+  import productCard from '@/components/product-card';
+  // import ingredient from '@/forms/ingredient';
+  import modal from '@/forms/modal';
   import step from '@/forms/step';
+  import tagCard from '@/forms/tag-card';
+  import product from '@/forms/product';
   import _get from 'lodash/get';
   import draggable from 'vuedraggable'
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'page-editor',
     components: {
       'custom-select': customSelect,
       'emoji-picker': emojiPicker,
-      ingredient,
+      'product-card': productCard,
+      'tag-card': tagCard,
+      // ingredient,
       step,
+      product,
+      modal,
       accordion,
       draggable,
     },
@@ -183,6 +330,7 @@
       return {
         laptopViewQuery: laptopQuery,
         isLaptop: laptopQuery.matches,
+        modalActive: false,
         alignOptions: [
           'left',
           'right'
@@ -195,10 +343,10 @@
           'numbered-list'
         ],
         cardTypes: [
-          'product-card',
-          'category-card',
+          'products',
+          // 'combo-cards',
         ],
-        categoryTypes: [
+        tagTypes: [
           'categories',
           'cuisines',
           'tags'
@@ -210,77 +358,28 @@
           optionType: 'radio',
           options: [],
         },
-        categoriesData: {
-          code: 'categoriesData',
-          title: this.$t('blockTypes.main.fields.categories'),
-          options: [],
-        },
-        cuisinesData: {
-          code: 'cuisinesData',
-          title: this.$t('blockTypes.main.fields.cuisines'),
-          options: []
-        },
-        tagsData: {
-          code: 'tagsData',
-          title: this.$t('blockTypes.main.fields.tags'),
-          options: []
-        },
-        // the doom is upon us
         editor: {
           activeField: '',
-          main: {
-            infoAlignment: '',
-            image: '',
-            title: '',
-            description: '',
-            orderSum: 0,
-            categories: [],
-            cuisines: [],
-            tags: []
-          },
-          blocks: [
-            // {
-            //   id: 0,
-            //   type: '',
-            //   title: '',
-            //   description: '',
-            //   infoAlignment: '',
-            //   tagType: '',
-            //   categories: [],
-            //   cuisines: [],
-            //   tags: [],
-            //   items: [],
-            //   steps: [],
-            //   ingredients: [],
-            //   productTitle: '',
-            //   product: '',              // TODO: convert to object once product picker is done
-            //   drag: false,
-            // }
-          ],
+          main: {},
+          blocks: [],
         },
+        searchParams: {
+          query: '',
+        },
+        products: [],
+        activeProduct: null,  // new chosen product
+        activeList: null,     // list to add a new product to
       }
     },
     computed: {
-      getCardData() {
-        return {
-          code: 'cardData',
-          title: this.$t('blockTypes.carousel.fields.cardType'),
-          required: true,
-          options: this.cardTypes.map((el) => ({ code: el, name: this.$t('cardTypes.' + el + '.title') })),
-        }
-      },
-      getCategoryData() {
-        return {
-          code: 'categoryData',
-          title: this.$t('blockTypes["promo-set"].fields.categoriesType'),
-          required: true,
-          options: this.categoryTypes.map((el) => ({ code: el, name: this.$t('categoryTypes.' + el + '.title') })),
-        }
-      },
+      ...mapGetters({
+        categories: 'getCategories',
+        cuisines: 'getCuisines',
+        tags: 'getTags',
+      }),
       dragOptions() {
         return {
           animation: 200,
-          group: "items",
           disabled: false,
           ghostClass: "ghost"
         };
@@ -303,34 +402,157 @@
       checkFocus(target) {
         return { 'non-empty': this.editor.activeField == target || !!_get(this.$data, target) };
       },
+      // modal
+      openModal(list) {
+        this.modalActive = true;
+        document.querySelector('body').classList.add('modal-open');
+
+        this.activeList = list;
+        this.activeProduct = this.products.find((el) => !this.activeList.some((item) => el.id == item.id));
+      },
+      closeModal() {
+        this.modalActive = false;
+        document.querySelector('body').classList.remove('modal-open');
+      },
+      setActiveProduct(product) {
+        this.activeProduct = product;
+      },
+      checkActive(product) {
+        if (this.activeProduct)
+          return this.activeProduct.id == product.id;
+      },
+      checkInvalid(product) {
+        if (this.activeList)
+          return this.activeList.some((el) => el.id == product.id);
+      },
+      // draggable
       removeDraggableAt(list, i) {
         list.splice(i, 1);
       },
-      addDraggable(list) {
-        list.push({ order: list.length + 2 });
-      }
+      addDraggable(list, product) {
+        if (product) {
+          list.push(product);
+          this.closeModal();
+        }
+        else list.push({});
+      },
+      updateCategories(items, list) {
+        // let extraCodes = items.filter((el) => !list.some((i) => i.code == el));
+        // let extraItems = list.filter((el) => !items.includes(el.code));
+        items.forEach((item) => {
+          if (!list.some((el) => el.code == item)) {
+            list.push({ type: 'category-card', code: item, title: this.categories[item] });
+          }
+        })
+      },
+      updateCuisines(items, list) {
+        items.forEach((item) => {
+          if (!list.some((el) => el.code == item)) {
+            list.push({ type: 'cuisine-card', code: item, title: this.cuisines[item] });
+          }
+        })
+      },
+      updateTags(items, list) {
+        items.forEach((item) => {
+          if (!list.some((el) => el.code == item)) {
+            list.push({ type: 'tag', code: item, title: this.tags.find((el) => el.code == item).name });
+          }
+        })
+      },
+      // add fancy zeros
+      zeroPad(num, places) {
+        return String(num).padStart(places, '0');
+      },
+      // select data generators
+      getAlignData(i, isChecked) {
+        return {
+          code: 'alignData-' + i,
+          title: this.$t('blockTypes.main.fields.infoAlignment'),
+          optionType: 'radio',
+          options: JSON.parse(JSON.stringify(this.alignOptions)).map(el => ({ code: el, name: this.$t('alignOptions.' + el), isChecked: isChecked(el) })),
+        }
+      },
+      getCategoriesData(i, isChecked) {
+        return {
+          code: 'categoriesData-' + i,
+          title: this.$t('blockTypes.main.fields.categories'),
+          options: Object.entries(Object.assign({}, this.categories)).map(([key, value]) => ({ code: key, name: value, isChecked: isChecked(key) }))
+        }
+      },
+      getCuisinesData(i, isChecked) {
+        return {
+          code: 'cuisinesData-' + i,
+          title: this.$t('blockTypes.main.fields.cuisines'),
+          options: Object.entries(Object.assign({}, this.cuisines)).map(([key, value]) => ({ code: key, name: value, isChecked: isChecked(key) })) 
+        }
+      },
+      getTagsData(i, isChecked) {
+        return {
+          code: 'tagsData-' + i,
+          title: this.$t('blockTypes.main.fields.tags'),
+          options: JSON.parse(JSON.stringify(this.tags)).map((el) => ({ code: el.code, name: el.name, isChecked: isChecked(el.code) }))
+        }
+      },
+      getTagData(i, isChecked) {
+        return {
+          code: 'tagData-' + i,
+          title: this.$t('tagTypes.tagType'),
+          optionType: 'radio',
+          options: JSON.parse(JSON.stringify(this.tagTypes)).map(el => ({ code: el, name: this.$t('tagTypes.' + el), isChecked: isChecked(el) })),
+        }
+      },
+      getFullTagData(i, isChecked) {
+        return {
+          code: 'fullTagData-' + i,
+          title: this.$t('tagTypes.tagType'),
+          optionType: 'radio',
+          options: [].concat(JSON.parse(JSON.stringify(this.tagTypes)), JSON.parse(JSON.stringify(this.cardTypes))).map(el => ({ code: el, name: this.$t('tagTypes.' + el), isChecked: isChecked(el) })),
+        }
+      },
     },
-    mounted() {
+    async created() {
       this.$load(async () => {
         this.editor = (await this.$api.editor.getRestaurant()).data;
-        this.editor.blocks.forEach((block) => {
-          if (block.type != 'recipe') return;
+      }).then(() => {
+        this.editor.main.alignData = this.getAlignData(0, (el) => this.editor.main.infoAlignment == el);
+        this.editor.main.categoriesData = this.getCategoriesData(0, (el) => this.editor.main.categories.includes(el));
+        this.editor.main.cuisinesData = this.getCuisinesData(0, (el) => this.editor.main.cuisines.includes(el));
+        this.editor.main.tagsData = this.getTagsData(0, (el) => this.editor.main.tags.includes(el));
 
-          block.steps.forEach((el, i) => el.order = i + 1);
-          block.ingredients.forEach((el, i) => el.order = i + 1);
-        })
+        this.editor.blocks.forEach((block, i) => {
+          switch(block.type) {
+            case 'promo-set':
+              block.tagData = this.getTagData(i + 1, (el) => block.tagType == el);
+              block.categoriesData = this.getCategoriesData(i + 1, (el) => block.tags.includes(el));
+              block.cuisinesData = this.getCuisinesData(i + 1, (el) => block.tags.includes(el));
+              block.tagsData = this.getTagsData(i + 1, (el) => block.tags.includes(el));
+              block.alignData = this.getAlignData(i + 1, (el) => block.infoAlignment == el);
+              break;
+            case 'carousel':
+              block.fullTagData = this.getFullTagData(i + 1, (el) => block.tagType == el);
+              block.categoriesData = this.getCategoriesData(i + 1, (el) => block.items.some((item) => item.code == el));
+              block.cuisinesData = this.getCuisinesData(i + 1, (el) => block.items.some((item) => item.code == el));
+              block.tagsData = this.getTagsData(i + 1, (el) => block.items.some((item) => item.code == el));
+              break;
+            case 'recipe':
+              // block.steps.forEach((el, i) => el.order = i + 1);
+              // block.ingredients.forEach((el, i) => el.order = i + 1);
+              break;
+            case 'numbered-list':
+              // block.items.forEach((el, i) => el.order = i + 1);
+              break;
+          }
+        });
+      });
+
+      this.$load(async () => {
+        this.products = (await this.$api.products.getProducts()).data;
       })
-
-      // this.categoriesData.options = this.info.db.categories.map((el, i) => ({ code: i, name: el }));
-      // this.cuisinesData.options = this.info.db.cuisines.map((el, i) => ({ code: i, name: el }));
-
-      // this.GET_TAGS_API().then(() => {
-      //   this.tagsData.options = this.tags.map(el => ({ code: el.id, name: el.title }));
-      // });
-
+    },
+    mounted() {
       Array.from(this.$el.querySelectorAll('.block')).forEach(el => {
         let info = el.querySelector('.block-info');
-        // move to methods
+        // TODO: move to methods
         el.addEventListener('mouseover', () => {
           if (!this.showBlockInfo) return;
           info.style.height = info.scrollHeight + "px";
@@ -344,7 +566,7 @@
       this.laptopViewQuery.addEventListener('change', () => {
         this.isLaptop = this.laptopViewQuery.matches;
       });
-    },
+    }
   }
 </script>
 
@@ -427,11 +649,16 @@
     }
 
     &__items-box {
-      padding: 1.2rem;
+      border: 1.2rem solid $white;
       background-color: $white;
       border-radius: $radius-small;
 
-      & > .grid {
+      &--short {
+        max-height: 25rem;
+        overflow-y: scroll;
+      }
+
+      & .grid {
         row-gap: .8rem;
       }
     }
@@ -440,14 +667,16 @@
       padding: .8rem 0;
       color: $grey-medium;
       font-size: 1.2rem;
-      width: 100%;
       align-items: center;
       display: flex;
-      margin-top: .8rem;
 
       svg {
         font-size: 2.4rem;
         margin-right: 1.2rem;
+      }
+
+      &.gap {
+        margin-top: .8rem;
       }
     }
 
@@ -462,6 +691,9 @@
     .accordion__trigger--active .block-editor__header {
       top: -5px;
       box-shadow: 0 5px 0 $beige-dark;
+    }
+    &__product-modal.grid.grid-mobile.g-2 {
+      grid-template-columns: auto 250px;
     }
   }
 </style>

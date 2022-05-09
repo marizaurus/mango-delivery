@@ -27,6 +27,9 @@
     display: block;
     resize: none;
     width: 100%;
+    padding: 0 1rem;
+    border-top: 1.6rem solid $white;
+    border-bottom: 1rem solid $white;
   }
 
   & > label {

@@ -72,7 +72,7 @@
       font-size: 2.4rem;
       text-align: center;
       box-sizing: border-box;
-      width: 8.5rem;
+      width: 100%;
       height: 5.1rem;
       position: relative;
 
@@ -103,7 +103,7 @@
     &-close {
       right: 0;
       top: 50%;
-      transform: translateX(2.4rem) translateY(-50%);
+      transform: translateX(2rem) translateY(-50%);
     }
   }
 </style>
