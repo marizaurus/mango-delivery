@@ -8,7 +8,7 @@
       <input type="text" :placeholder="$t('blockTypes.recipe.fields.number')" v-model="ingredientData.number">
     </div>
     <custom-select class="select-form slim ingredient-units" :style="{ 'z-index': 'var(--ingr-index)' }"
-      :selectData="ingredientUnitsData" @selectUpdated="ingredientData.unit = $event"/>
+      :selectData="ingredientUnitsData" v-if="ingredientUnitsData && ingredientUnitsData.options.length" @selectUpdated="ingredientData.unit = $event"/>
   </div>
 </template>
 
@@ -33,7 +33,7 @@
           'glass'
         ],
         ingredientUnitsData: {
-          code: 'unitsData',
+          code: 'unitsData' + (this.indexes.length ? '-' + this.indexes.join('-') : ''),
           title: this.$t('blockTypes.recipe.fields.units'),
           optionType: 'radio',
           slim: true,
@@ -50,6 +50,7 @@
         number: Number,
         unit: String
       },
+      indexes: Array,
     },
     mounted() {
       this.ingredientUnitsData.options = this.ingredientUnits.map((el) => ({

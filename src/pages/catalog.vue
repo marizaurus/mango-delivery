@@ -20,17 +20,19 @@
                 @click="setActive('restaurants')">{{ $t('catalog.tabs.restaurants') }}</button>
             </div>
             <custom-select class="catalog__sort-options block" :style="{ 'z-index': 8 }"
-              :selectData="sortData" @selectUpdated="searchParams.sort = $event"/>
+              :selectData="sortData" v-if="sortData && sortData.options.length" @selectUpdated="searchParams.sort = $event"/>
           </div>
         </div>
 
         <div class="catalog__controls">
           <div class="block-sticky--tablet">
             <div class="controls block-neat grid gv-1">
+              <custom-select class="select-form controls-status wide" :style="{ 'z-index': 8 }"
+                :selectData="categoriesData" v-if="categoriesData && categoriesData.options.length" @selectUpdated="searchParams.categories = $event"/>
               <custom-select class="select-form controls-status wide" :style="{ 'z-index': 7 }"
-                :selectData="categoriesData" @selectUpdated="searchParams.categories = $event"/>
+                :selectData="cuisinesData" v-if="cuisinesData && cuisinesData.options.length" @selectUpdated="searchParams.cuisines = $event"/>
               <custom-select class="select-form controls-status wide" :style="{ 'z-index': 6 }"
-                :selectData="cuisinesData" @selectUpdated="searchParams.cuisines = $event"/>
+                :selectData="tagsData" v-if="tagsData && tagsData.options.length" @selectUpdated="searchParams.tags = $event"/>
               <div class="controls-sum">
                 <div class="row" ref="inputs">
                   <div class="controls-sum-input-wrapper">
@@ -61,10 +63,10 @@
 
         <div class="catalog__content-wrapper">
           <div class="catalog__content catalog__content--menu row" v-show="isActive('menu')">
-            <product-card v-for="(item, i) in catalog.menu" :key="i" :itemData="item"/>
+            <product-card v-for="(item, i) in products" :key="i" :itemData="item"/>
           </div>
           <div class="catalog__content row" v-show="isActive('restaurants')">
-            <restaurant-stripe v-for="(item, i) in catalog.restaurants" :key="i" :itemData="item"/>
+            <restaurant-stripe v-for="(item, i) in restaurants" :key="i" :itemData="item"/>
           </div>
         </div>
 
@@ -75,7 +77,7 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from "vuex";
+  import { mapGetters } from "vuex";
   import customSelect from '@/forms/custom-select';
   import VueSlider from 'vue-slider-component'
   import productCard from "../components/product-card";
@@ -116,6 +118,11 @@
           title: this.$t('catalog.searchParams.cuisines'),
           options: [],
         },
+        tagsData: {
+          code: 'tagsData',
+          title: this.$t('catalog.searchParams.tags'),
+          options: [],
+        },
         sliderOptions: {
           max: 3000,
           dragOnClick: true,
@@ -154,17 +161,18 @@
           'border-color': '#ffffff',
           'active-border-color': '#ffc93c',
         },
+        products: [],
+        restaurants: [],
       }
     },
     computed: {
       ...mapGetters({
-        catalog: 'CATALOG',
+        categories: 'getCategories',
+        cuisines: 'getCuisines',
+        tags: 'getTags',
       }),
     },
     methods: {
-      ...mapActions([
-        'GET_CATALOG_API',
-      ]),
       // form fields
       formEvents(target) {
         return {
@@ -197,9 +205,15 @@
 
     },
     mounted() {
-      this.GET_CATALOG_API().then(() => {
-        this.categoriesData.options = this.catalog.searchParams.categories;
-        this.cuisinesData.options = this.catalog.searchParams.cuisines;
+      this.$load(async () => {
+        this.products = (await this.$api.products.getProducts()).data;
+        this.categoriesData.options = Object.entries(Object.assign({}, this.categories)).map(([key, value]) => ({ code: key, name: value }));
+        this.cuisinesData.options = Object.entries(Object.assign({}, this.cuisines)).map(([key, value]) => ({ code: key, name: value }));
+        this.tagsData.options = JSON.parse(JSON.stringify(this.tags)).map((el) => ({ code: el.code, name: el.name }));
+      });
+
+      this.$load(async () => {
+        this.restaurants = (await this.$api.restaurants.getRestaurants()).data;
       });
 
       this.sortData.options = this.sortOptions.map(el => ({ code: el, name: this.$t('catalog.sortParams.' + el) }));

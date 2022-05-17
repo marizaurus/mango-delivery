@@ -46,6 +46,7 @@
             <template #accordionContent>
               <div class="block-editor__content block-neat">
 
+                <!-- fuck this one -->
                 <template v-if="block.type == 'carousel'">
                 <div class="grid grid-mobile g-1-2 gg-2">
                   <div class="grid gv-1 grid-start">
@@ -175,17 +176,17 @@
                       </div>
                     </div>
                     <div class="block-editor__items-box grid-start">
-                      <!-- <draggable
+                      <draggable
                         class="list-group grid" tag="transition-group"
                         :list="block.ingredients" v-bind="dragOptions" @start="block.drag = true" @end="block.drag = false" :itemKey="(el) => el" handle=".handle"
                         :component-data="{ tag: 'div', type: 'transition-group', name: !block.drag ? 'flip-list' : null }">
                         <template #item="{ element, index }">
                         <div class="row list-group-item">
-                          <ingredient :itemData="element" :style="{ '--ingr-index': block.ingredients.length - index }" v-if="element"/>
+                          <ingredient :itemData="element" :indexes="[i, index]" :style="{ '--ingr-index': block.ingredients.length - index }" v-if="element"/>
                           <font-awesome-icon icon="xmark" class="icon-close" @click="removeDraggableAt(block.ingredients, index)"/>
                         </div>
                         </template>
-                      </draggable> -->
+                      </draggable>
                       <button class="btn bg-white block-editor__btn-add" :class="{ 'gap': block.ingredients.length > 0 }" @click="() => addDraggable(block.ingredients)">
                         <font-awesome-icon icon="plus"/>
                         <span>{{ $t('buttons.pressToAddElement') }}</span>
@@ -302,7 +303,7 @@
   import customSelect from '@/forms/custom-select';
   import emojiPicker from '@/forms/emoji-picker';
   import productCard from '@/components/product-card';
-  // import ingredient from '@/forms/ingredient';
+  import ingredient from '@/forms/ingredient';
   import modal from '@/forms/modal';
   import step from '@/forms/step';
   import tagCard from '@/forms/tag-card';
@@ -318,7 +319,7 @@
       'emoji-picker': emojiPicker,
       'product-card': productCard,
       'tag-card': tagCard,
-      // ingredient,
+      ingredient,
       step,
       product,
       modal,

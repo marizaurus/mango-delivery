@@ -38,17 +38,12 @@ export const store = createStore({
       },
       active: [],
     },
-    catalog: {
-      searchParams: {
-        categories: [],
-        cuisines: [],
-      },
-      items: [],
-    },
 
     categories: [],
     cuisines: [],
     tags: [],
+
+    statuses: [],
   },
   mutations: { // synchronous
     SET_HOME_BLOCKS: (state, homeBlocks) => {
@@ -73,9 +68,6 @@ export const store = createStore({
     SET_ORDER_HISTORY: (state, orderHistory) => {
       state.orderHistory = orderHistory;
     },
-    SET_CATALOG: (state, catalog) => {
-      state.catalog = catalog;
-    },
 
     SET_CATEGORIES: (state, payload) => {
       state.categories = payload;
@@ -86,6 +78,10 @@ export const store = createStore({
     SET_TAGS: (state, payload) => {
       state.tags = payload;
     },
+
+    SET_STATUSES: (state, payload) => {
+      state.statuses = payload;
+    }
   },
   actions: { // asynchronous
     GET_HOME_BLOCKS_API({ commit }) {
@@ -178,21 +174,6 @@ export const store = createStore({
         });
       }
     },
-    GET_TAGS_API({ commit }) {
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_TAGS', db['tags']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'tags', {
-          method: 'GET',
-        }).then((tags) => {
-          commit('SET_TAGS', tags.data);
-          return tags;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
     GET_ORDER_HISTORY_API({ commit }) {
       if (process.env.NODE_ENV === 'production') {
         commit('SET_ORDER_HISTORY', db['order-history']);
@@ -202,21 +183,6 @@ export const store = createStore({
         }).then((orderHistory) => {
           commit('SET_ORDER_HISTORY', orderHistory.data);
           return orderHistory;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
-    GET_CATALOG_API({ commit }) {
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_CATALOG', db['catalog']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'catalog', {
-          method: 'GET',
-        }).then((catalog) => {
-          commit('SET_CATALOG', catalog.data);
-          return catalog;
         }).catch((error) => {
           console.log(error);
           return error;
@@ -256,7 +222,19 @@ export const store = createStore({
           console.log(error);
         });
       }
-    }
+    },
+
+    loadStatuses({ commit }) {
+      if (process.env.NODE_ENV === 'production') {
+        commit('SET_STATUSES', db['statuses']);
+      } else {
+        return instance.get('statuses').then((payload) => {
+          commit('SET_STATUSES', payload.data);
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+    },
   },
   getters: {
     // cool method-style thingy
@@ -279,16 +257,11 @@ export const store = createStore({
     COMMENTS(state) {
       return state.comments;
     },
-    TAGS(state) {
-      return state.tags;
-    },
     ORDER_HISTORY(state) {
       return state.orderHistory;
     },
-    CATALOG(state) {
-      return state.catalog;
-    },
 
+    // product filters
     getCategories(state) {
       return state.categories;
     },
@@ -297,6 +270,11 @@ export const store = createStore({
     },
     getTags(state) {
       return state.tags;
+    },
+
+    // order filters
+    getStatuses(state) {
+      return state.statuses;
     }
   },
 });

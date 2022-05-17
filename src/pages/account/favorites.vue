@@ -27,10 +27,10 @@
 
       <div class="catalog__content-wrapper">
         <div class="catalog__content catalog__content--menu row" v-show="isActive('menu')">
-          <product-card v-for="(item, i) in catalog.menu" :key="i" :itemData="item"/>
+          <product-card v-for="(item, i) in products" :key="i" :itemData="item"/>
         </div>
         <div class="catalog__content row" v-show="isActive('restaurants')">
-          <restaurant-stripe v-for="(item, i) in catalog.restaurants" :key="i" :itemData="item"/>
+          <restaurant-stripe v-for="(item, i) in restaurants" :key="i" :itemData="item"/>
         </div>
       </div>
     </div>
@@ -38,9 +38,9 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from "vuex";
-  import productCard from "../components/product-card";
-  import restaurantStripe from "../components/restaurant-stripe";
+  import { mapGetters } from "vuex";
+  import productCard from "@/components/product-card";
+  import restaurantStripe from "@/components/restaurant-stripe";
   import _get from 'lodash/get';
 
   export default {
@@ -54,17 +54,18 @@
         activeTab: 'menu',
         activeField: '',
         query: '',
+        products: [],
+        restaurants: [],
       }
     },
     computed: {
       ...mapGetters({
-        catalog: 'CATALOG',
+        categories: 'getCategories',
+        cuisines: 'getCuisines',
+        tags: 'getTags',
       }),
     },
     methods: {
-      ...mapActions([
-        'GET_CATALOG_API',
-      ]),
       // tabs
       isActive(menuItem) {
         return this.activeTab === menuItem;
@@ -93,11 +94,14 @@
         this.$refs.slider.setValue(this.searchParams.orderSum);
       },
     },
-    watch: {
-
-    },
     mounted() {
-      this.GET_CATALOG_API();
+      this.$load(async () => {
+        this.products = (await this.$api.products.getProducts()).data;
+      });
+
+      this.$load(async () => {
+        this.restaurants = (await this.$api.restaurants.getRestaurants()).data;
+      });
     }
   }
 </script>

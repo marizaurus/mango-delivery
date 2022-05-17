@@ -1,8 +1,8 @@
 <template>
   <div class="modal-backdrop">
     <div class="modal">
-      <button class="modal-close btn bg-white" @click="close">
-        <font-awesome-icon icon="xmark" class="icon-close"/>
+      <button class="modal-close btn btn-round bg-white t-grey" @click="close">
+        <font-awesome-icon icon="xmark"/>
       </button>
       <div class="grid gv-1">
         <div class="modal__header">
@@ -39,6 +39,7 @@
     border-radius: $radius-medium;
     padding: 1.6rem 3.2rem;
     position: relative;
+    box-sizing: border-box;
 
     &-backdrop {
       position: fixed;
@@ -54,18 +55,10 @@
     }
 
     &-close {
-      border-radius: 50%;
-      width: 3.6rem;
-      height: 3.6rem;
       position: absolute;
       top: 0;
       right: 0;
       transform: translateX(50%) translateY(-50%);
-      text-align: center;
-
-      svg {
-        position: static;
-      }
     }
   }
 </style>

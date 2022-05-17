@@ -4,11 +4,14 @@ import home from '../pages/home';
 import cart from '../pages/cart';
 import restaurant from '../pages/restaurant';
 import product from '../pages/product';
-import pageEditor from '../pages/page-editor';
+import editor from '../pages/page-editor';
 import orderHistory from '../pages/order-history';
 import catalog from '../pages/catalog';
-import favorites from '../pages/favorites';
-import account from '../pages/account';
+import account from '../pages/account/account';
+import addresses from '../pages/account/addresses';
+import orders from '../pages/account/orders';
+import profile from '../pages/account/profile';
+import favorites from '../pages/account/favorites';
 
 export default createRouter({
   history: createWebHistory(),
@@ -34,9 +37,9 @@ export default createRouter({
       component: product,
     },
     {
-      path: process.env.VUE_APP_PATH + 'page-editor',
-      name: 'page-editor',
-      component: pageEditor,
+      path: process.env.VUE_APP_PATH + 'editor',
+      name: 'editor',
+      component: editor,
     },
     {
       path: process.env.VUE_APP_PATH + 'order-history',
@@ -57,6 +60,24 @@ export default createRouter({
       path: process.env.VUE_APP_PATH + 'account',
       name: 'account',
       component: account,
+      redirect: { name: 'profile' },
+      children: [
+        {
+          path: 'profile',
+          name: 'profile',
+          component: profile,
+        },
+        {
+          path: 'addresses',
+          name: 'addresses',
+          component: addresses,
+        },
+        {
+          path: 'orders',
+          name: 'orders',
+          component: orders,
+        },
+      ]
     },
   ]
 });

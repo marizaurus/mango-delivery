@@ -118,10 +118,25 @@
     "save": "Сохранить",
     "cancel": "Отменить",
     "choose": "Выбрать",
+    "signIn": "Войти",
+    "register": "Регистрация",
     "pressToAddElement": "Нажмите для добавления элемента",
     "pressToAddProduct": "Нажмите для добавления товара"
   },
+  "menu": {
+    "catalog": "Каталог",
+    "profile": "Мои данные",
+    "addresses": "Мои адреса",
+    "orders": "История заказов",
+    "favorites": "Избранное",
+    "signOut": "Выйти",
+    "editor": "Редактор"
+  },
   "modal": {
+    "registration": "Регистрация",
+    "alreadyAClient": "Уже наш клиент?",
+    "howToSendConfirm": "Куда отправить подтверждение?",
+    "forgotPassword": "Забыли пароль?",
     "productChoice": "Выбор товара",
     "availableProducts": "Доступные товары",
     "chosenProduct": "Выбранный товар"
@@ -138,7 +153,9 @@
     "singleSelected": "1 выбран", 
     "multSelected": " выбрано",
     "clearSelect": "Очистить",
-    "search": "Поиск"
+    "search": "Поиск",
+    "confirmOption": "Способ проверки",
+    "codeReceived": "Полученный код"
   },
   "cart": {
     "title": "Корзина",
@@ -210,6 +227,7 @@
       "search": "Поиск",
       "categories": "Категории",
       "cuisines": "Кухни",
+      "tags": "Тэги",
       "productCost": "Стоимость",
       "ratingFrom": "Оценка от"
     },
@@ -231,7 +249,8 @@
     "tabs": {
       "main": "Мои данные",
       "addresses": "Мои адреса",
-      "orders": "История заказов"
+      "orders": "История заказов",
+      "favorites": "Избранное"
     },
     "main": {
       "name": "Ваше имя",
