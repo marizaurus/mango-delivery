@@ -7,16 +7,6 @@ export const store = createStore({
   state: {
     homeBlocks: [],
     cartBlocks: [],
-    restaurantInfo: {
-      categories: [],
-      cuisines: [],
-      tags: [],
-      db: {
-        categories: [],
-        cuisines: [],
-      }
-    },
-    restaurantBlocks: [],
     productInfo: {
       images: [],
       tags: [],
@@ -51,12 +41,6 @@ export const store = createStore({
     },
     SET_CART_BLOCKS: (state, cartBlocks) => {
       state.cartBlocks = cartBlocks;
-    },
-    SET_RESTAURANT_INFO: (state, restaurantInfo) => {
-      state.restaurantInfo = restaurantInfo;
-    },
-    SET_RESTAURANT_BLOCKS: (state, restaurantBlocks) => {
-      state.restaurantBlocks = restaurantBlocks;
     },
     SET_PRODUCT_INFO: (state, productInfo) => {
       state.productInfo = productInfo;
@@ -108,36 +92,6 @@ export const store = createStore({
         }).then((cart) => {
           commit('SET_CART_BLOCKS', cart.data);
           return cart;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
-    GET_RESTAURANT_INFO_API({ commit }) {
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_RESTAURANT_INFO', db['restaurant-info']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'restaurant-info', {
-          method: 'GET',
-        }).then((restaurant) => {
-          commit('SET_RESTAURANT_INFO', restaurant.data);
-          return restaurant;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
-    GET_RESTAURANT_BLOCKS_API({ commit }) {
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_RESTAURANT_BLOCKS', db['restaurant-blocks']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'restaurant-blocks', {
-          method: 'GET',
-        }).then((restaurant) => {
-          commit('SET_RESTAURANT_BLOCKS', restaurant.data);
-          return restaurant;
         }).catch((error) => {
           console.log(error);
           return error;
@@ -244,12 +198,6 @@ export const store = createStore({
     },
     CART_BLOCKS(state) {
       return state.cartBlocks;
-    },
-    RESTAURANT_INFO(state) {
-      return state.restaurantInfo;
-    },
-    RESTAURANT_BLOCKS(state) {
-      return state.restaurantBlocks;
     },
     PRODUCT_INFO(state) {
       return state.productInfo;

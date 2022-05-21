@@ -513,7 +513,8 @@
     },
     async created() {
       this.$load(async () => {
-        this.editor = (await this.$api.editor.getRestaurant()).data;
+        let res = await this.$api.editor.getRestaurant();
+        this.editor = res.data || res;
       }).then(() => {
         this.editor.main.alignData = this.getAlignData(0, (el) => this.editor.main.infoAlignment == el);
         this.editor.main.categoriesData = this.getCategoriesData(0, (el) => this.editor.main.categories.includes(el));
@@ -547,7 +548,8 @@
       });
 
       this.$load(async () => {
-        this.products = (await this.$api.products.getProducts()).data;
+        let res = await this.$api.products.getProducts();
+        this.products = res.data || res;
       })
     },
     mounted() {

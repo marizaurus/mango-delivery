@@ -159,7 +159,8 @@
     },
     mounted() {
       this.$load(async () => {
-        this.profile = (await this.$api.account.getProfile()).data;
+        let res = await this.$api.account.getProfile();
+        this.profile = res.data || res;
         this.sexData = this.getSexData();
       }).then(() => this.profileCopy = Object.assign({}, this.profile));
     }

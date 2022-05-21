@@ -206,14 +206,16 @@
     },
     mounted() {
       this.$load(async () => {
-        this.products = (await this.$api.products.getProducts()).data;
+        let res = await this.$api.products.getProducts();
+        this.products = res.data || res;
         this.categoriesData.options = Object.entries(Object.assign({}, this.categories)).map(([key, value]) => ({ code: key, name: value }));
         this.cuisinesData.options = Object.entries(Object.assign({}, this.cuisines)).map(([key, value]) => ({ code: key, name: value }));
         this.tagsData.options = JSON.parse(JSON.stringify(this.tags)).map((el) => ({ code: el.code, name: el.name }));
       });
 
       this.$load(async () => {
-        this.restaurants = (await this.$api.restaurants.getRestaurants()).data;
+        let res = await this.$api.restaurants.getRestaurants();
+        this.restaurants = res.data || res;
       });
 
       this.sortData.options = this.sortOptions.map(el => ({ code: el, name: this.$t('catalog.sortParams.' + el) }));

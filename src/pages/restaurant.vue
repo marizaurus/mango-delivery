@@ -73,7 +73,8 @@
     },
     mounted() {
       this.$load(async () => {
-        this.restaurant = (await this.$api.restaurants.getRestaurant()).data;
+        let res = await this.$api.restaurants.getRestaurant();
+        this.restaurant = res.data || res;
       }).then(() => this.onLoad());
     }
   }

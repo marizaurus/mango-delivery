@@ -167,7 +167,8 @@
     },
     mounted() {
       this.$load(async () => {
-        this.addresses = (await this.$api.account.getAddresses()).data;
+        let res = await this.$api.account.getAddresses();
+        this.addresses = res.data || res;
       }).then(() => this.setPins());
     }
   }

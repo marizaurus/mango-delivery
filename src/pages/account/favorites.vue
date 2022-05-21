@@ -96,11 +96,13 @@
     },
     mounted() {
       this.$load(async () => {
-        this.products = (await this.$api.products.getProducts()).data;
+        let res = await this.$api.products.getProducts();
+        this.products = res.data || res;
       });
 
       this.$load(async () => {
-        this.restaurants = (await this.$api.restaurants.getRestaurants()).data;
+        let res = await this.$api.restaurants.getRestaurants();
+        this.restaurants = res.data || res;
       });
     }
   }

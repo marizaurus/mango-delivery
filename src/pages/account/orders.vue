@@ -148,7 +148,8 @@
           this.$refs[acc][0].toggle();
         } else {
           this.$load(async () => {
-            this.activeOrder = (await this.$api.account.getOrder(id)).data;
+            let res = await this.$api.account.getOrder(id);
+            this.activeOrder = res.data || res;
           }).then(() => this.$refs[acc][0].toggle());
         }
       },
@@ -181,7 +182,8 @@
     },
     mounted() {
       this.$load(async () => {
-        this.orders = (await this.$api.account.getOrders()).data;
+        let res = await this.$api.account.getOrders();
+        this.orders = res.data || res;
         this.statusesData = this.getStatusesData();
       });
     }
