@@ -1,5 +1,5 @@
 <template>
-  <div id="layout">
+  <div class="layout">
     <v-header @openRegister="openModal"/>
     <router-view class="layout__body"/>
     <v-footer/>
@@ -124,13 +124,21 @@
     }
   }
 
-  .layout__body {
-    margin-top: 9.6rem !important;
+  .layout {
+    min-height: calc(100vh - 6rem);
+    margin-top: 6rem !important;
+    display: flex;
+    flex-direction: column;
+
+    &__body {
+      flex-grow: 1;
+    }
   }
 
   @include breakpoint(mobile) {
-    .layout__body {
-      margin-top: 14rem !important;
+    .layout {
+      min-height: calc(100vh - 8rem);
+      margin-top: 8rem !important;
     }
   }
 </style>

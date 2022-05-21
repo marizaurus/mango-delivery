@@ -1,10 +1,10 @@
 <template>
-  <div class="product row" :class="{ 'invalid': invalid, 'active': active }">
+  <div class="product-input row" :class="{ 'invalid': invalid, 'active': active }">
     <font-awesome-icon icon="grip-lines" class="handle" v-if="showHandle"/>
-    <div class="product-grid grid grid-mobile g-3">
-      <div class="product-title t-medium">{{ itemData.title }}</div>
-      <div class="product-tags">{{ itemData.tags.join(' · ') }}</div>
-      <div class="product-price">{{ itemData.newPrice || itemData.price }} ₽</div>
+    <div class="product-input-grid grid grid-mobile g-3">
+      <div class="product-input-title t-medium">{{ itemData.title }}</div>
+      <div class="product-input-tags">{{ itemData.tags.join(' · ') }}</div>
+      <div class="product-input-price">{{ itemData.newPrice || itemData.price }} ₽</div>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@
 </script>
 
 <style lang="scss">
-  .product {
+  .product-input {
     padding: 1rem;
     background-color: $beige-medium;
     border-radius: $radius-small;

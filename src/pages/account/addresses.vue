@@ -1,6 +1,5 @@
 <template>
-  addresses
-  <!-- <div class="container container-slim m-resp">
+  <div class="container container-slim m-resp">
     <div class="grid grid-tablet g-2 gg-2">
       <div class="account__adresses-table table--slim">
         <div class="grid grid-mobile g-4 table__header table__row">
@@ -13,7 +12,7 @@
           </button>
         </div>
         <accordion class="table__row-wrapper" :closeOnBlur="true"
-          v-for="(address, i) in account.addresses" :key="address.id">
+          v-for="(address, i) in addresses" :key="address.id">
           <template #accordionTrigger>
             <div class="grid grid-mobile g-3 table__row">
               <div class="pin-wrapper">
@@ -30,8 +29,8 @@
             <div class="account__address grid gv-1">
               <div class="grid grid-mobile g-2 gg-1">
                 <div class="custom-input">
-                  <input type="text" v-on="formEvents('account.addresses[' + i + '].name')" v-model="address.name">
-                  <label class="custom-input-label" :class="checkFocus('account.addresses[' + i + '].name')">{{ $t('account.addresses.name') }}<span class="t-red">*</span></label>
+                  <input type="text" v-on="formEvents('addresses[' + i + '].name')" v-model="address.name">
+                  <label class="custom-input-label" :class="checkFocus('addresses[' + i + '].name')">{{ $t('account.addresses.name') }}<span class="t-red">*</span></label>
                 </div>
                 <div>
                   <div class="custom-checkbox">
@@ -49,25 +48,25 @@
               <div class="account__address-full">{{ address.fullAddress }}</div>
               <div class="grid grid-mobile g-2 gg-1 account__address-fields">
                 <div class="custom-input">
-                  <input type="text" v-on="formEvents('account.addresses[' + i + '].apartment')" v-model="address.apartment">
-                  <label class="custom-input-label" :class="checkFocus('account.addresses[' + i + '].apartment')">{{ $t('account.addresses.apartment') }}<span class="t-red">*</span></label>
+                  <input type="text" v-on="formEvents('addresses[' + i + '].apartment')" v-model="address.apartment">
+                  <label class="custom-input-label" :class="checkFocus('addresses[' + i + '].apartment')">{{ $t('account.addresses.apartment') }}<span class="t-red">*</span></label>
                 </div>
                 <div class="custom-input">
-                  <input type="text" v-on="formEvents('account.addresses[' + i + '].intercom')" v-model="address.intercom">
-                  <label class="custom-input-label" :class="checkFocus('account.addresses[' + i + '].intercom')">{{ $t('account.addresses.intercom') }}</label>
+                  <input type="text" v-on="formEvents('addresses[' + i + '].intercom')" v-model="address.intercom">
+                  <label class="custom-input-label" :class="checkFocus('addresses[' + i + '].intercom')">{{ $t('account.addresses.intercom') }}</label>
                 </div>
                 <div class="custom-input">
-                  <input type="text" v-on="formEvents('account.addresses[' + i + '].entrance')" v-model="address.entrance">
-                  <label class="custom-input-label" :class="checkFocus('account.addresses[' + i + '].entrance')">{{ $t('account.addresses.entrance') }}</label>
+                  <input type="text" v-on="formEvents('addresses[' + i + '].entrance')" v-model="address.entrance">
+                  <label class="custom-input-label" :class="checkFocus('addresses[' + i + '].entrance')">{{ $t('account.addresses.entrance') }}</label>
                 </div>
                 <div class="custom-input">
-                  <input type="text" v-on="formEvents('account.addresses[' + i + '].floor')" v-model="address.floor">
-                  <label class="custom-input-label" :class="checkFocus('account.addresses[' + i + '].floor')">{{ $t('account.addresses.floor') }}</label>
+                  <input type="text" v-on="formEvents('addresses[' + i + '].floor')" v-model="address.floor">
+                  <label class="custom-input-label" :class="checkFocus('addresses[' + i + '].floor')">{{ $t('account.addresses.floor') }}</label>
                 </div>
               </div>
               <div class="custom-input">
-                <input type="text" v-on="formEvents('account.addresses[' + i + '].comment')" v-model="address.comment">
-                <label class="custom-input-label" :class="checkFocus('account.addresses[' + i + '].comment')">{{ $t('account.addresses.courierComment') }}</label>
+                <input type="text" v-on="formEvents('addresses[' + i + '].comment')" v-model="address.comment">
+                <label class="custom-input-label" :class="checkFocus('addresses[' + i + '].comment')">{{ $t('account.addresses.courierComment') }}</label>
               </div>
             </div>
           </template>
@@ -81,11 +80,95 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 </template>
 
 <script>
+  import pin from '../../assets/icons/location-pin.svg';
+  import accordion from '../../components/accordion';
+  import _get from 'lodash/get';
+
   export default {
-    name: 'addresses'
+    name: 'addresses',
+    components: {
+      accordion,
+    },
+    data() {
+      return {
+        activeField: null,
+        // map
+        addresses: null,
+        mapSettings: {
+          coords: [ 59.92694994, 30.33902649 ],
+          zoom: 12,
+          controls: ['geolocationControl', 'searchControl', 'zoomControl'],
+        },
+        pins: [],
+      }
+    },
+    methods: {
+      // forms
+      formEvents(target) {
+        return {
+          focus: () => this.setField(target),
+          blur: this.clearFocus,
+        }
+      },
+      setField(target) {
+        this.activeField = target; 
+      },
+      clearFocus() {
+        this.activeField = '';
+      },
+      checkFocus(target) {
+        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
+      },
+      // map & addresses
+      setPins() {
+        this.addresses.forEach((el, i) => {
+          this.pins.push({
+            icon: {
+              layout: 'default#imageWithContent',
+              imageHref: pin,
+              imageSize: [36, 36],
+              imageOffset: [-18, -36],
+              content: i + 1,
+              contentOffset: [0, 4],
+              contentLayout: '<span class="pin-label pin-label--map">$[properties.iconContent]</span>'
+            },
+            coords: el.coords,
+          });
+        });
+      },
+      // TODO: update labels on map pins
+      // updatePins() {
+      //   this.pins.forEach((pin, i) => pin.content = i + 1);
+      // },
+      removeAddress(i) {
+        this.addresses.splice(i, 1);
+        this.pins.splice(i, 1);
+        // this.updatePins();
+      },
+      addAddress() {
+        let id = +this.addresses.slice(-1)[0].id++;
+        this.addresses.push({
+          id: id,
+          name: 'Новый адрес',
+          fullAddress: '',
+          apartment: '',
+          intercom: '',
+          entrance: '',
+          floor: '',
+          comment: '',
+          main: false,
+          coords: []
+        });
+      },
+    },
+    mounted() {
+      this.$load(async () => {
+        this.addresses = (await this.$api.account.getAddresses()).data;
+      }).then(() => this.setPins());
+    }
   }
 </script>

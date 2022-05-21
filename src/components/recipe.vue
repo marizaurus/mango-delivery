@@ -4,7 +4,7 @@
     <numbered-list :blockData="recipeSteps"/>
 
     <div class="recipe-assets block-neat">
-      <h2 class="recipe-assets__title" v-if="!isLaptop">{{ blockData.title }}</h2>
+      <h2 class="recipe-assets__title mobile tablet">{{ blockData.title }}</h2>
       <div class="recipe-ingredients block-neat" ref="assets">
         <h3 class="recipe-ingredients__title">{{ $t('blocks.ingredients') }}</h3>
         <div class="recipe-ingredient row"

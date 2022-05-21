@@ -479,54 +479,6 @@
       ]
     },
     {
-      "id": 6,
-      "type": "combo-block",
-      "title": "Комбо \"Трио\" 🍕🍸",
-      "description": "Романтический ужин со вкусной скидкой! Рекомендуют менеджеры ресторана \"Primastoria\"",
-      "items": [
-        {
-          "id": 1,
-          "type": "product-card",
-          "title": "Маргарита",
-          "rating": 4.5,
-          "image": "https://picsum.photos/280/250?random=1",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 1250
-        },
-        {
-          "id": 2,
-          "type": "product-card",
-          "title": "Маргарита",
-          "rating": 4.5,
-          "image": "https://picsum.photos/280/250?random=2",
-          "tags": [
-            "Напитки",
-            "Алкоголь"
-          ],
-          "price": 550
-        },
-        {
-          "id": 3,
-          "type": "product-card",
-          "title": "Маргарита-2",
-          "rating": 4.5,
-          "image": "https://picsum.photos/280/250?random=3",
-          "tags": [
-            "Напитки",
-            "Алкоголь"
-          ],
-          "price": 499
-        }
-      ],
-      "newPrice": 1100,
-      "price": 1500,
-      "imageType": "combo",
-      "comboImage": "https://picsum.photos/250/290?random=1"
-    },
-    {
       "id": 7,
       "type": "numbered-list",
       "title": "Часто задаваемые вопросы",
@@ -804,42 +756,6 @@
           "price": 750
         }
       ]
-    },
-    {
-      "id": 2,
-      "type": "combo-block",
-      "title": "Комбо \"Маргарита\" 🍕🍸",
-      "description": "Романтический ужин со вкусной скидкой! Рекомендуют менеджеры ресторана \"Primastoria\"",
-      "items": [
-        {
-          "id": 1,
-          "type": "product-card",
-          "title": "Маргарита",
-          "rating": 4.5,
-          "image": "https://picsum.photos/280/250?random=1",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 1250
-        },
-        {
-          "id": 2,
-          "type": "product-card",
-          "title": "Маргарита",
-          "rating": 4.5,
-          "image": "https://picsum.photos/280/250?random=2",
-          "tags": [
-            "Напитки",
-            "Алкоголь"
-          ],
-          "price": 550
-        }
-      ],
-      "newPrice": 1000,
-      "price": 1250,
-      "imageType": "product",
-      "comboImage": ""
     },
     {
       "id": 3,

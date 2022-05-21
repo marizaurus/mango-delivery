@@ -1,8 +1,9 @@
 <template>
-  <div class="custom-select-wrapper" :class="{ 'content-right': selectData.alignment == 'right' }">
+  <div class="custom-select-wrapper" :class="[ (selectData.alignment ? 'content-' + selectData.alignment : '') ]">
     <accordion class="custom-select" :closeOnBlur="true" ref="accordion">
       <template #accordionTrigger>
-        <div class="custom-select__initial" :class="{ 'non-empty' : items.length > 0 }">
+        <div class="custom-select__initial" :class="{ 'non-empty' : items.length > 0, 'custom-select__initial--icon' : selectData.icon }">
+          <font-awesome-icon :icon="[selectData.iconType, selectData.icon]" v-if="selectData.icon" class="custom-select__icon"/>
           <span class="custom-select__initial-label" v-if="!selectData.slim">
             {{ selectData.title }}<span class="t-red" v-if="selectData.required">*</span>
           </span>
@@ -50,9 +51,11 @@
         title: String,
         optionType: String, // check/radio
         required: Boolean,  // editor
-        alignment: String,  // catalog sort
+        alignment: String,  // catalog sort, footer
         slim: Boolean,      // recipe editor, remove label
         shortLabel: Boolean,// short ingredient unit
+        icon: String,       // font awesome icon code
+        iconType: String,   // font awesome icon type (fas/far)
         options: [
           {
             code: String,
@@ -114,7 +117,7 @@
 
     &-wrapper {
       position: relative;
-      height: 5.1rem;
+      height: 5rem;
 
       &.select-form .custom-select {
         &__initial {
@@ -135,10 +138,19 @@
         }
       }
 
-      &.content-right {
-        .accordion__content {
-          right: 0;
-          left: unset;
+      &.content {
+        &-right {
+          .accordion__content {
+            right: 0;
+            left: unset;
+          }
+        }
+
+        &-top {
+          .accordion__content {
+            top: 0;
+            transform: translateY(calc(-100% + 2px)) !important;
+          }
         }
       }
 
@@ -169,6 +181,43 @@
           width: max-content;
         }
       }
+
+      &:not(.custom-select--outline) {
+        .custom-select__initial {
+          @include shadow-bottom($beige-dark);
+        }
+
+        .accordion__trigger--active .custom-select__initial {
+          top: -5px;
+          box-shadow: 0 5px 0 $beige-dark;
+        }
+      }
+    }
+
+    &--outline.custom-select-wrapper {
+      .custom-select__initial {
+        background-color: $grey;
+        border: 2px solid $white;
+      }
+
+      .accordion__content {
+        background-color: $grey;
+        border: 2px solid $white;
+        transform: translateY(-2px);
+
+        .custom-radio label input {
+          background-color: $grey;
+          border-color: $white;
+
+          &::after {
+            background: $grey;
+          }
+
+          &:checked {
+            background-color: $white;
+          }
+        }
+      }
     }
 
     &__initial {
@@ -177,8 +226,7 @@
       padding: 1.6rem 1rem;
       box-sizing: border-box;
       width: 100%;
-      height: 5.1rem;
-      @include shadow-bottom($beige-dark);
+      height: 5rem;
 
       &-label {
         position: absolute;
@@ -200,6 +248,27 @@
 
         @extend .t-cut;
       }
+
+      &--icon {
+        .custom-select__initial {
+          &-label {
+            left: 3.8rem;
+          }
+
+          &-text {
+            padding-left: 2.8rem;
+          }
+        }
+
+        .custom-select__icon {
+          position: absolute;
+          width: 2.1rem;
+          left: 1rem;
+          font-size: 2.4rem;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
     }
 
     .accordion__content {
@@ -213,29 +282,33 @@
 
       @extend .block-neat;
     }
-
-    .accordion__trigger--active .custom-select__initial {
-      top: -5px;
-      box-shadow: 0 5px 0 $beige-dark;
-    }
   }
 
   @include breakpoint(tablet) {
     .custom-select {
-      &-wrapper.block {
-        min-width: 20rem;
+      &-wrapper {
+        &.block {
+          min-width: 20rem;
 
-        &:not(:last-child) {
-          margin-right: 2.4rem;
+          &:not(:last-child) {
+            margin-right: 2.4rem;
+          }
+
+          .custom-select {
+            &__initial {
+              min-width: 20rem;
+
+              &-text {
+                width: 18rem;
+              }
+            }
+          }
         }
 
-        .custom-select {
-          &__initial {
-            min-width: 20rem;
-
-            &-text {
-              width: 18rem;
-            }
+        &.content-top {
+          .accordion__content {
+            top: 100%;
+            transform: translateY(-2px);
           }
         }
       }

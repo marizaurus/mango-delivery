@@ -1,5 +1,5 @@
 .custom-input {
-  margin-bottom: 1rem;
+  // margin-bottom: 1rem;
   position: relative;
 
   & > input,
@@ -19,8 +19,13 @@
     }
   }
 
+  & > input {
+    height: 5rem;
+  }
+
   &.slim > input {
     padding: .8rem;
+    height: 3.6rem;
   }
 
   textarea {

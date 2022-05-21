@@ -124,13 +124,28 @@
     "pressToAddProduct": "Нажмите для добавления товара"
   },
   "menu": {
+    "clientLinks": "Клиентам",
     "catalog": "Каталог",
+    "account": "Личный кабинет",
     "profile": "Мои данные",
     "addresses": "Мои адреса",
     "orders": "История заказов",
     "favorites": "Избранное",
+    "aboutFAQ": "О сервисе & ЧаВо",
     "signOut": "Выйти",
-    "editor": "Редактор"
+    "editor": "Редактор",
+    "restaurantLinks": "Ресторанам",
+    "register": "Регистрация",
+    "serviceOpportunities": "Возможности сервиса",
+    "employeeManuals": "Инструкции сотрудникам",
+    "contacts": "Контакты",
+    "supportChat": "Чат с поддержкой",
+    "vkLink": "ВКонтакте",
+    "ytLink": "YouTube",
+    "siteMode": "Тема сайта",
+    "siteLanguage": "Язык сайта",
+    "deliveryAddress": "Адрес доставки",
+    "globalSearch": "Глобальный поиск"
   },
   "modal": {
     "registration": "Регистрация",
@@ -187,6 +202,14 @@
   "alignOptions": {
     "left": "Слева",
     "right": "Справа"
+  },
+  "modeOptions": {
+    "light": "Светлая",
+    "dark": "Темная"
+  },
+  "languageOptions": {
+    "russian": "Русский",
+    "english": "English"
   },
   "orderHistory": {
     "title": "История заказов",
@@ -247,7 +270,7 @@
   "account": {
     "title": "Личный кабинет",
     "tabs": {
-      "main": "Мои данные",
+      "profile": "Мои данные",
       "addresses": "Мои адреса",
       "orders": "История заказов",
       "favorites": "Избранное"

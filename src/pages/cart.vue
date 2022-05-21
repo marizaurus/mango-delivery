@@ -1,6 +1,6 @@
 <template>
   <div class="cart">
-    <div class="container container-slim">
+    <div class="container container-slim m-resp">
       <h1 class="cart-title">{{ $t('cart.title') }}</h1>
       <div class="grid grid-laptop g-7-3 gg-2">
         <div class="cart__items block-neat">
@@ -142,10 +142,6 @@
 
 <style lang="scss">
   .cart {
-    &-title {
-      margin-top: 6rem;
-    }
-    
     &.row {
       flex-direction: column;
     }

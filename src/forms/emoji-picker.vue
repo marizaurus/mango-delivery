@@ -73,7 +73,7 @@
       text-align: center;
       box-sizing: border-box;
       width: 100%;
-      height: 5.1rem;
+      height: 5rem;
       position: relative;
 
       & > label {

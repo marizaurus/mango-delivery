@@ -13,7 +13,6 @@ body {
   overflow-x: hidden;
   padding: 0;
   background-color: $beige-light;
-  min-height: 100vh;
 
   &.modal-open {
     overflow: hidden;
@@ -313,12 +312,17 @@ a {
   }
 }
 
-.mobile {
-  display: block;
-}
-
 .laptop {
   display: none;
+}
+
+.tablet {
+  display: none;
+}
+
+// the last of three applies
+.mobile {
+  display: block;
 }
 
 .table {
@@ -430,7 +434,7 @@ a {
       user-select: none;
       flex-shrink: 0;
       width: 3rem;
-      height: 51.2px;
+      height: 52px;
     }
   
     .icon-close {
@@ -474,6 +478,18 @@ a {
     position: sticky;
     top: 10rem;
   }
+
+  .laptop {
+    display: none;
+  }
+
+  .mobile {
+    display: none;
+  }
+
+  .tablet {
+    display: block;
+  }
 }
 
 @include breakpoint(laptop) {
@@ -484,6 +500,10 @@ a {
   .block-sticky--laptop {
     position: sticky;
     top: 10rem;
+  }
+
+  .tablet {
+    display: none;
   }
 
   .mobile {
