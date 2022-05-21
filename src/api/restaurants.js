@@ -8,6 +8,14 @@ export default function(instance) {
       } else {
         return instance.get('restaurants')
       }
+    },
+
+    getRestaurant() {
+      if (process.env.NODE_ENV === 'production') {
+        return db['restaurant'];
+      } else {
+        return instance.get('restaurant')
+      }
     }
   }
 }

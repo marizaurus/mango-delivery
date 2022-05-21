@@ -1,19 +1,19 @@
 <template>
   <div class="restaurant">
-    <div class="container container-slim">
+    <div class="container container-slim" v-if="restaurant.main">
       <div class="restaurant-card m-resp grid grid-tablet g-2">
         <div class="restaurant-card__info block-neat"
-          :class="[ ('restaurant-card__info--' + info.infoAlignment) ]">
-          <h1 class="restaurant-card__info-title">{{ info.title }}</h1>
-          <div class="restaurant-card__info-description" v-html="info.description"/>
-          <div class="restaurant-card__info-order">{{ $t('blockTypes.main.fields.orderMin') }} <span class="restaurant-card__info-order-sum">{{ info.orderSum }} ₽</span></div>
-          <div class="restaurant-card__info-categories">{{ info.categories.join(' · ') }}</div>
+          :class="[ ('restaurant-card__info--' + restaurant.main.infoAlignment) ]">
+          <h1 class="restaurant-card__info-title">{{ restaurant.main.title }}</h1>
+          <div class="restaurant-card__info-description" v-html="restaurant.main.description"/>
+          <div class="restaurant-card__info-order">{{ $t('blockTypes.main.fields.orderMin') }} <span class="restaurant-card__info-order-sum">{{ restaurant.main.orderSum }} ₽</span></div>
+          <div class="restaurant-card__info-categories">{{ restaurant.main.categories.join(' · ') }}</div>
           <div class="restaurant-card__info-cuisines">
             <span class="t-bold">{{ $t('blockTypes.main.fields.cuisines') }}: </span>
-            <span>{{ info.cuisines.join(', ') }}</span>  
+            <span>{{ restaurant.main.cuisines.join(', ') }}</span>  
           </div>
           <div class="restaurant-card__info-tags row">
-            <tag v-for="tag in info.tags" :key="tag.id"
+            <tag v-for="tag in restaurant.main.tags" :key="tag.id"
               :tag-data="tag"/>
           </div>
           <button class="btn btn-primary btn-orange-light restaurant-btn m-auto">
@@ -22,7 +22,7 @@
           </button>
         </div>
         <div class="restaurant-card__image-wrapper">
-          <div class="restaurant-card__image" ref="image" :style="{ backgroundImage: `url(${ info.image })` }"/>
+          <div class="restaurant-card__image" ref="image" :style="{ backgroundImage: `url(${ restaurant.main.image })` }"/>
         </div>
       </div>
       <button class="btn btn-primary btn-orange-light restaurant-btn m-auto">
@@ -33,7 +33,7 @@
 
     <div class="container">
       <component
-        v-for="block in blocks" :key="block.id"
+        v-for="block in restaurant.blocks" :key="block.id"
         :is="block.type" :blockData="block"/>
     </div>
   </div>
@@ -44,7 +44,6 @@
   import promoSet from '@/components/promo-set'
   import recipe from '@/components/recipe'
   import tag from '@/components/tag'
-  import { mapActions, mapGetters } from "vuex";
 
   export default {
     name: "restaurant",
@@ -54,26 +53,28 @@
       recipe,
       tag,
     },
-    computed: {
-      ...mapGetters({
-        info: 'RESTAURANT_INFO',
-        blocks: 'RESTAURANT_BLOCKS',
-      }),
+    data() {
+      return {
+        restaurant: {
+          main: {
+            categories: [],
+            cuisines: [],
+          },
+          blocks: [],
+        },
+      }
     },
     methods: {
-      ...mapActions([
-        'GET_RESTAURANT_INFO_API',
-        'GET_RESTAURANT_BLOCKS_API',
-      ]),
       onLoad() {
         let img =  new Image();
         img.onload = () => this.$refs.image.classList.add('img-loaded');
-        img.src = this.info.image;
+        img.src = this.restaurant.main.image;
       },
     },
     mounted() {
-      this.GET_RESTAURANT_INFO_API().then(() => this.onLoad());
-      this.GET_RESTAURANT_BLOCKS_API();
+      this.$load(async () => {
+        this.restaurant = (await this.$api.restaurants.getRestaurant()).data;
+      }).then(() => this.onLoad());
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="recipe block-slim grid grid-laptop g-7-3 gg-2 m-resp"
     :style="{ gridTemplateRows: assetsHeight }">
-    <numbered-list :blockData="recipeSteps"/>
+    <numbered-list :blockData="recipeSteps" class="recipe-info"/>
 
     <div class="recipe-assets block-neat">
       <h2 class="recipe-assets__title mobile tablet">{{ blockData.title }}</h2>
