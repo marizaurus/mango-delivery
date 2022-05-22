@@ -204,6 +204,11 @@ body {
       margin-left: 5px;
       font-size: 1.8rem;
     }
+
+    &.invalid {
+      opacity: 0.5;
+      pointer-events: none;
+    }
   }
 
   &-round {
@@ -242,6 +247,11 @@ body {
       background-color: $orange;
     }
   }
+
+  &.invalid {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 .tabs {
@@ -252,6 +262,13 @@ body {
 
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+.tab {
+  &__content.m-resp {
+    margin-top: 2.4rem;
+    margin-bottom: 0;
   }
 }
 

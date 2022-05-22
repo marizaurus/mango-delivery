@@ -26,7 +26,7 @@
                   </div>
                   <custom-select class="select-form wide" :selectData="editor.main.alignData" v-if="editor.main.alignData" :style="{ 'z-index': 3 }" @selectUpdated="editor.main.infoAlignment = $event"/>
                 </div>
-                <div class="block-editor__content-title">{{ $t('blockTypes.main.fields.сategoriesTitle') }}</div>
+                <div class="form-title">{{ $t('blockTypes.main.fields.сategoriesTitle') }}</div>
                 <div class="grid grid-mobile g-4 gg-1">
                   <custom-select class="select-form wide" :selectData="editor.main.categoriesData" v-if="editor.main.categoriesData" @selectUpdated="editor.main.categories = $event"/>
                   <custom-select class="select-form wide" :selectData="editor.main.cuisinesData" v-if="editor.main.cuisinesData" @selectUpdated="editor.main.cuisines = $event"/>
@@ -60,7 +60,7 @@
                     <custom-select class="select-form wide" :selectData="block.tagsData" v-if="block.tagsData" v-show="block.tagType == 'tags'" @selectUpdated="($event) => updateTags($event, block.items)"/>
                   </div>
                   <div class="grid gv-1 grid-start">
-                    <div class="block-editor__content-title">{{ $t('blockTypes.carousel.fields.cardsData') }}<span class="t-red">*</span></div>
+                    <div class="form-title">{{ $t('blockTypes.carousel.fields.cardsData') }}<span class="t-red">*</span></div>
                     <div class="block-editor__items-box grid-start row">
                       <div class="list-group-wrapper">
                         <draggable
@@ -109,7 +109,7 @@
                       </div>
                     </div>
                     <div class="grid gv-1 grid-start">
-                      <div class="block-editor__content-title">{{ $t('blockTypes["promo-set"].fields.setItems') }}<span class="t-red">*</span></div>
+                      <div class="form-title">{{ $t('blockTypes["promo-set"].fields.setItems') }}<span class="t-red">*</span></div>
                       <div class="block-editor__items-box grid-start row">
                         <div class="list-group-wrapper">
                           <div class="custom-checkbox">
@@ -149,8 +149,8 @@
                       <emoji-picker/>
                     </div>
                     <div></div>
-                    <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.recipeSteps') }}<span class="t-red">*</span></div>
-                    <div class="block-editor__content-title">{{ $t('blockTypes.recipe.fields.ingredients') }}<span class="t-red">*</span></div>
+                    <div class="form-title">{{ $t('blockTypes.recipe.fields.recipeSteps') }}<span class="t-red">*</span></div>
+                    <div class="form-title">{{ $t('blockTypes.recipe.fields.ingredients') }}<span class="t-red">*</span></div>
                     <!-- V-IF DELAYS RENDER TILL DATA IS RECEIVED #2 (also element, not item) -->
                     <!-- also this comment breaks shit when placed inside draggable. do not comment, kids -->
                     <div class="block-editor__items-box grid-start row">
@@ -211,7 +211,7 @@
                         <label class="custom-input-label" :class="checkFocus('editor.blocks[' + i + '].title')">{{ $t('blockTypes["numbered-list"].fields.title') }}<span class="t-red">*</span></label>
                       </div>
                     </div>
-                    <div class="block-editor__content-title">{{ $t('blockTypes["numbered-list"].fields.listItems') }}<span class="t-red">*</span></div>
+                    <div class="form-title">{{ $t('blockTypes["numbered-list"].fields.listItems') }}<span class="t-red">*</span></div>
                     <div class="block-editor__items-box grid-start row">
                       <div class="grid">
                         <div class="list-group-item-number" v-for="(item, i) in block.items" :key="i">{{ zeroPad(i + 1, 2) }}</div>
@@ -268,7 +268,7 @@
       <template #body>
         <div class="block-editor__product-modal grid grid-mobile g-2 gg-2 gv-1">
           <div class="grid gv-1 grid-start">
-            <div class="block-editor__content-title">{{ $t('modal.availableProducts') }}</div>
+            <div class="form-title">{{ $t('modal.availableProducts') }}</div>
             <div class="custom-input">
               <input type="text" v-on="formEvents('searchParams.query')" v-model="searchParams.query">
               <label class="custom-input-label" :class="checkFocus('searchParams.query')">{{ $t('forms.search') }}</label>
@@ -280,7 +280,7 @@
             </div>
           </div>
           <div class="grid gv-1 grid-start">
-            <div class="block-editor__content-title">{{ $t('modal.chosenProduct') }}</div>
+            <div class="form-title">{{ $t('modal.chosenProduct') }}</div>
             <product-card :itemData="activeProduct" :hideFavorite="true" v-if="activeProduct"/>
           </div>
         </div>
@@ -312,6 +312,8 @@
   import draggable from 'vuedraggable'
   import { mapGetters } from 'vuex';
 
+  import formHandler from '@/mixins/formHandler';
+
   export default {
     name: 'page-editor',
     components: {
@@ -326,6 +328,7 @@
       accordion,
       draggable,
     },
+    mixins: [ formHandler ],
     data() {
       const laptopQuery = window.matchMedia('(min-width: 1024px)');
       return {
@@ -387,13 +390,6 @@
       },
     },
     methods: {
-      // forms
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
       setField(target) {
         this.editor.activeField = target; 
       },
@@ -640,15 +636,6 @@
     &__content {
       // if padding is set on acc_content, height:0 doesn't work
       padding: 1.6rem;
-
-      // .row > *:not(:last-child) {
-      //   margin-right: 2rem;
-      // }
-
-      &-title {
-        font-size: 2rem;
-        font-weight: 500;
-      }
     }
 
     &__items-box {

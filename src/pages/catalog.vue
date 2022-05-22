@@ -36,15 +36,15 @@
               <div class="controls-sum">
                 <div class="row" ref="inputs">
                   <div class="controls-sum-input-wrapper">
-                    <input type="text" class="controls-sum-input" v-model.number="searchParams.productCost[0]" @input="(e) => handleInput(e, 0)"/>
+                    <input type="text" class="controls-sum-input" v-model.number="searchParams.orderSum[0]" @input="(e) => handleInput(e, 0)"/>
                   </div>
                   <div class="controls-sum-input-wrapper">
-                    <input type="text" class="controls-sum-input" v-model.number="searchParams.productCost[1]" @input="(e) => handleInput(e, 1)"/>
+                    <input type="text" class="controls-sum-input" v-model.number="searchParams.orderSum[1]" @input="(e) => handleInput(e, 1)"/>
                   </div>
                 </div>
                 <!-- deal with @error later - add red border to input -->
                 <!-- https://nightcatsama.github.io/vue-slider-component/#/advanced/input -->
-                <vue-slider class="controls-sum-slider" ref="slider" v-model="searchParams.productCost" v-bind="sliderOptions"></vue-slider>
+                <vue-slider class="controls-sum-slider" ref="slider" v-model="searchParams.orderSum" v-bind="sliderOptions"></vue-slider>
               </div>
               <div class="custom-input controls-rating">
                 <label class="custom-input-label non-empty">{{ $t('catalog.searchParams.ratingFrom') }}</label>
@@ -85,7 +85,9 @@
   // import pagination from '../components/pagination';
   import StarRating from 'vue-star-rating'
   import 'vue-slider-component/theme/material.css'
-  import _get from 'lodash/get';
+
+  import tabHandler from '@/mixins/tabHandler';
+  import formHandler from '@/mixins/formHandler';
 
   export default {
     name: 'catalog',
@@ -97,6 +99,7 @@
       // pagination,
       VueSlider,
     },
+    mixins: [ tabHandler, formHandler ],
     data() {
       return {
         activeField: '',
@@ -104,7 +107,7 @@
         searchParams: {
           categories: [],
           cuisines: [],
-          productCost: [0, 3000],
+          orderSum: [0, 3000],
           sort: '',
           rating: 0,
         },
@@ -171,38 +174,6 @@
         cuisines: 'getCuisines',
         tags: 'getTags',
       }),
-    },
-    methods: {
-      // form fields
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
-      setField(target) {
-        this.activeField = target; 
-      },
-      clearFocus() {
-        this.activeField = '';
-      },
-      checkFocus(target) {
-        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
-      },
-      handleInput(e, data) {
-        this.searchParams.orderSum.splice(data, 1, +e.target.value || 0);
-        this.$refs.slider.setValue(this.searchParams.orderSum);
-      },
-      // tabs
-      isActive(menuItem) {
-        return this.activeTab === menuItem;
-      },
-      setActive(menuItem) {
-        this.activeTab = menuItem;
-      },
-    },
-    watch: {
-
     },
     mounted() {
       this.$load(async () => {

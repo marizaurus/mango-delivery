@@ -66,7 +66,8 @@
       // bring back top padding if necessary for shadow
       // padding: .5rem 1.5rem 0;
       &--product-card .carousel-cell,
-      &--promo-set .carousel-cell {
+      &--promo-set .carousel-cell,
+      &--image .carousel-cell {
         padding: 0 .6rem;
         width: 50%;
       }
@@ -136,7 +137,30 @@
 
       &:disabled {
         display: none;
-      } 
+      }
+    }
+
+    &-slider--image .flickity-button {
+      background-color: $orange-light;
+      border: 4px solid $beige-medium;
+      width: 3.2rem;
+      height: 3.2rem;
+
+      &:hover,
+      &:active {
+        background-color: $orange-light;
+        opacity: 1;
+      }
+
+      &.previous {
+        top: 6rem;
+        left: -1rem;
+      }
+
+      &.next {
+        top: 6rem;
+        right: -0.5rem;
+      }
     }
     
     &-page-dots {
@@ -234,7 +258,8 @@
         width: 20%;
       }
 
-      &--promo-set .carousel-cell {
+      &--promo-set .carousel-cell,
+      &--image .carousel-cell {
         width: 33%;
       }
     }

@@ -43,11 +43,6 @@
 
 <style lang="scss">
   .account {
-    .m-resp {
-      margin-top: 2.4rem;
-      margin-bottom: 0;
-    }
-
     &__main {
       &-grid {
         grid-template-columns: 17rem 16rem;

@@ -20,6 +20,7 @@
     "core-js": "^3.6.5",
     "emoji-mart-vue-fast": "^10.2.1",
     "execa": "^6.0.0",
+    "flickity-imagesloaded": "^2.0.0",
     "json-server": "^0.17.0",
     "lodash": "^4.17.21",
     "promisify": "^0.0.3",

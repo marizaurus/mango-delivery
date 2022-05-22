@@ -1,5 +1,5 @@
 <template>
-  <div class="container container-slim m-resp">
+  <div class="container container-slim m-resp tab__content">
     <div class="grid grid-tablet gg-2 g-7-3">
       <div class="table-wrapper account__orders-table">
         <div class="grid grid-mobile g-5 table__header table__row">
@@ -86,9 +86,10 @@
   import productStripe from '../../components/product-stripe';
   import VueSlider from 'vue-slider-component';
   import '@vuepic/vue-datepicker/dist/main.css';
-  import _get from 'lodash/get';
   import { mapGetters } from 'vuex';
   import { ru } from 'date-fns/locale'
+
+  import formHandler from '@/mixins/formHandler';
 
   export default {
     name: 'orders',
@@ -99,6 +100,7 @@
       Datepicker,
       VueSlider,
     },
+    mixins: [ formHandler ],
     data() {
       return {
         orders: [],
@@ -159,25 +161,6 @@
           title: this.$t('orderHistory.status'),
           options: Object.entries(Object.assign({}, this.statuses)).map(([key, value]) => ({ code: key, name: value })),
         }
-      },
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
-      setField(target) {
-        this.activeField = target; 
-      },
-      clearFocus() {
-        this.activeField = '';
-      },
-      checkFocus(target) {
-        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
-      },
-      handleInput(e, data) {
-        this.searchParams.orderSum.splice(data, 1, +e.target.value || 0);
-        this.$refs.slider.setValue(this.searchParams.orderSum);
       },
     },
     mounted() {

@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  <div class="m-resp account__main-edit block-neat" v-show="editMode" v-if="profileCopy">
+  <div class="m-resp account__main-edit block-neat tab__content" v-show="editMode" v-if="profileCopy">
     <div class="container container-slim">
       <div class="grid grid-tablet g-2 gg-2">
         <div class="grid gv-1 grid-start">
@@ -47,9 +47,9 @@
             </div>
           </div>
         </div>
-        <div class="block-neat">
-          <div class="comments__features-title">{{ $t('account.mailOptions.adsOptions') }}</div>
-          <div class="comments__features-card block-neat">
+        <div class="grid gv-1 block-neat">
+          <div class="form-title">{{ $t('account.mailOptions.adsOptions') }}</div>
+          <div class="form-card block-neat">
             <div class="custom-checkbox">
               <label>
                 <input type="checkbox" v-model="profileCopy.mailOptions.emailAds">
@@ -63,8 +63,8 @@
               </label>
             </div>
           </div>
-          <div class="comments__features-title">{{ $t('account.mailOptions.billOptions') }}</div>
-          <div class="comments__features-card block-neat">
+          <div class="form-title">{{ $t('account.mailOptions.billOptions') }}</div>
+          <div class="form-card block-neat">
             <div class="custom-checkbox">
               <label>
                 <input type="checkbox" v-model="profileCopy.mailOptions.emailBills">
@@ -75,6 +75,12 @@
               <label>
                 <input type="checkbox" v-model="profileCopy.mailOptions.smsBills">
                 <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendSms') }}</span>
+              </label>
+            </div>
+            <div class="custom-checkbox">
+              <label>
+                <input type="checkbox" v-model="profileCopy.mailOptions.operatorCall">
+                <span class="custom-checkbox-label">{{ $t('account.mailOptions.operatorCall') }}</span>
               </label>
             </div>
           </div>
@@ -89,10 +95,11 @@
 </template>
 
 <script>
-  import customSelect from '../../forms/custom-select';
+  import customSelect from '@/forms/custom-select';
   import Datepicker from '@vuepic/vue-datepicker';
-  import _get from 'lodash/get';
   import { ru } from 'date-fns/locale'
+
+  import formHandler from '@/mixins/formHandler';
 
   export default {
     name: 'profile',
@@ -100,6 +107,7 @@
       'custom-select': customSelect,
       Datepicker,
     },
+    mixins: [ formHandler ],
     data() {
       return {
         activeField: null,
@@ -111,36 +119,18 @@
           locale: 'ru',
         },
         sexData: null,
-        sexOptions: [
-          "m",
-          "f"
-        ],
+        sexOptions: [ 'm', 'f' ],
         profile: null,
         profileCopy: null,
       }
     },
     methods: {
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
-      setField(target) {
-        this.activeField = target; 
-      },
-      clearFocus() {
-        this.activeField = '';
-      },
-      checkFocus(target) {
-        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
-      },
       getSexData() {
         return {
           code: 'sexData',
           title: this.$t('account.main.sex'),
           optionType: 'radio',
-          options: JSON.parse(JSON.stringify(this.sexOptions)).map(el => ({ code: el, name: this.$t('account.sexOptions.' + el), isChecked: this.profile.sex == el })),
+          options: this.sexOptions.map(el => ({ code: el, name: this.$t('account.sexOptions.' + el), isChecked: this.profile.sex == el })),
         }
       },
       getBday() {

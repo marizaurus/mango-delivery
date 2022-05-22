@@ -591,7 +591,7 @@
       ]
     }
   ],
-  "cart-items": [
+  "cart": [
     {
       "id": 1,
       "title": "Primastoria",
@@ -676,167 +676,6 @@
             "Мясная"
           ],
           "price": 1350
-        }
-      ]
-    }
-  ],
-  "cart-blocks": [
-    {
-      "id": 1,
-      "type": "promo-set",
-      "title": "Кухня недели",
-      "infoAlignment": "left",
-      "tagType": "cuisine",
-      "tags": [
-        "Итальянская"
-      ],
-      "description": "Особенность итальянской кухни - использование свежих продуктов, местных овощей, вина и сыра. В ней одинаково почитаются мясо и рыба. Мало какие блюда обходятся без оливкового масла.",
-      "items": [
-        {
-          "id": 1,
-          "type": "product-card",
-          "title": "Маргарита",
-          "rating": 4.5,
-          "image": "https://picsum.photos/280/250?random=4",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 1250
-        },
-        {
-          "id": 2,
-          "type": "product-card",
-          "title": "Ветчина и грибы",
-          "rating": 4.4,
-          "image": "https://picsum.photos/280/250?random=7",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 1350
-        },
-        {
-          "id": 3,
-          "type": "product-card",
-          "title": "Пепперони",
-          "rating": 4.9,
-          "image": "https://picsum.photos/280/250?random=5",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 750
-        },
-        {
-          "id": 4,
-          "type": "product-card",
-          "title": "Грибная",
-          "rating": 4.8,
-          "image": "https://picsum.photos/280/250?random=6",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 800
-        },
-        {
-          "id": 5,
-          "type": "product-card",
-          "title": "Пепперони",
-          "rating": 4.9,
-          "image": "https://picsum.photos/280/250?random=8",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 750
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "type": "carousel",
-      "title": "Возможно, вам понравится",
-      "items": [
-        {
-          "id": 1,
-          "type": "product-card",
-          "title": "Маргарита",
-          "rating": 4.5,
-          "image": "https://picsum.photos/280/250?random=4",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 1250
-        },
-        {
-          "id": 2,
-          "type": "product-card",
-          "title": "Ветчина и грибы",
-          "rating": 4.4,
-          "image": "https://picsum.photos/280/250?random=7",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 1350
-        },
-        {
-          "id": 3,
-          "type": "product-card",
-          "title": "Пепперони",
-          "rating": 4.9,
-          "image": "https://picsum.photos/280/250?random=5",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 750
-        },
-        {
-          "id": 4,
-          "type": "product-card",
-          "title": "Грибная",
-          "rating": 4.8,
-          "image": "https://picsum.photos/280/250?random=6",
-          "tags": [
-            "Primastoria",
-            "Пицца"
-          ],
-          "price": 800
-        },
-        {
-          "id": 5,
-          "type": "product-card",
-          "title": "Ветчина и грибы",
-          "rating": 4.4,
-          "image": "https://picsum.photos/280/250?random=8",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 1350
-        },
-        {
-          "id": 6,
-          "type": "product-card",
-          "title": "Пепперони",
-          "rating": 4.9,
-          "image": "https://picsum.photos/280/250?random=9",
-          "tags": [
-            "Primastoria",
-            "Пицца",
-            "Мясная"
-          ],
-          "price": 750
         }
       ]
     }
@@ -2405,7 +2244,8 @@
       "emailAds": true,
       "smsAds": false,
       "emailBills": true,
-      "smsBills": false
+      "smsBills": false,
+      "operatorCall": false
     }
   },
   "addresses": [
@@ -2427,12 +2267,12 @@
     {
       "id": 2,
       "name": "Родители",
-      "fullAddress": "Большая Конюшенная, 16",
+      "fullAddress": "Вилонова, 16",
       "apartment": "65",
-      "intercom": "1",
-      "entrance": "2",
-      "floor": "4",
-      "comment": "",
+      "intercom": "11",
+      "entrance": "21",
+      "floor": "41",
+      "comment": "Не пускайте кошек в подъезд",
       "coords": [
         59.94271451,
         30.29694799
@@ -2441,11 +2281,11 @@
     {
       "id": 3,
       "name": "Общага",
-      "fullAddress": "Большая Конюшенная, 16",
-      "apartment": "65",
-      "intercom": "1",
-      "entrance": "2",
-      "floor": "4",
+      "fullAddress": "Коллонтай, 5/1",
+      "apartment": "555",
+      "intercom": "21",
+      "entrance": "22",
+      "floor": "24",
       "comment": "Берегите голову на входе",
       "coords": [
         59.95723409,
@@ -2496,5 +2336,59 @@
       "dateTime": "29.01.2022 16.20",
       "orderSum": 1500
     }
-  ]
+  ],
+  "booking": {
+    "title": "Primastoria",
+    "bookingDurationOptions": [
+      {
+        "id": 1,
+        "name": "30 минут"
+      },
+      {
+        "id": 2,
+        "name": "1 час"
+      },
+      {
+        "id": 3,
+        "name": "1 час 30 минут"
+      },
+      {
+        "id": 4,
+        "name": "2 часа"
+      },
+      {
+        "id": 5,
+        "name": "2 часа 30 минут"
+      },
+      {
+        "id": 6,
+        "name": "3 часа"
+      }
+    ],
+    "clientNotice": "Пожалуйста, не опаздывайте! При опоздании более 15 минут бронь автоматически отменяется. Максимальное время посещения - 3 часа. Внесение изменений возможно за 3 часа до времени посещения.",
+    "preferenceTitle": "Наши столики",
+    "preferenceOptionsTitle": "Выбор столика",
+    "preferenceOptions": [
+      {
+        "id": 1,
+        "name": "Столик у окна",
+        "image": "https://picsum.photos/200/120?random=1"
+      },
+      {
+        "id": 2,
+        "name": "Изолированный столик",
+        "image": "https://picsum.photos/200/120?random=2"
+      },
+      {
+        "id": 3,
+        "name": "Столик с диваном",
+        "image": "https://picsum.photos/200/120?random=3"
+      },
+      {
+        "id": 4,
+        "name": "У барной стойки",
+        "image": "https://picsum.photos/200/120?random=4"
+      }
+    ]
+  }
 }

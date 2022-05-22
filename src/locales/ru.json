@@ -105,6 +105,7 @@
     "readMore": "Читать дальше",
     "readLess": "Свернуть",
     "order": "Заказать",
+    "nextStep": "Далее",
     "add": "Добавить",
     "toCart": "В корзину",
     "remove": "Убрать",
@@ -177,7 +178,21 @@
     "tab-title": "Чек заказа",
     "total": "Итого:",
     "items": "Товаров:",
-    "code": "Есть промокод?"
+    "code": "Есть промокод?",
+    "tabs": {
+      "cartItems": "Товары",
+      "orderData": "Данные заказа",
+      "tableBooking": "Бронирование",
+      "orderConfirm": "Подтверждение"
+    },
+    "clientData": "Данные клиента",
+    "deliveryAddress":"Адрес доставки",
+    "paymentData": "Данные оплаты",
+    "deliveryOptionsNotice": "*Данные взяты из ваших предпочтений в личном кабинете и при внесении изменений применятся только к этому заказу",
+    "orderAccepted": "Заказ {orderNum} принят",
+    "orderThankYou": "Спасибо за заказ!",
+    "trackOrderInAccount": "Отследить его и посмотреть другие данные можно в ",
+    "accountLink": "личном кабинете"
   },
   "pageEditor": {
     "title": "Редактор главной страницы ресторана",
@@ -210,6 +225,24 @@
   "languageOptions": {
     "russian": "Русский",
     "english": "English"
+  },
+  "deliveryOptions": {
+    "deliveryType": "Способ доставки",
+    "delivery": "Доставка",
+    "pickup": "Самовывоз",
+    "booking": "Бронирование"
+  },
+  "paymentOptions": {
+    "paymentType": "Способ оплаты",
+    "online": "Онлайн",
+    "cash": "Наличными"
+  },
+  "cashOptions": {
+    "cashType": "Какая будет сумма",
+    "precise": "Точная сумма",
+    "withChange": "Указать сумму для сдачи",
+    "notSure": "Не уверен",
+    "yourSum": "Ваша сумма"
   },
   "orderHistory": {
     "title": "История заказов",
@@ -286,7 +319,8 @@
       "adsOptions": "Рекламные предложения и акции",
       "billOptions": "Чеки и статусы заказов",
       "sendSms": "SMS-сообщение на телефон",
-      "sendEmail": "Электронное письмо на почту"
+      "sendEmail": "Электронное письмо на почту",
+      "operatorCall": "Звонок-подтверждение от оператора (если доступен)"
     },
     "sexOptions": {
       "m": "Мужской",
@@ -303,5 +337,15 @@
       "intercom": "Домофон",
       "courierComment": "Комментарий для курьера"
     }
+  },
+  "booking": {
+    "clientsData": "Данные клиентов",
+    "visitorsNum": "Количество людей",
+    "cutleryNum": "Количество приборов",
+    "restaurantComment": "Комментарий для ресторана",
+    "visitData": "Данные посещения",
+    "visitDateTime": "Дата и время посещения",
+    "visitDuration": "Примерное время посещения",
+    "preferences": "Предпочтения"
   }
 }

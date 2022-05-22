@@ -133,7 +133,6 @@
   import productStripe from '../components/product-stripe';
   import VueSlider from 'vue-slider-component';
   import 'vue-slider-component/theme/material.css';
-  import _get from 'lodash/get';
   import Datepicker from '@vuepic/vue-datepicker';
   import '@vuepic/vue-datepicker/dist/main.css';
   // it's spreading.. the depresssion..
@@ -142,6 +141,9 @@
   import pin from '../assets/icons/location-pin.svg';
   // import { loadYmap } from 'vue-yandex-maps';
   // import settings from '../main';
+
+  import tabHandler from '@/mixins/tabHandler';
+  import formHandler from '@/mixins/formHandler';
 
   // var inputControl = null;
   // var ymaps = null;
@@ -155,6 +157,7 @@
       Datepicker,
       accordion,
     },
+    mixins: [ tabHandler, formHandler ],
     data() {
       return {
         activeTab: 'active',
@@ -252,33 +255,6 @@
       ...mapActions([
         'GET_ORDER_HISTORY_API',
       ]),
-      // form fields
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
-      setField(target) {
-        this.activeField = target; 
-      },
-      clearFocus() {
-        this.activeField = '';
-      },
-      checkFocus(target) {
-        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
-      },
-      handleInput(e, data) {
-        this.searchParams.orderSum.splice(data, 1, +e.target.value || 0);
-        this.$refs.slider.setValue(this.searchParams.orderSum);
-      },
-      // tabs
-      isActive(menuItem) {
-        return this.activeTab === menuItem;
-      },
-      setActive(menuItem) {
-        this.activeTab = menuItem;
-      },
       // retrieve order
       getOrder(id, i) {
         let acc = 'accordion-' + i;

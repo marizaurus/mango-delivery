@@ -1,5 +1,5 @@
 <template>
-  <div class="container container-slim m-resp">
+  <div class="container container-slim m-resp tab__content">
     <div class="grid grid-tablet g-2 gg-2">
       <div class="account__adresses-table table--slim">
         <div class="grid grid-mobile g-4 table__header table__row">
@@ -86,13 +86,15 @@
 <script>
   import pin from '../../assets/icons/location-pin.svg';
   import accordion from '../../components/accordion';
-  import _get from 'lodash/get';
+  
+  import formHandler from '../../mixins/formHandler';
 
   export default {
     name: 'addresses',
     components: {
       accordion,
     },
+    mixins: [ formHandler ],
     data() {
       return {
         activeField: null,
@@ -107,22 +109,6 @@
       }
     },
     methods: {
-      // forms
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
-      setField(target) {
-        this.activeField = target; 
-      },
-      clearFocus() {
-        this.activeField = '';
-      },
-      checkFocus(target) {
-        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
-      },
       // map & addresses
       setPins() {
         this.addresses.forEach((el, i) => {

@@ -27,7 +27,7 @@
               <label class="custom-input-label" :class="checkFocus('registerForm.email')">{{ $t('account.main.email') }}</label>
             </div>
           </div>
-          <div class="block-editor__content-title">{{ $t('modal.howToSendConfirm') }}</div>
+          <div class="form-title">{{ $t('modal.howToSendConfirm') }}</div>
           <div class="grid grid-tablet g-2 gg-2 gv-1">
             <div class="custom-input">
               <input type="text" v-on="formEvents('registerForm.confirmOption')" v-model="registerForm.confirmOption">
@@ -52,9 +52,9 @@
   import vHeader from '@/shared/header';
   import vFooter from '@/shared/footer';
   import modal from '@/forms/modal';
-  import _get from 'lodash/get';
-
   import { mapActions } from 'vuex';
+
+  import formHandler from '../mixins/formHandler';
 
   export default {
     name: "Layout",
@@ -63,6 +63,7 @@
       'v-footer': vFooter,
       modal,
     },
+    mixins: [ formHandler ],
     data() {
       return {
         activeField: '',
@@ -78,22 +79,6 @@
     },
     methods: {
       ...mapActions(['loadCategories', 'loadCuisines', 'loadTags', 'loadStatuses']),
-      // form fields
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
-      setField(target) {
-        this.activeField = target; 
-      },
-      clearFocus() {
-        this.activeField = '';
-      },
-      checkFocus(target) {
-        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
-      },
       // modal
       openModal() {
         this.modalActive = true;

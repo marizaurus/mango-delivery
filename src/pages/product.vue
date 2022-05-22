@@ -97,8 +97,8 @@
               </div>
             </div>
             <div class="comments__features block-neat">
-              <div class="comments__features-title">{{ $t('forms.features') }}</div>
-              <div class="comments__features-card block-neat">
+              <div class="form-title">{{ $t('forms.features') }}</div>
+              <div class="form-card block-neat">
                 <div class="custom-checkbox">
                   <label>
                     <input type="checkbox" name="features">
@@ -154,9 +154,9 @@
     </div>
     <div class="container product__blocks">
       <h1>{{ $t('blocks.productOffers') }}</h1>
-      <component
+      <!-- <component
         v-for="block in blocks" :key="block.id"
-        :is="block.type" :blockData="block"/>
+        :is="block.type" :blockData="block"/> -->
     </div>
   </div>
 </template>
@@ -165,26 +165,22 @@
   import { mapActions, mapGetters } from "vuex";
   import StarRating from 'vue-star-rating'
   import productCard from '@/components/product-card';
-  import carousel from '@/components/carousel';
-  import promoSet from '@/components/promo-set'
-  import comboBlock from '@/components/combo-block';
   import customSelect from '@/forms/custom-select';
   import Flickity from 'vue-flickity';
-  import accordion from '../components/accordion.vue';
-  import _get from 'lodash/get';
+  import accordion from '@/components/accordion.vue';
+
+  import formHandler from "@/mixins/formHandler";
 
   export default {
     name: "product",
     components: {
       'star-rating': StarRating,
       'product-card': productCard,
-      'carousel': carousel,
-      'promo-set': promoSet,
       'custom-select': customSelect,
-      'combo-block': comboBlock,
       Flickity,
       accordion,
     },
+    mixins: [ formHandler ],
     data() {
       return {
         flickityOptions: {
@@ -231,14 +227,12 @@
       ...mapGetters({
         productInfo: 'PRODUCT_INFO',
         comments: 'COMMENTS',
-        blocks: 'CART_BLOCKS',
       }),
     },
     methods: {
       ...mapActions([
         'GET_PRODUCT_INFO_API',
         'GET_COMMENTS_API',
-        'GET_CART_BLOCKS_API',
       ]),
       toggleCard() {
         this.focusedItem = null;
@@ -246,21 +240,6 @@
       },
       isMobile() { 
         return window.screen.width < 769;
-      },
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
-      setField(target) {
-        this.activeField = target; 
-      },
-      clearFocus() {
-        this.activeField = '';
-      },
-      checkFocus(target) {
-        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
       },
       getAlterOption(option) {
         return {
@@ -273,7 +252,6 @@
     mounted() {
       this.GET_PRODUCT_INFO_API();
       this.GET_COMMENTS_API();
-      this.GET_CART_BLOCKS_API();
     },
     updated() {
       // until better times ¯\_(ツ)_/¯
@@ -471,26 +449,6 @@
           bottom: .5rem;
           left: 1rem;
         }
-      }
-    }
-
-    &__features {
-      &-title {
-        font-size: 2rem;
-        font-weight: 500;
-        margin-bottom: .8rem;
-      }
-
-      &-card {
-        background-color: $white;
-        border-radius: $radius-small;
-        padding: 1.2rem 1.6rem;
-        display: flex;
-        flex-flow: column;
-        align-items: flex-start;
-        box-sizing: border-box;
-        // temp margin
-        margin-bottom: .8rem;
       }
     }
 

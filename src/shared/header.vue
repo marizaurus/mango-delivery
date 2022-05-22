@@ -56,13 +56,15 @@
 
 <script>
   import customSelect from '@/forms/custom-select';
-  import _get from 'lodash/get';
+  
+  import formHandler from '../mixins/formHandler';
   
   export default {
     name: "vHeader",
     components: {
       'custom-select': customSelect,
     },
+    mixins: [ formHandler ],
     data() {
       return {
         activeField: null,
@@ -98,28 +100,14 @@
           options: this.addresses.map(el => ({ code: 'address-' + el.id, name: el.name })),
         }
       },
-      // forms
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
-      setField(target) {
-        this.activeField = target; 
-      },
-      clearFocus() {
-        this.activeField = '';
-      },
-      checkFocus(target) {
-        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
-      },
     },
     mounted() {
       this.$load(async () => {
         let res = await this.$api.account.getAddresses();
         this.addresses = res.data || res;
-      }).then(() => this.addressesData = this.getAddressesData());
+
+        this.addressesData = this.getAddressesData();
+      });
     }
   }
 </script>

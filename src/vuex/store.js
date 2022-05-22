@@ -6,7 +6,6 @@ import db from "../../db.json";
 export const store = createStore({
   state: {
     homeBlocks: [],
-    cartBlocks: [],
     productInfo: {
       images: [],
       tags: [],
@@ -38,9 +37,6 @@ export const store = createStore({
   mutations: { // synchronous
     SET_HOME_BLOCKS: (state, homeBlocks) => {
       state.homeBlocks = homeBlocks;
-    },
-    SET_CART_BLOCKS: (state, cartBlocks) => {
-      state.cartBlocks = cartBlocks;
     },
     SET_PRODUCT_INFO: (state, productInfo) => {
       state.productInfo = productInfo;
@@ -77,21 +73,6 @@ export const store = createStore({
         }).then((home) => {
           commit('SET_HOME_BLOCKS', home.data);
           return home;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
-    GET_CART_BLOCKS_API({ commit }) {
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_CART_BLOCKS', db['cart-blocks']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'cart-blocks', {
-          method: 'GET',
-        }).then((cart) => {
-          commit('SET_CART_BLOCKS', cart.data);
-          return cart;
         }).catch((error) => {
           console.log(error);
           return error;
@@ -195,9 +176,6 @@ export const store = createStore({
     // https://next.vuex.vuejs.org/guide/getters.html#method-style-access
     HOME_BLOCKS(state) { // (state, getters)
       return state.homeBlocks;
-    },
-    CART_BLOCKS(state) {
-      return state.cartBlocks;
     },
     PRODUCT_INFO(state) {
       return state.productInfo;

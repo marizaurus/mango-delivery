@@ -41,7 +41,9 @@
   import { mapGetters } from "vuex";
   import productCard from "@/components/product-card";
   import restaurantStripe from "@/components/restaurant-stripe";
-  import _get from 'lodash/get';
+
+  import tabHandler from '@/mixins/tabHandler';
+  import formHandler from '@/mixins/formHandler';
 
   export default {
     name: 'favorites',
@@ -49,6 +51,7 @@
       'product-card': productCard,
       'restaurant-stripe': restaurantStripe,
     },
+    mixins: [ tabHandler, formHandler ],
     data() {
       return {
         activeTab: 'menu',
@@ -64,35 +67,6 @@
         cuisines: 'getCuisines',
         tags: 'getTags',
       }),
-    },
-    methods: {
-      // tabs
-      isActive(menuItem) {
-        return this.activeTab === menuItem;
-      },
-      setActive(menuItem) {
-        this.activeTab = menuItem;
-      },
-      // form fields
-      formEvents(target) {
-        return {
-          focus: () => this.setField(target),
-          blur: this.clearFocus,
-        }
-      },
-      setField(target) {
-        this.activeField = target; 
-      },
-      clearFocus() {
-        this.activeField = '';
-      },
-      checkFocus(target) {
-        return { 'non-empty': this.activeField == target || !!_get(this.$data, target) };
-      },
-      handleInput(e, data) {
-        this.searchParams.orderSum.splice(data, 1, +e.target.value || 0);
-        this.$refs.slider.setValue(this.searchParams.orderSum);
-      },
     },
     mounted() {
       this.$load(async () => {
