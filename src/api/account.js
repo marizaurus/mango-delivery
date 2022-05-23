@@ -28,7 +28,7 @@ export default function(instance) {
 
     getOrder(id) {
       if (process.env.NODE_ENV === 'production') {
-        return db.orders.find(el => el.orderNum == id);
+        return db.orderDetails.find(el => el.orderNum == id);
       } else {
         return instance.get(`orderDetails?orderNum=${id}&singular=1`);
       }

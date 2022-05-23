@@ -9,18 +9,10 @@ export const store = createStore({
     productInfo: {
       images: [],
       tags: [],
-      ingredients: [
-        {
-          value: '',
-        }
-      ],
+      ingredients: [{ value: '' }],
       alterOptions: [],
     },
     comments: [],
-    editor: {
-      info: {},
-      blocks: []
-    },
     orderHistory: {
       searchParams: {
         statuses: [],
@@ -31,7 +23,6 @@ export const store = createStore({
     categories: [],
     cuisines: [],
     tags: [],
-
     statuses: [],
   },
   mutations: { // synchronous

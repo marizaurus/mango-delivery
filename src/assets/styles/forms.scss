@@ -234,7 +234,8 @@
 }
 
 .grid {
-  & > .custom-input {
+  & > .custom-input,
+  & > .custom-checkbox {
     margin-bottom: 0;
   }
 }
