@@ -14,7 +14,7 @@
           <button class="btn btn-round btn-orange-light mobile" @click="() => toggleTarget('searchOpen', 'search')">
             <font-awesome-icon icon="magnifying-glass"/>
           </button>
-          <div class="custom-input tablet laptop">
+          <div class="custom-input block tablet laptop">
             <input type="text" class="t-cut" v-on="formEvents('search')" v-model="search">
             <label class="custom-input-label" :class="checkFocus('search')">{{ $t('menu.globalSearch') }}</label>
           </div>
@@ -206,7 +206,7 @@
 
       .row > *:not(:last-child),
       &__controls > button:not(:last-of-type) {
-        margin-right: 2rem;
+        margin-right: 1.6rem;
       }
 
       &__controls {

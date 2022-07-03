@@ -198,6 +198,10 @@
       .custom-select__initial {
         background-color: $grey;
         border: 2px solid $white;
+
+        &-text {
+          width: 8rem;
+        }
       }
 
       .accordion__content {

@@ -103,6 +103,13 @@
           }
         }
       }
+
+      &--image {
+        .flickity-viewport {
+          height: 15rem;
+          padding-bottom: 2.4rem;
+        }
+      }
     }
 
     &-button {
@@ -192,6 +199,10 @@
       &--combo-card .carousel-cell {
         width: 50%;
       }
+
+      &--image .carousel-cell {
+        width: 33%;
+      }
     }
   }
     
@@ -202,13 +213,20 @@
       }
 
       &-slider {
-        &--category-card .carousel-cell {
+        &--category-card .carousel-cell,
+        &--image .carousel-cell {
           width: 50%;
         }
     
         &--product-card .carousel-cell,
         &--combo-card .carousel-cell {
           width: 33%;
+        }
+
+        &--image {
+          .flickity-viewport {
+            padding-bottom: 0;
+          }
         }
       }
 

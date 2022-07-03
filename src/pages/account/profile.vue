@@ -17,77 +17,82 @@
   </div>
   <div class="m-resp account__main-edit block-neat tab__content" v-show="editMode" v-if="profileCopy">
     <div class="container container-slim">
-      <div class="grid grid-tablet g-2 gg-2">
-        <div class="grid gv-1 grid-start">
-          <div class="account__main-edit-grid grid grid-tablet g-2 gg-2">
-            <div class="custom-input">
-              <input type="text" v-on="formEvents('profileCopy.name')" v-model="profileCopy.name">
-              <label class="custom-input-label" :class="checkFocus('profileCopy.name')">{{ $t('account.main.name') }}<span class="t-red">*</span></label>
+      <div class="grid gv-1">
+        <div class="grid grid-tablet g-2 gg-2 gv-1">
+          <div class="grid gv-1 grid-start">
+            <div class="account__main-edit-grid grid grid-mobile--wide g-2 gg-1">
+              <div class="custom-input">
+                <input type="text" v-on="formEvents('profileCopy.name')" v-model="profileCopy.name">
+                <label class="custom-input-label" :class="checkFocus('profileCopy.name')">{{ $t('account.main.name') }}<span class="t-red">*</span></label>
+              </div>
+            </div>
+            <div class="account__main-edit-grid grid grid-mobile--wide g-2 gg-1">
+              <datepicker v-model="profileCopy.birthday" :format-locale="language" textInput autoApply v-bind="datePickerOptions">
+                <!-- eslint-disable-next-line vue/no-unused-vars -->
+                <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
+                  <div class="custom-input m-none">
+                    <input type="text" :value="value">
+                    <label class="custom-input-label" :class="{ 'non-empty': value }">{{ $t('account.main.birthday') }}</label>
+                  </div>
+                </template>
+              </datepicker>
+              <!-- watcher for options doesn’t trigger within v-if! -->
+              <custom-select class="select-form wide" :style="{ 'z-index': 1 }" :selectData="sexData" v-if="sexData" @selectUpdated="profileCopy.sex = $event"/>
+              <div class="custom-input">
+                <input type="text" v-on="formEvents('profileCopy.phone')" v-model="profileCopy.phone">
+                <label class="custom-input-label" :class="checkFocus('profileCopy.phone')">{{ $t('account.main.phone') }}<span class="t-red">*</span></label>
+              </div>
+              <div class="custom-input">
+                <input type="text" v-on="formEvents('profileCopy.email')" v-model="profileCopy.email">
+                <label class="custom-input-label" :class="checkFocus('profileCopy.email')">{{ $t('account.main.email') }}</label>
+              </div>
             </div>
           </div>
-          <div class="account__main-edit-grid grid grid-tablet g-2 gg-2">
-            <datepicker v-model="profileCopy.birthday" :format-locale="language" textInput autoApply v-bind="datePickerOptions">
-              <!-- eslint-disable-next-line vue/no-unused-vars -->
-              <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
-                <div class="custom-input m-none">
-                  <input type="text" :value="value">
-                  <label class="custom-input-label" :class="{ 'non-empty': value }">{{ $t('account.main.birthday') }}</label>
-                </div>
-              </template>
-            </datepicker>
-            <!-- watcher for options doesn’t trigger within v-if! -->
-            <custom-select class="select-form wide" :style="{ 'z-index': 1 }" :selectData="sexData" v-if="sexData" @selectUpdated="profileCopy.sex = $event"/>
-            <div class="custom-input">
-              <input type="text" v-on="formEvents('profileCopy.phone')" v-model="profileCopy.phone">
-              <label class="custom-input-label" :class="checkFocus('profileCopy.phone')">{{ $t('account.main.phone') }}<span class="t-red">*</span></label>
+          <div class="grid gv-1 block-neat">
+            <div class="form-title">{{ $t('account.mailOptions.adsOptions') }}</div>
+            <div class="form-card block-neat">
+              <div class="custom-checkbox">
+                <label>
+                  <input type="checkbox" v-model="profileCopy.mailOptions.emailAds">
+                  <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendEmail') }}</span>
+                </label>
+              </div>
+              <div class="custom-checkbox">
+                <label>
+                  <input type="checkbox" v-model="profileCopy.mailOptions.smsAds">
+                  <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendSms') }}</span>
+                </label>
+              </div>
             </div>
-            <div class="custom-input">
-              <input type="text" v-on="formEvents('profileCopy.email')" v-model="profileCopy.email">
-              <label class="custom-input-label" :class="checkFocus('profileCopy.email')">{{ $t('account.main.email') }}</label>
+            <div class="form-title">{{ $t('account.mailOptions.billOptions') }}</div>
+            <div class="form-card block-neat">
+              <div class="custom-checkbox">
+                <label>
+                  <input type="checkbox" v-model="profileCopy.mailOptions.emailBills">
+                  <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendEmail') }}</span>
+                </label>
+              </div>
+              <div class="custom-checkbox">
+                <label>
+                  <input type="checkbox" v-model="profileCopy.mailOptions.smsBills">
+                  <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendSms') }}</span>
+                </label>
+              </div>
+              <div class="custom-checkbox">
+                <label>
+                  <input type="checkbox" v-model="profileCopy.mailOptions.operatorCall">
+                  <span class="custom-checkbox-label">{{ $t('account.mailOptions.operatorCall') }}</span>
+                </label>
+              </div>
             </div>
           </div>
         </div>
-        <div class="grid gv-1 block-neat">
-          <div class="form-title">{{ $t('account.mailOptions.adsOptions') }}</div>
-          <div class="form-card block-neat">
-            <div class="custom-checkbox">
-              <label>
-                <input type="checkbox" v-model="profileCopy.mailOptions.emailAds">
-                <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendEmail') }}</span>
-              </label>
-            </div>
-            <div class="custom-checkbox">
-              <label>
-                <input type="checkbox" v-model="profileCopy.mailOptions.smsAds">
-                <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendSms') }}</span>
-              </label>
-            </div>
+
+        <div class="grid grid-mobile g-2 gg-2">
+          <button class="btn btn-outline ml-auto grid-center" @click="cancelMain">{{ $t('buttons.cancel') }}</button>
+          <div>
+            <button class="btn btn-primary btn-green-light m-none" @click="saveMain">{{ $t('buttons.save') }}</button>
           </div>
-          <div class="form-title">{{ $t('account.mailOptions.billOptions') }}</div>
-          <div class="form-card block-neat">
-            <div class="custom-checkbox">
-              <label>
-                <input type="checkbox" v-model="profileCopy.mailOptions.emailBills">
-                <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendEmail') }}</span>
-              </label>
-            </div>
-            <div class="custom-checkbox">
-              <label>
-                <input type="checkbox" v-model="profileCopy.mailOptions.smsBills">
-                <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendSms') }}</span>
-              </label>
-            </div>
-            <div class="custom-checkbox">
-              <label>
-                <input type="checkbox" v-model="profileCopy.mailOptions.operatorCall">
-                <span class="custom-checkbox-label">{{ $t('account.mailOptions.operatorCall') }}</span>
-              </label>
-            </div>
-          </div>
-        </div>
-        <button class="btn btn-outline ml-auto grid-center" @click="cancelMain">{{ $t('buttons.cancel') }}</button>
-        <div>
-          <button class="btn btn-primary btn-green-light m-none" @click="saveMain">{{ $t('buttons.save') }}</button>
         </div>
       </div>
     </div>
@@ -117,6 +122,7 @@
           format: 'dd MMMM yyyy',
           enableTimePicker: false,
           locale: 'ru',
+          position: 'left',
         },
         sexData: null,
         sexOptions: [ 'm', 'f' ],

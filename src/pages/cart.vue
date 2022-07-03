@@ -35,13 +35,29 @@
         </div>
 
         <div>
-          <div class="block-sticky--laptop">
+          <div class="block-sticky--laptop block-neat">
             <div class="cart__tab block-neat">
               <h3 class="cart__tab-title">{{ $t('cart.tab-title') }}</h3>
+              <div class="row" v-for="cartItem in cart" :key="cartItem.id">
+                <div class="form-title">{{ cartItem.title }}</div>
+                <div class="form-title ml-auto">{{ getTotal(cartItem.id) }} ₽</div>
+              </div>
               <!-- <datepicker v-model="searchParams.date" timePicker/> -->
               <!-- https://vue3datepicker.com/api/props/#modeheight -->
-              <h3 class="cart__tab-total">{{ $t('cart.total') }}</h3>
-              <h3 class="cart__tab-code">{{ $t('cart.code') }}</h3>
+              <div class="row">
+                <h3 class="cart__tab-total">{{ $t('cart.total') }}</h3>
+                <h3 class="cart__tab-total ml-auto">{{ cart.map(el => getTotal(el.id)).reduce((el, sum) => sum + el, 0) }} ₽</h3>
+              </div>
+              <h3>{{ $t('cart.code') }}</h3>
+              <div class="grid grid-mobile g-2 gg-1 cart__tab-code">
+                <div class="custom-input slim">
+                  <input type="text" :placeholder="$t('cart.promoCode')" v-model="orderData.promocode">
+                </div>
+                <!-- TODO: promocode functionality -->
+                <button class="btn btn-icon btn-orange-light">
+                  <font-awesome-icon icon="check"/>
+                </button>
+              </div>
             </div>
             <button class="btn btn-primary btn-orange-light m-auto" @click="() => nextStep('orderData', 'btn1')" ref="btn1">
               <span>{{ $t('buttons.nextStep') }}</span>
@@ -54,92 +70,93 @@
 
     <div class="m-resp form block-neat tab__content" v-show="isActive('orderData')">
       <div class="container container-slim">
-        <div class="grid grid-tablet g-2 gg-2 gv-1">
-          <div class="grid gv-1 grid-start">
-            <div class="form-title">{{ $t('cart.clientData') }}</div>
-            <div class="grid grid-tablet g-2 gg-2 gv-1" v-if="orderData.profile">
-              <div class="custom-input">
-                <input type="text" v-on="formEvents('orderData.profile.name')" v-model="orderData.profile.name">
-                <label class="custom-input-label" :class="checkFocus('orderData.profile.name')">{{ $t('account.main.name') }}<span class="t-red">*</span></label>
+        <div class="grid gv-1">
+          <div class="form-title">{{ $t('cart.clientData') }}</div>
+          <div class="grid grid-tablet g-2 gg-2 gv-1">
+            <div class="grid gv-1 grid-start">
+              <div class="grid grid-mobile--wide g-2 gg-1 gv-1" v-if="orderData.profile">
+                <div class="custom-input">
+                  <input type="text" v-on="formEvents('orderData.profile.name')" v-model="orderData.profile.name">
+                  <label class="custom-input-label" :class="checkFocus('orderData.profile.name')">{{ $t('account.main.name') }}<span class="t-red">*</span></label>
+                </div>
+                <div class="custom-input">
+                  <input type="text" v-on="formEvents('orderData.profile.phone')" v-model="orderData.profile.phone">
+                  <label class="custom-input-label" :class="checkFocus('orderData.profile.phone')">{{ $t('account.main.phone') }}<span class="t-red">*</span></label>
+                </div>
+                <div class="custom-input">
+                  <input type="text" v-on="formEvents('orderData.profile.email')" v-model="orderData.profile.email">
+                  <label class="custom-input-label" :class="checkFocus('orderData.profile.email')">{{ $t('account.main.email') }}</label>
+                </div>
+                <custom-select class="select-form wide" :selectData="deliveryData" v-if="deliveryData" @selectUpdated="orderData.deliveryType = $event" :style="{ 'z-index': 5 }"/>
               </div>
-              <div class="custom-input">
-                <input type="text" v-on="formEvents('orderData.profile.phone')" v-model="orderData.profile.phone">
-                <label class="custom-input-label" :class="checkFocus('orderData.profile.phone')">{{ $t('account.main.phone') }}<span class="t-red">*</span></label>
-              </div>
-              <div class="custom-input">
-                <input type="text" v-on="formEvents('orderData.profile.email')" v-model="orderData.profile.email">
-                <label class="custom-input-label" :class="checkFocus('orderData.profile.email')">{{ $t('account.main.email') }}</label>
-              </div>
-              <custom-select class="select-form wide" :selectData="deliveryData" v-if="deliveryData" @selectUpdated="orderData.deliveryType = $event" :style="{ 'z-index': 5 }"/>
-            </div>
 
-            <div class="grid gv-1" v-show="orderData.deliveryType == 'delivery'" v-if="orderData.address">
-              <div class="form-title">{{ $t('cart.deliveryAddress') }}</div>
-              <div class="grid grid-tablet g-2 gg-2">
-                <custom-select class="select-form wide" :selectData="addressesData" v-if="addressesData" @selectUpdated="(e) => setAddress(e)" :style="{ 'z-index': 4 }"/>
+              <div class="grid gv-1" v-show="orderData.deliveryType == 'delivery'" v-if="orderData.address">
+                <div class="form-title">{{ $t('cart.deliveryAddress') }}</div>
+                <div class="grid grid-tablet g-2 gg-1">
+                  <custom-select class="select-form wide" :selectData="addressesData" v-if="addressesData" @selectUpdated="(e) => setAddress(e)" :style="{ 'z-index': 4 }"/>
+                </div>
+                <div class="account__address-full">{{ orderData.address.fullAddress }}</div>
+                <div class="grid grid-mobile g-2 gg-1 account__address-fields">
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('orderData.address.apartment')" v-model="orderData.address.apartment">
+                    <label class="custom-input-label" :class="checkFocus('orderData.address.apartment')">{{ $t('account.addresses.apartment') }}<span class="t-red">*</span></label>
+                  </div>
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('orderData.address.intercom')" v-model="orderData.address.intercom">
+                    <label class="custom-input-label" :class="checkFocus('orderData.address.intercom')">{{ $t('account.addresses.intercom') }}</label>
+                  </div>
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('orderData.address.entrance')" v-model="orderData.address.entrance">
+                    <label class="custom-input-label" :class="checkFocus('orderData.address.entrance')">{{ $t('account.addresses.entrance') }}</label>
+                  </div>
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('orderData.address.floor')" v-model="orderData.address.floor">
+                    <label class="custom-input-label" :class="checkFocus('orderData.address.floor')">{{ $t('account.addresses.floor') }}</label>
+                  </div>
+                </div>
+                <div class="custom-input">
+                  <input type="text" v-on="formEvents('orderData.address.comment')" v-model="orderData.address.comment">
+                  <label class="custom-input-label" :class="checkFocus('orderData.address.comment')">{{ $t('account.addresses.courierComment') }}</label>
+                </div>
               </div>
-              <div class="account__address-full">{{ orderData.address.fullAddress }}</div>
-              <div class="grid grid-mobile g-2 gg-1 account__address-fields">
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('orderData.address.apartment')" v-model="orderData.address.apartment">
-                  <label class="custom-input-label" :class="checkFocus('orderData.address.apartment')">{{ $t('account.addresses.apartment') }}<span class="t-red">*</span></label>
+
+              <div class="form-title">{{ $t('cart.paymentData') }}</div>
+              <div class="grid grid-mobile--wide g-2 gg-1 gv-1">
+                <custom-select class="select-form wide" :selectData="paymentData" v-if="paymentData" @selectUpdated="orderData.paymentType = $event" :style="{ 'z-index': 3 }"/>
+                <custom-select class="select-form wide" :selectData="cashData" v-if="cashData" @selectUpdated="orderData.cashType = $event" v-show="orderData.paymentType == 'cash'" :style="{ 'z-index': 2 }"/>
+                <div class="custom-input custom-input--money" v-show="orderData.cashType == 'withChange'">
+                  <input type="text" v-on="formEvents('orderData.cashSum')" v-model="orderData.cashSum">
+                  <label class="custom-input-label" :class="checkFocus('orderData.cashSum')">{{ $t('cashOptions.yourSum') }}<span class="t-red">*</span></label>
                 </div>
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('orderData.address.intercom')" v-model="orderData.address.intercom">
-                  <label class="custom-input-label" :class="checkFocus('orderData.address.intercom')">{{ $t('account.addresses.intercom') }}</label>
-                </div>
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('orderData.address.entrance')" v-model="orderData.address.entrance">
-                  <label class="custom-input-label" :class="checkFocus('orderData.address.entrance')">{{ $t('account.addresses.entrance') }}</label>
-                </div>
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('orderData.address.floor')" v-model="orderData.address.floor">
-                  <label class="custom-input-label" :class="checkFocus('orderData.address.floor')">{{ $t('account.addresses.floor') }}</label>
-                </div>
-              </div>
-              <div class="custom-input">
-                <input type="text" v-on="formEvents('orderData.address.comment')" v-model="orderData.address.comment">
-                <label class="custom-input-label" :class="checkFocus('orderData.address.comment')">{{ $t('account.addresses.courierComment') }}</label>
               </div>
             </div>
-
-            <div class="form-title">{{ $t('cart.paymentData') }}</div>
-            <div class="grid grid-tablet g-2 gg-2 gv-1">
-              <custom-select class="select-form wide" :selectData="paymentData" v-if="paymentData" @selectUpdated="orderData.paymentType = $event" :style="{ 'z-index': 3 }"/>
-              <custom-select class="select-form wide" :selectData="cashData" v-if="cashData" @selectUpdated="orderData.cashType = $event" v-show="orderData.paymentType == 'cash'" :style="{ 'z-index': 2 }"/>
-              <div class="custom-input custom-input--money" v-show="orderData.cashType == 'withChange'">
-                <input type="text" v-on="formEvents('orderData.cashSum')" v-model="orderData.cashSum">
-                <label class="custom-input-label" :class="checkFocus('orderData.cashSum')">{{ $t('cashOptions.yourSum') }}<span class="t-red">*</span></label>
+            
+            <div v-if="orderData.profile">
+              <div class="block-sticky--tablet form-card block-neat grid gv-1">
+                <div class="form-title">{{ $t('cart.tab-title') }}</div>
+                <div class="custom-checkbox">
+                  <label>
+                    <input type="checkbox" v-model="orderData.profile.mailOptions.emailAds">
+                    <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendEmail') }}</span>
+                  </label>
+                </div>
+                <div class="custom-checkbox">
+                  <label>
+                    <input type="checkbox" v-model="orderData.profile.mailOptions.smsAds">
+                    <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendSms') }}</span>
+                  </label>
+                </div>
+                <div class="custom-checkbox">
+                  <label>
+                    <input type="checkbox" v-model="orderData.profile.mailOptions.operatorCall">
+                    <span class="custom-checkbox-label">{{ $t('account.mailOptions.operatorCall') }}</span>
+                  </label>
+                </div>
+                <span class="t-small">{{ $t('cart.deliveryOptionsNotice') }}</span>
               </div>
             </div>
           </div>
-          
-          <div v-if="orderData.profile">
-            <div class="block-sticky--tablet form-card block-neat grid gv-1">
-              <div class="form-title">{{ $t('cart.tab-title') }}</div>
-              <div class="custom-checkbox">
-                <label>
-                  <input type="checkbox" v-model="orderData.profile.mailOptions.emailAds">
-                  <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendEmail') }}</span>
-                </label>
-              </div>
-              <div class="custom-checkbox">
-                <label>
-                  <input type="checkbox" v-model="orderData.profile.mailOptions.smsAds">
-                  <span class="custom-checkbox-label">{{ $t('account.mailOptions.sendSms') }}</span>
-                </label>
-              </div>
-              <div class="custom-checkbox">
-                <label>
-                  <input type="checkbox" v-model="orderData.profile.mailOptions.operatorCall">
-                  <span class="custom-checkbox-label">{{ $t('account.mailOptions.operatorCall') }}</span>
-                </label>
-              </div>
-              <span class="t-small">{{ $t('cart.deliveryOptionsNotice') }}</span>
-            </div>
-          </div>
-          
-          <button class="btn btn-primary btn-orange-light m-auto m-none g-cs-2" @click="() => nextStep(orderData.deliveryType == 'booking' ? 'tableBooking' : 'orderConfirm', 'btn2')" ref="btn2">
+          <button class="btn btn-primary btn-orange-light m-auto m-none" @click="() => nextStep(orderData.deliveryType == 'booking' ? 'tableBooking' : 'orderConfirm', 'btn2')" ref="btn2">
             <span>{{ $t('buttons.nextStep') }}</span>
             <font-awesome-icon icon="angle-right"/>
           </button>
@@ -149,29 +166,29 @@
 
     <div class="m-resp form block-neat tab__content" v-show="isActive('tableBooking')" v-if="bookingData">
       <div class="container container-slim">
-        <div class="grid grid-tablet g-2 gg-2">
-          <div class="grid gv-1 grid-start">
-            <div class="form-title">{{ $t('booking.clientsData') }}</div>
+        <div class="grid gv-1">
+          <div class="form-title">{{ $t('booking.clientsData') }}</div>
+          <div class="grid grid-tablet g-2 gg-2">
+            <div class="grid gv-1 grid-start">
               <div class="grid gv-1 grid-start">
-              <div class="grid grid-tablet g-2 gg-2 gv-1">
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('orderData.booking.visitorsNum')" v-model="orderData.booking.visitorsNum">
-                  <label class="custom-input-label" :class="checkFocus('orderData.booking.visitorsNum')">{{ $t('booking.visitorsNum') }}<span class="t-red">*</span></label>
+                <div class="grid grid-mobile g-2 gg-1 gv-1">
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('orderData.booking.visitorsNum')" v-model="orderData.booking.visitorsNum">
+                    <label class="custom-input-label" :class="checkFocus('orderData.booking.visitorsNum')">{{ $t('booking.visitorsNum') }}<span class="t-red">*</span></label>
+                  </div>
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('orderData.booking.cutleryNum')" v-model="orderData.booking.cutleryNum">
+                    <label class="custom-input-label" :class="checkFocus('orderData.booking.cutleryNum')">{{ $t('booking.cutleryNum') }}</label>
+                  </div>
                 </div>
                 <div class="custom-input">
-                  <input type="text" v-on="formEvents('orderData.booking.cutleryNum')" v-model="orderData.booking.cutleryNum">
-                  <label class="custom-input-label" :class="checkFocus('orderData.booking.cutleryNum')">{{ $t('booking.cutleryNum') }}</label>
+                  <input type="text" v-on="formEvents('orderData.booking.restaurantComment')" v-model="orderData.booking.restaurantComment">
+                  <label class="custom-input-label" :class="checkFocus('orderData.booking.restaurantComment')">{{ $t('booking.restaurantComment') }}</label>
                 </div>
               </div>
-              <div class="custom-input">
-                <input type="text" v-on="formEvents('orderData.booking.restaurantComment')" v-model="orderData.booking.restaurantComment">
-                <label class="custom-input-label" :class="checkFocus('orderData.booking.restaurantComment')">{{ $t('booking.restaurantComment') }}</label>
-              </div>
-            </div>
 
-            <div class="form-title">{{ $t('booking.visitData') }}</div>
-              <div class="grid gv-1 grid-start">
-              <div class="grid grid-tablet g-2 gg-2 gv-1">
+              <div class="form-title">{{ $t('booking.visitData') }}</div>
+              <div class="grid grid-mobile g-2 gg-1 gv-1">
                 <datepicker v-model="orderData.booking.visitDateTime" :format-locale="language" textInput autoApply v-bind="datePickerOptions">
                   <!-- eslint-disable-next-line vue/no-unused-vars -->
                   <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
@@ -181,36 +198,36 @@
                     </div>
                   </template>
                 </datepicker>
-                <custom-select class="select-form wide" :selectData="visitDurationData" v-if="visitDurationData" @selectUpdated="orderData.visitDuration = $event"/>
+                <custom-select class="select-form wide" :selectData="visitDurationData" v-if="visitDurationData" @selectUpdated="orderData.visitDuration = $event" :style="{ 'z-index': 3 }"/>
+              </div>
+
+              <div class="form-title">{{ $t('booking.preferences') }}</div>
+              <div class="grid grid-tablet g-2 gg-2">
+                <custom-select class="select-form wide" :selectData="preferenceData" v-if="preferenceData" @selectUpdated="orderData.booking.preference = $event"/>
               </div>
             </div>
 
-            <div class="form-title">{{ $t('booking.preferences') }}</div>
-            <div class="grid grid-tablet g-2 gg-2">
-              <custom-select class="select-form wide" :selectData="preferenceData" v-if="preferenceData" @selectUpdated="orderData.booking.preference = $event"/>
-            </div>
-          </div>
-
-          <div>
-            <div class="preference-notice">{{ bookingData.clientNotice }}</div>
-            <div class="form-title preference-title">{{ bookingData.preferenceTitle }}</div>
-            <flickity ref="flickity" :options="options" class="flickity-slider--image" v-if="isActive('tableBooking')">
-              <div class="carousel-cell" v-for="item in bookingData.preferenceOptions" :key="item.id">
-                <div class="preference-item">
-                  <div class="preference-item-image-wrapper">
-                    <img class="img preference-item-image" :class="{ 'img-loaded': item.isLoaded }" :src="item.image" alt="preference image" @load="() => onLoad(item)">
+            <div>
+              <div class="preference-notice">{{ bookingData.clientNotice }}</div>
+              <div class="form-title preference-title">{{ bookingData.preferenceTitle }}</div>
+              <flickity ref="flickity" :options="options" class="flickity-slider--image" v-if="isActive('tableBooking')">
+                <div class="carousel-cell" v-for="item in bookingData.preferenceOptions" :key="item.id">
+                  <div class="preference-item">
+                    <div class="preference-item-image-wrapper">
+                      <img class="img preference-item-image" :class="{ 'img-loaded': item.isLoaded }" :src="item.image" alt="preference image" @load="() => onLoad(item)">
+                    </div>
+                    <div class="preference-item-name">{{ item.name }}</div>
                   </div>
-                  <div class="preference-item-name">{{ item.name }}</div>
                 </div>
-              </div>
-            </flickity>
+              </flickity>
+            </div>
           </div>
-        </div>
 
-        <button class="btn btn-primary btn-orange-light m-auto m-none" @click="() => nextStep('orderConfirm', 'btn3')" ref="btn3">
-          <span>{{ $t('buttons.nextStep') }}</span>
-          <font-awesome-icon icon="angle-right"/>
-        </button>
+          <button class="btn btn-primary btn-orange-light m-auto m-none" @click="() => nextStep('orderConfirm', 'btn3')" ref="btn3">
+            <span>{{ $t('buttons.nextStep') }}</span>
+            <font-awesome-icon icon="angle-right"/>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -255,6 +272,7 @@
         initialVisible: true,
         cart: [{ items: [] }],
         orderData: {      // data to send
+          promocode: null,
           profile: null,
           deliveryType: 'delivery',
           address: null,
@@ -289,6 +307,7 @@
           locale: 'ru',
           minutesIncrement: 30,
           minutesGridIncrement: 30,
+          position: 'left',
           minTime: { hours: 9, minutes: 0 },  // restaurant open hours
           maxTime: { hours: 20, minutes: 0 },
           startTime: { hours: 9, minutes: 0 },
@@ -448,11 +467,15 @@
     }
 
     &__tab {
-      background-color: $white;
+      background-color: $beige-medium;
       padding: 1.6rem 2rem;
       border-radius: $radius-medium;
       box-sizing: border-box;
       align-self: flex-start;
+
+      &-code.grid.grid-mobile.g-2 {
+        grid-template-columns: auto 4.8rem;
+      }
 
       h3 {
         font-size: 2rem;
@@ -492,10 +515,6 @@
         top: -5px;
         box-shadow: 0 5px 0 $beige-dark;
       }
-    }
-
-    .flickity-slider--image {
-      height: 15rem;
     }
 
     .preference {

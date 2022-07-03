@@ -14,14 +14,14 @@ import LoadPlugin from './plugins/load'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, faHeart as fasHeart,
   faAnglesLeft, faAnglesRight, faLocationPin, faLocationDot, faGripLines, faBars, faArrowUpRightFromSquare,
-  faLanguage, faGlobe, faLightbulb, faMagnifyingGlass }
+  faLanguage, faGlobe, faLightbulb, faMagnifyingGlass, faCheck }
   from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart, faTrashCan, faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(faStar, faXmark, faShoppingBasket, faAngleRight, faAngleLeft, faMinus, faPlus, fasHeart,
   faAnglesLeft, faAnglesRight, faLocationPin, faLocationDot, faGripLines, faBars, faArrowUpRightFromSquare,
-  faLanguage, faGlobe, faLightbulb, faMagnifyingGlass,
+  faLanguage, faGlobe, faLightbulb, faMagnifyingGlass, faCheck,
   farHeart, faTrashCan, faUser);
 
 const settings = {

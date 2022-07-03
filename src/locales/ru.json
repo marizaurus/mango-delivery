@@ -179,6 +179,7 @@
     "total": "Итого:",
     "items": "Товаров:",
     "code": "Есть промокод?",
+    "promoCode": "Промокод",
     "tabs": {
       "cartItems": "Товары",
       "orderData": "Данные заказа",
@@ -340,12 +341,12 @@
   },
   "booking": {
     "clientsData": "Данные клиентов",
-    "visitorsNum": "Количество людей",
-    "cutleryNum": "Количество приборов",
+    "visitorsNum": "Кол-во людей",
+    "cutleryNum": "Кол-во приборов",
     "restaurantComment": "Комментарий для ресторана",
     "visitData": "Данные посещения",
-    "visitDateTime": "Дата и время посещения",
-    "visitDuration": "Примерное время посещения",
+    "visitDateTime": "Время посещения",
+    "visitDuration": "Длительность посещения",
     "preferences": "Предпочтения"
   }
 }

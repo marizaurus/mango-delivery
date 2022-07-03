@@ -25,7 +25,7 @@
         </div>
 
         <div class="catalog__controls">
-          <div class="block-sticky--tablet">
+          <div class="block-sticky--tablet block-neat">
             <div class="controls block-neat grid gv-1">
               <custom-select class="select-form controls-status wide" :style="{ 'z-index': 8 }"
                 :selectData="categoriesData" v-if="categoriesData && categoriesData.options.length" @selectUpdated="searchParams.categories = $event"/>
