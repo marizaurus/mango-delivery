@@ -6,8 +6,24 @@ export default function(instance) {
       if (process.env.NODE_ENV === 'production') {
         return db['products'];
       } else {
-        return instance.get('products')
+        return instance.get('products');
       }
-    }
+    },
+
+    getProductInfo() {
+      if (process.env.NODE_ENV === 'production') {
+        return db['product-info'];
+      } else {
+        return instance.get('product-info');
+      }
+    },
+
+    getComments() {
+      if (process.env.NODE_ENV === 'production') {
+        return db['comments'];
+      } else {
+        return instance.get('comments');
+      }
+    },
   }
 }

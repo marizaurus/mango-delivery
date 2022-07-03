@@ -69,36 +69,39 @@
       <div class="container container-slim">
         <h1 class="comments__title">{{ $t('blocks.ratingComments') }}</h1>
       </div>
-      <div class="comments__feedback">
-        <form class="container container-slim block-neat">
-          <div class="grid grid-tablet g-2 gg-2">
-            <div class="comments__form block-neat">
-              <div class="row">
-                <div class="custom-input">
-                  <input type="text" v-on="formEvents('form.name')" v-model="form.name">
-                  <label class="custom-input-label" :class="checkFocus('form.name')">{{ $t('forms.name') }}<span class="t-red">*</span></label>
+
+      <div class="form">
+        <form class="container container-slim">
+          <div class="grid gv-1">
+            <div class="grid grid-tablet g-2 gg-2 gv-1">
+              <div class="grid gv-1 grid-start">
+                <div class="grid grid-mobile g-2 gg-1">
+                  <div class="custom-input">
+                    <input type="text" v-on="formEvents('form.name')" v-model="form.name">
+                    <label class="custom-input-label" :class="checkFocus('form.name')">{{ $t('forms.name') }}<span class="t-red">*</span></label>
+                  </div>
+                  <div class="custom-input comments__form-rating">
+                    <star-rating v-bind="formOptions" v-model:rating="form.rating"/>
+                    <label class="custom-input-label non-empty">{{ $t('forms.rating') }}<span class="t-red">*</span></label>
+                  </div>
                 </div>
-                <div class="custom-input comments__form-rating">
-                  <star-rating v-bind="formOptions" v-model:rating="form.rating"/>
-                  <label class="custom-input-label non-empty">{{ $t('forms.rating') }}<span class="t-red">*</span></label>
-                </div>
-              </div>
-              <div class="custom-input comments__form-comment">
-                <textarea class="comments__form-comment-field" rows="5" v-on="formEvents('form.comment')" v-model="form.comment"/>
-                <label class="custom-input-label" :class="checkFocus('form.comment')">{{ $t('forms.comment') }}</label>
-                <div class="comments__form-comment-check">
-                  <div class="custom-checkbox">
-                    <label>
-                      <input type="checkbox" name="hideComment" v-model="form.hideComment">
-                      <span class="custom-checkbox-label">{{ $t('forms.hideComment') }}</span>
-                    </label>
+
+                <div class="custom-input comments__form-comment">
+                  <textarea class="comments__form-comment-field" rows="5" v-on="formEvents('form.comment')" v-model="form.comment"/>
+                  <label class="custom-input-label" :class="checkFocus('form.comment')">{{ $t('forms.comment') }}</label>
+                  <div class="comments__form-comment-check">
+                    <div class="custom-checkbox">
+                      <label>
+                        <input type="checkbox" name="hideComment" v-model="form.hideComment">
+                        <span class="custom-checkbox-label">{{ $t('forms.hideComment') }}</span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="comments__features block-neat">
-              <div class="form-title">{{ $t('forms.features') }}</div>
-              <div class="form-card block-neat">
+
+              <div class="form-card block-neat grid gv-1 grid-start">
+                <div class="form-title">{{ $t('forms.features') }}</div>
                 <div class="custom-checkbox">
                   <label>
                     <input type="checkbox" name="features">
@@ -119,8 +122,8 @@
                 </div>
               </div>
             </div>
+            <button class="btn btn-primary btn-orange-light m-auto m-none">{{ $t('buttons.submit') }}</button>
           </div>
-          <button class="btn btn-primary btn-orange-light m-auto" type="submit">{{ $t('buttons.submit') }}</button>
         </form>
       </div>
       <div class="comments__content container container-slim">
@@ -152,17 +155,16 @@
         </div>
       </div>
     </div>
-    <div class="container product__blocks">
+    <!-- <div class="container product__blocks">
       <h1>{{ $t('blocks.productOffers') }}</h1>
-      <!-- <component
+      <component
         v-for="block in blocks" :key="block.id"
-        :is="block.type" :blockData="block"/> -->
-    </div>
+        :is="block.type" :blockData="block"/>
+    </div> -->
   </div>
 </template>
 
 <script>
-  import { mapActions, mapGetters } from "vuex";
   import StarRating from 'vue-star-rating'
   import productCard from '@/components/product-card';
   import customSelect from '@/forms/custom-select';
@@ -221,19 +223,16 @@
           comment: '',
           hideComment: false,
         },
+        productInfo: {
+          images: [],
+          tags: [],
+          ingredients: [{ value: '' }],
+          alterOptions: [],
+        },
+        comments: [],
       }
     },
-    computed: {
-      ...mapGetters({
-        productInfo: 'PRODUCT_INFO',
-        comments: 'COMMENTS',
-      }),
-    },
     methods: {
-      ...mapActions([
-        'GET_PRODUCT_INFO_API',
-        'GET_COMMENTS_API',
-      ]),
       toggleCard() {
         this.focusedItem = null;
         this.showCard = false;
@@ -250,8 +249,15 @@
       }
     },
     mounted() {
-      this.GET_PRODUCT_INFO_API();
-      this.GET_COMMENTS_API();
+      this.$load(async () => {
+        let res = await this.$api.products.getProductInfo();
+        this.productInfo = res.data || res;
+      });
+
+      this.$load(async () => {
+        let res = await this.$api.products.getComments();
+        this.comments = res.data || res;
+      });
     },
     updated() {
       // until better times ¯\_(ツ)_/¯
@@ -413,23 +419,9 @@
   }
 
   .comments {
-    &__feedback {
-      background-color: $beige-medium;
-      padding: 2rem 0;
-      min-width: 390px;
-    }
-
     &__form {
-      & > .row {
-        align-items: stretch;
-      }
-
-      &-rating.custom-input {
-        margin-left: 1.2rem;
-
-        label.non-empty {
-          color: $grey-dark;
-        }
+      &-rating.custom-input label.non-empty {
+        color: $grey-dark;
       }
 
       .vue-star-rating-star {

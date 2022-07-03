@@ -5,6 +5,7 @@ import editorModule from './editor';
 import productsModule from './products';
 import restaurantsModule from './restaurants';
 import cartModule from './cart';
+import homeModule from './home';
 
 export default {
   account: accountModule(instance),
@@ -12,4 +13,5 @@ export default {
   products: productsModule(instance),
   restaurants: restaurantsModule(instance),
   cart: cartModule(instance),
+  home: homeModule(instance),
 };

@@ -74,7 +74,7 @@
           <div class="form-title">{{ $t('cart.clientData') }}</div>
           <div class="grid grid-tablet g-2 gg-2 gv-1">
             <div class="grid gv-1 grid-start">
-              <div class="grid grid-mobile--wide g-2 gg-1 gv-1" v-if="orderData.profile">
+              <div class="grid grid-mobile--wide g-2 gg-1" v-if="orderData.profile">
                 <div class="custom-input">
                   <input type="text" v-on="formEvents('orderData.profile.name')" v-model="orderData.profile.name">
                   <label class="custom-input-label" :class="checkFocus('orderData.profile.name')">{{ $t('account.main.name') }}<span class="t-red">*</span></label>
@@ -121,7 +121,7 @@
               </div>
 
               <div class="form-title">{{ $t('cart.paymentData') }}</div>
-              <div class="grid grid-mobile--wide g-2 gg-1 gv-1">
+              <div class="grid grid-mobile--wide g-2 gg-1">
                 <custom-select class="select-form wide" :selectData="paymentData" v-if="paymentData" @selectUpdated="orderData.paymentType = $event" :style="{ 'z-index': 3 }"/>
                 <custom-select class="select-form wide" :selectData="cashData" v-if="cashData" @selectUpdated="orderData.cashType = $event" v-show="orderData.paymentType == 'cash'" :style="{ 'z-index': 2 }"/>
                 <div class="custom-input custom-input--money" v-show="orderData.cashType == 'withChange'">
@@ -171,7 +171,7 @@
           <div class="grid grid-tablet g-2 gg-2">
             <div class="grid gv-1 grid-start">
               <div class="grid gv-1 grid-start">
-                <div class="grid grid-mobile g-2 gg-1 gv-1">
+                <div class="grid grid-mobile g-2 gg-1">
                   <div class="custom-input">
                     <input type="text" v-on="formEvents('orderData.booking.visitorsNum')" v-model="orderData.booking.visitorsNum">
                     <label class="custom-input-label" :class="checkFocus('orderData.booking.visitorsNum')">{{ $t('booking.visitorsNum') }}<span class="t-red">*</span></label>
@@ -188,7 +188,7 @@
               </div>
 
               <div class="form-title">{{ $t('booking.visitData') }}</div>
-              <div class="grid grid-mobile g-2 gg-1 gv-1">
+              <div class="grid grid-mobile g-2 gg-1">
                 <datepicker v-model="orderData.booking.visitDateTime" :format-locale="language" textInput autoApply v-bind="datePickerOptions">
                   <!-- eslint-disable-next-line vue/no-unused-vars -->
                   <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">

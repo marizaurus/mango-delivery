@@ -1,45 +1,15 @@
 import { createStore } from 'vuex';
-import axios from "axios";
 import instance from '../api/instance';
 import db from "../../db.json";
 
 export const store = createStore({
   state: {
-    homeBlocks: [],
-    productInfo: {
-      images: [],
-      tags: [],
-      ingredients: [{ value: '' }],
-      alterOptions: [],
-    },
-    comments: [],
-    orderHistory: {
-      searchParams: {
-        statuses: [],
-      },
-      active: [],
-    },
-
     categories: [],
     cuisines: [],
     tags: [],
     statuses: [],
   },
   mutations: { // synchronous
-    SET_HOME_BLOCKS: (state, homeBlocks) => {
-      state.homeBlocks = homeBlocks;
-    },
-    SET_PRODUCT_INFO: (state, productInfo) => {
-      state.productInfo = productInfo;
-    },
-    SET_COMMENTS: (state, comments) => {
-      // hehe, dormammu, I've come with the same 3 comments
-      state.comments = comments;
-    },
-    SET_ORDER_HISTORY: (state, orderHistory) => {
-      state.orderHistory = orderHistory;
-    },
-
     SET_CATEGORIES: (state, payload) => {
       state.categories = payload;
     },
@@ -55,67 +25,6 @@ export const store = createStore({
     }
   },
   actions: { // asynchronous
-    GET_HOME_BLOCKS_API({ commit }) {
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_HOME_BLOCKS', db['home-blocks']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'home-blocks', {
-          method: 'GET',
-        }).then((home) => {
-          commit('SET_HOME_BLOCKS', home.data);
-          return home;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
-    GET_PRODUCT_INFO_API({ commit }) {
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_PRODUCT_INFO', db['product-info']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'product-info', {
-          method: 'GET',
-        }).then((product) => {
-          commit('SET_PRODUCT_INFO', product.data);
-          return product;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
-    GET_COMMENTS_API({ commit }) {
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_COMMENTS', db['comments']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'comments', {
-          method: 'GET',
-        }).then((comments) => {
-          commit('SET_COMMENTS', comments.data);
-          return comments;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
-    GET_ORDER_HISTORY_API({ commit }) {
-      if (process.env.NODE_ENV === 'production') {
-        commit('SET_ORDER_HISTORY', db['order-history']);
-      } else {
-        return axios(process.env.VUE_APP_API_BASE + 'order-history', {
-          method: 'GET',
-        }).then((orderHistory) => {
-          commit('SET_ORDER_HISTORY', orderHistory.data);
-          return orderHistory;
-        }).catch((error) => {
-          console.log(error);
-          return error;
-        });
-      }
-    },
-
     loadCategories({ commit }) {
       if (process.env.NODE_ENV === 'production') {
         commit('SET_CATEGORIES', db['categories']);
@@ -165,18 +74,6 @@ export const store = createStore({
   getters: {
     // cool method-style thingy
     // https://next.vuex.vuejs.org/guide/getters.html#method-style-access
-    HOME_BLOCKS(state) { // (state, getters)
-      return state.homeBlocks;
-    },
-    PRODUCT_INFO(state) {
-      return state.productInfo;
-    },
-    COMMENTS(state) {
-      return state.comments;
-    },
-    ORDER_HISTORY(state) {
-      return state.orderHistory;
-    },
 
     // product filters
     getCategories(state) {

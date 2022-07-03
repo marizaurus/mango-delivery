@@ -1,4 +1,5 @@
-<template>
+<!-- NONEXISTENT, but prob useful -->
+<!-- <template>
   <div class="order-history">
     <div class="container container-slim m-resp">
       <h1 class="order-history__title">{{ $t('orderHistory.title') }}</h1>
@@ -13,7 +14,7 @@
           <custom-select class="order-history__tabs-sort m-none" :selectData="tableSort" @selectUpdated="searchParams.sort = $event"/>
         </div>
 
-        <!-- temp solution for user switch -->
+        temp solution for user switch
         <custom-select class="order-history__user-select m-none ml-auto" :style="{ 'z-index': 1 }"
           :selectData="userData" @selectUpdated="activeUser = $event"/>
 
@@ -32,7 +33,7 @@
               <template #accordionTrigger>
                 <div class="grid grid-mobile g-5 table__row"
                   @click.stop="getOrder(order.orderNum, i)">
-                  <!-- delay accordion toggle until data has loaded -->
+                  delay accordion toggle until data has loaded
                   <div class="pin-wrapper" v-if="activeUser == 'courier'">
                     <div class="pin">
                       <font-awesome-icon icon="location-pin"/>
@@ -84,9 +85,6 @@
               <datepicker v-model="searchParams.date"
                 range textInput multiCalendars multiCalendarsSolo autoApply
                 v-bind="datePickerOptions"/>
-              <!-- range presets: this week, last month -->
-              <!-- https://vue3datepicker.com/api/props/#presetranges -->
-              <!-- position="right" -->
               <div class="controls-sum">
                 <div class="row" ref="inputs">
                   <div class="controls-sum__input-wrapper">
@@ -96,8 +94,6 @@
                     <input type="text" class="controls-sum__input" v-model.number="searchParams.orderSum[1]" @input="(e) => handleInput(e, 1)"/>
                   </div>
                 </div>
-                <!-- deal with @error later - add red border to input -->
-                <!-- https://nightcatsama.github.io/vue-slider-component/#/advanced/input -->
                 <vue-slider ref="slider" v-model="searchParams.orderSum" v-bind="sliderOptions"></vue-slider>
               </div>
               <div class="custom-checkbox">
@@ -409,4 +405,4 @@
       }
     }
   }
-</style>
+</style> -->

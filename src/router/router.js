@@ -5,7 +5,7 @@ import cart from '../pages/cart';
 import restaurant from '../pages/restaurant';
 import product from '../pages/product';
 import editor from '../pages/page-editor';
-import orderHistory from '../pages/order-history';
+// import orderHistory from '../pages/order-history';
 import catalog from '../pages/catalog';
 import account from '../pages/account/account';
 import addresses from '../pages/account/addresses';
@@ -41,11 +41,11 @@ export default createRouter({
       name: 'editor',
       component: editor,
     },
-    {
-      path: process.env.VUE_APP_PATH + 'order-history',
-      name: 'order-history',
-      component: orderHistory,
-    },
+    // {
+    //   path: process.env.VUE_APP_PATH + 'order-history',
+    //   name: 'order-history',
+    //   component: orderHistory,
+    // },
     {
       path: process.env.VUE_APP_PATH + 'catalog',
       name: 'catalog',
